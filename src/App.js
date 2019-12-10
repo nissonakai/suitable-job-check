@@ -17,6 +17,10 @@ export const App = () => {
     { title: "title3", red: "test5", blue: "test6" }
   ];
 
+  const resetAnswers = () => {
+    setAnswers([]);
+  };
+
   return (
     <Router>
       <Switch>
@@ -31,7 +35,10 @@ export const App = () => {
           />
         </Route>
         <Route path="/result" exact>
-          <Result answers={answers} />
+          <Result
+            answers={answers}
+            resetAnswers={resetAnswers}
+          />
         </Route>
       </Switch>
     </Router>
