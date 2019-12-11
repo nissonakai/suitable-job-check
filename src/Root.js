@@ -4,11 +4,11 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
-import { Questions } from "./Questions";
+import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
 
-export const App = () => {
+export const Root = () => {
   const [answers, setAnswers] = useState([]);
 
   const texts = [
@@ -17,9 +17,7 @@ export const App = () => {
     { title: "title3", red: "test5", blue: "test6" }
   ];
 
-  const resetAnswers = () => {
-    setAnswers([]);
-  };
+  const resetAnswers = () => setAnswers([]);
 
   return (
     <Router>

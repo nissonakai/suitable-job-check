@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { Board } from "./components/Board";
-import { Current } from "./components/Current";
+import React from 'react';
+import { Board } from "./Board";
+import { Current } from "./Current";
 import { useHistory, useParams } from "react-router-dom";
 
 
@@ -9,18 +9,12 @@ export const Questions = ({ texts, answers, setAnswers }) => {
     const { index } = useParams();
     let questionIndex = index - 1;
 
-    useEffect(() => {
-        if (index >= answers.length) {
-            const answerArr = answers.slice(0, index - 1);
-            setAnswers(answerArr);
-        }
-    }, [index]);
-
     const doAnswer = answer => {
         const answerArr = answers.slice();
-        answerArr.push(answer);
+        answerArr[questionIndex] = answer;
         setAnswers(answerArr);
-        const questionsParams = texts.length <= index ? "/result" : `${parseInt(index, 10) + 1}`;
+        const questionsParams = texts.length <= index ?
+            "/result" : `${parseInt(index, 10) + 1}`;
         history.push(questionsParams);
     };
 
