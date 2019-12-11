@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   BrowserRouter as Router,
   Route,
@@ -7,15 +7,25 @@ import {
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
+import axios from "axios";
 
 export const Root = () => {
   const [answers, setAnswers] = useState([]);
+  const [texts, setTexts] = useState([]);
 
-  const texts = [
-    { title: "title1", red: "test1", blue: "test2" },
-    { title: "title2", red: "test3", blue: "test4" },
-    { title: "title3", red: "test5", blue: "test6" }
-  ];
+  const getData = () => {
+    axios.get(process.env.REACT_APP_JSON_BOX)
+      .then(results => {
+        const data = results.data;
+        setTexts(data);
+      }).catch(error => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
 
   const resetAnswers = () => setAnswers([]);
 
