@@ -14,9 +14,9 @@ export const Root = () => {
   const [texts, setTexts] = useState([]);
 
   const getData = () => {
-    axios.get(process.env.REACT_APP_JSON_BOX)
+    axios.get(process.env.REACT_APP_SJC_API)
       .then(results => {
-        const data = results.data;
+        const data = results.data.data;
         setTexts(data);
       }).catch(error => {
         console.log(error);
