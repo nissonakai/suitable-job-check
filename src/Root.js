@@ -18,7 +18,6 @@ export const Root = () => {
     axios.get(process.env.REACT_APP_SJC_API)
       .then(results => {
         const data = results.data.data;
-        console.log(data);
         setTexts(data);
       }).catch(error => {
         console.log(error);
