@@ -7,6 +7,8 @@ import {
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
+import { Edit } from "./components/Edit";
+import { Index } from "./components/Index";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -47,6 +49,16 @@ export const Root = () => {
           <Result
             answers={answers}
             resetAnswers={resetAnswers}
+          />
+        </Route>
+        <Route path="/admin/edit/:index" exact>
+          <Edit
+            texts={texts}
+          />
+        </Route>
+        <Route path="/admin/questions" exact>
+          <Index
+            texts={texts}
           />
         </Route>
       </Switch>
