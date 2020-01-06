@@ -59,6 +59,7 @@ export const Root = () => {
         <Route path="/admin/questions" exact>
           <Index
             texts={texts}
+            setTexts={setTexts}
           />
         </Route>
       </Switch>

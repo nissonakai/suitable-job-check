@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
@@ -10,11 +10,14 @@ import {
     TableHead,
     TableRow,
     Paper,
+    Typography
 } from "@material-ui/core";
 import {
     Add
 } from '@material-ui/icons';
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import axios from "axios";
+axios.defaults.headers.post["Content-Type"] = "application/json";
 
 const useStyles = makeStyles({
     table: {
@@ -23,24 +26,78 @@ const useStyles = makeStyles({
     },
   });
 
-export const Index = ({ texts }) => {
+export const Index = ({ texts, setTexts }) => {
     const classes = useStyles();
+    const switchArray = Array(texts.length);
+    switchArray.fill(false);
+    const [changeSwitch, setChangeSwitch] = useState(switchArray);
 
-    const history = useHistory();
+    const clickChangeSwitch = (e, index, text) => {
+        if (changeSwitch[index]) {
+            const textNode = e.target.parentNode
+            const textId = textNode.getAttribute("textid");
+            const updateJSON = JSON.stringify({"title": text.title, "red": text.red, "blue": text.blue});
+            axios
+                .patch(`${process.env.REACT_APP_SJC_API}/${textId}`, updateJSON)
+                .then(res => {
+                    alert(`更新しました。`);
+                })
+                .catch(err => {
+                    alert("更新に失敗しました。");
+                    console.log(err);
+                });
+        }
+        const copyArray = changeSwitch.slice();
+        copyArray[index] = !changeSwitch[index];
+        setChangeSwitch(copyArray);
+    };
+
+
     const textList = texts.map((text, index) => {
-
+        const textAttr = {"title": text.title, "red": text.red, "blue": text.blue};
+        const textsCopy = texts.slice();
+        const handleChange = e => {
+            switch(e.target.name) {
+                case 'title':
+                    textsCopy[index].title = e.target.value;
+                    setTexts(textsCopy);
+                    break;
+                case 'red':
+                    textsCopy[index].red = e.target.value;
+                    setTexts(textsCopy);
+                    break;
+                case 'blue':
+                    textsCopy[index].blue = e.target.value;
+                    setTexts(textsCopy);
+                    break;
+                default:
+                    break;
+            };
+        }
+    
         return (
 
-            <TableRow key={text.title}>
-                <TableCell><p>{text.title}</p></TableCell>
-                <TableCell><p>{text.red}</p></TableCell>
-                <TableCell><p>{text.blue}</p></TableCell>
+            <TableRow key={text.id}>
+                {changeSwitch[index] ? (
+                    <>
+                        <TableCell><input name="title" placeholder="設問" value={text.title} onChange={e => handleChange(e, index)} /></TableCell>
+                        <TableCell><input name="red" placeholder="選択肢１" value={text.red} onChange={e => handleChange(e, index)} /></TableCell>
+                        <TableCell><input name="blue" placeholder="選択肢２" value={text.blue} onChange={e => handleChange(e, index)} /></TableCell>
+                    </>
+                ) : (
+                    <>
+                        <TableCell><p>{text.title}</p></TableCell>
+                        <TableCell><p>{text.red}</p></TableCell>
+                        <TableCell><p>{text.blue}</p></TableCell>
+                    </>
+                )}
                 <TableCell>
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => history.push(`edit/${index}`)}
-                    >編集</ Button>
+                        onClick={e => clickChangeSwitch(e, index, text)}
+                        textid={text.id}
+                >{changeSwitch[index] ? "確定" : "編集"}</ Button>
                     <Button
                         variant="contained"
                         color="secondary"
@@ -51,21 +108,21 @@ export const Index = ({ texts }) => {
     });
     return (
         <>
-        <h1>設問管理画面</h1>
-        <TableContainer className={classes.table} component={Paper}>
-            <Table aria-label="simple table">
-                <TableHead>
-                    <TableCell>設問</TableCell>
-                    <TableCell>選択肢１</TableCell>
-                    <TableCell>選択肢２</TableCell>
-                    <TableCell></TableCell>
-                </TableHead>
-                <TableBody>{textList}</TableBody>
-            </Table>
-        </TableContainer>
-        <Fab color="secondary" aria-label="edit">
-            <Add />
-        </Fab>
+            <Typography variant="h2">設問編集画面</Typography>
+            <TableContainer className={classes.table} component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableCell>設問</TableCell>
+                        <TableCell>選択肢１</TableCell>
+                        <TableCell>選択肢２</TableCell>
+                        <TableCell></TableCell>
+                    </TableHead>
+                    <TableBody>{textList}</TableBody>
+                </Table>
+            </TableContainer>
+            <Fab color="secondary" aria-label="edit">
+                <Add />
+            </Fab>
         </>
     );
 };

@@ -30,7 +30,7 @@ export const Edit = ({texts}) => {
         };
     };
         
-    const editQuestion = (e) => {
+    const editQuestion = e => {
         e.preventDefault();
         const elements = e.target.elements;
         const params = {
