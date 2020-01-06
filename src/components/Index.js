@@ -17,7 +17,7 @@ import {
 } from '@material-ui/icons';
 // import { useHistory } from "react-router-dom";
 import axios from "axios";
-axios.defaults.headers.post["Content-Type"] = "application/json";
+axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 const useStyles = makeStyles({
     table: {
