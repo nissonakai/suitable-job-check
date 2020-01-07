@@ -36,7 +36,7 @@ export const Index = ({ texts, setTexts }) => {
         if (changeSwitch[index]) {
             const textId = text.id;
             console.log(textId);
-            const updateJSON = JSON.stringify({"title": text.title, "red": text.red, "blue": text.blue});
+            const updateJSON = {"title": text.title, "red": text.red, "blue": text.blue};
             console.log(updateJSON);
             axios
                 .patch(`${process.env.REACT_APP_SJC_API}/${textId}`, updateJSON)
