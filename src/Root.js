@@ -21,7 +21,6 @@ export const Root = () => {
       .then(results => {
         const data = results.data.data;
         setTexts(data);
-        console.log(results);
       }).catch(error => {
         console.log(error);
       });

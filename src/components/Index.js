@@ -10,12 +10,12 @@ import {
     TableHead,
     TableRow,
     Paper,
-    Typography
+    Typography,
+    Snackbar
 } from "@material-ui/core";
 import {
     Add
 } from '@material-ui/icons';
-// import { useHistory } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -31,13 +31,17 @@ export const Index = ({ texts, setTexts }) => {
     const switchArray = Array(texts.length);
     switchArray.fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
+    const [open, setOpen] = useState(false);
 
-    const clickChangeSwitch = (index, text) => {
+    const barOpen = () => {
+        setOpen(true);
+    };
+    
+
+    const clickUpdateSwitch = (index, text) => {
         if (changeSwitch[index]) {
             const textId = text.id;
-            console.log(textId);
             const updateJSON = {"title": text.title, "red": text.red, "blue": text.blue};
-            console.log(updateJSON);
             axios
                 .patch(`${process.env.REACT_APP_SJC_API}/${textId}`, updateJSON)
                 .then(res => {
@@ -51,6 +55,22 @@ export const Index = ({ texts, setTexts }) => {
         const copyArray = changeSwitch.slice();
         copyArray[index] = !changeSwitch[index];
         setChangeSwitch(copyArray);
+    };
+
+    const clickDeleteSwitch = text => {
+        const textId = text.id;
+        const alert = window.confirm(`${text.title}を削除してもよろしいですか？`);
+        if (alert) {
+            axios
+            .delete(`${process.env.REACT_APP_SJC_API}/${textId}`)
+            .then(res => {
+                alert(`${res.data.title}を削除しました。`)
+            })
+            .catch(err => {
+                alert("削除に失敗しました。");
+                console.log(err);
+            });
+        };
     };
 
 
@@ -95,11 +115,12 @@ export const Index = ({ texts, setTexts }) => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => clickChangeSwitch(index, text)}
+                        onClick={() => clickUpdateSwitch(index, text)}
                 >{changeSwitch[index] ? "確定" : "編集"}</ Button>
                     <Button
                         variant="contained"
                         color="secondary"
+                        onClick={() => clickDeleteSwitch(text)}
                     >削除</ Button>
                 </TableCell>
             </TableRow>
