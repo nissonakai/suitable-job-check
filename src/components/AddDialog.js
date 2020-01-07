@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
     Dialog,
     TextField,
@@ -18,15 +18,16 @@ export const AddDialog = ({
     handleChange_blue, 
     handleChange_red, 
     handleChange_title,
-    ...modalModule
+    modalModule
 }) => {
+    const { open, handleClickOpen, handleClose } = modalModule;
 
     return (
         <>
-            <Fab color="secondary" aria-label="edit" onClick={modalModule.handleClickOpen}>
+            <Fab color="secondary" aria-label="edit" onClick={() => handleClickOpen()}>
                 <Add />
             </Fab>
-            <Dialog open={modalModule.open} onClose={modalModule.handleClose} aria-labelledby="form-dialog-title">
+            <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">新規追加</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -59,7 +60,7 @@ export const AddDialog = ({
                     <Button onClick={() => clickAddSwitch()} color="primary">
                         追加
                     </Button>
-                    <Button onClick={modalModule.handleClose} color="secondary">
+                    <Button onClick={() => handleClose()} color="secondary">
                         キャンセル
                     </Button>
                 </DialogActions>

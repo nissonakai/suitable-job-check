@@ -10,7 +10,6 @@ import {
     TableRow,
     Paper,
     Typography,
-    Modal,
 } from "@material-ui/core";
 import axios from "axios";
 import { AddDialog } from "./AddDialog";
