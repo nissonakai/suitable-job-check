@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
-    Fab,
     Table,
     TableBody,
     TableCell,
@@ -11,11 +10,10 @@ import {
     TableRow,
     Paper,
     Typography,
+    Modal,
 } from "@material-ui/core";
-import {
-    Add
-} from '@material-ui/icons';
 import axios from "axios";
+import { AddDialog } from "./AddDialog";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 const useStyles = makeStyles({
@@ -30,13 +28,54 @@ export const Index = ({ texts, setTexts }) => {
     const switchArray = Array(texts.length);
     switchArray.fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
+    const [newContent, setNewContent] = useState({
+        title: "",
+        red: "",
+        blue: ""
+    });
+
     const [open, setOpen] = useState(false);
 
-    const barOpen = () => {
+    const handleClickOpen = () => {
         setOpen(true);
     };
-    
 
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const modalModule = {
+        open: open,
+        handleClickOpen: handleClickOpen,
+        handleClose: handleClose
+    }
+
+    const clickAddSwitch = () => {
+        axios
+            .post(process.env.REACT_APP_SJC_API, newContent)
+            .then(res => {
+                const newTexts = [...texts, newContent];
+                setTexts(newTexts);
+                alert(`${res.data.data.title}を追加しました。`);
+                setOpen(false);
+            })
+            .catch(err => {
+                alert("追加に失敗しました。");
+                console.log(err);
+            });
+    }
+
+    const handleChange_title = e => {
+        setNewContent({...newContent, title: e.target.value})
+    };
+    const handleChange_red = e => {
+        setNewContent({...newContent, red: e.target.value})
+    };
+    const handleChange_blue = e => {
+        setNewContent({...newContent, blue: e.target.value})
+    };
+
+    
     const clickUpdateSwitch = (index, text) => {
         if (changeSwitch[index]) {
             const textId = text.id;
@@ -44,7 +83,8 @@ export const Index = ({ texts, setTexts }) => {
             axios
                 .patch(`${process.env.REACT_APP_SJC_API}/${textId}`, updateJSON)
                 .then(res => {
-                    alert(`更新しました。`);
+                    alert(`${res.data.data.title}を更新しました。`);
+
                 })
                 .catch(err => {
                     alert("更新に失敗しました。");
@@ -63,7 +103,11 @@ export const Index = ({ texts, setTexts }) => {
             axios
             .delete(`${process.env.REACT_APP_SJC_API}/${textId}`)
             .then(res => {
-                alert(`${res.data.title}を削除しました。`)
+                const deletedTexts = texts.filter(text => {
+                    return text.id !== textId;
+                });
+                setTexts(deletedTexts);
+                alert(`${res.data.data.title}を削除しました。`)
             })
             .catch(err => {
                 alert("削除に失敗しました。");
@@ -139,9 +183,14 @@ export const Index = ({ texts, setTexts }) => {
                     <TableBody>{textList}</TableBody>
                 </Table>
             </TableContainer>
-            <Fab color="secondary" aria-label="edit">
-                <Add />
-            </Fab>
+            <AddDialog
+                modalModule={modalModule}
+                clickAddSwitch={clickAddSwitch}
+                newContent={newContent}
+                handleChange_title={handleChange_title}
+                handleChange_red={handleChange_red}
+                handleChange_blue={handleChange_blue}
+            />
         </>
     );
 };
