@@ -11,11 +11,6 @@ export const Start = () => {
                 variant="contained"
                 onClick={() => history.push('/questions/1')}
             >始める</Button>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push('/admin/questions')}
-            >管理画面へ</Button>
         </div>
     );
 };

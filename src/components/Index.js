@@ -11,8 +11,9 @@ import {
     Paper,
     Typography,
 } from "@material-ui/core";
-import axios from "axios";
 import { AddDialog } from "./AddDialog";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 const useStyles = makeStyles({
@@ -20,10 +21,14 @@ const useStyles = makeStyles({
       maxWidth: "80%",
       margin: "0 auto 2em"
     },
+    backtohome: {
+        marginTop: "2em"
+    }
   });
 
 export const Index = ({ texts, setTexts }) => {
     const classes = useStyles();
+    const history = useHistory();
     const switchArray = Array(texts.length);
     switchArray.fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
@@ -176,14 +181,16 @@ export const Index = ({ texts, setTexts }) => {
     });
     return (
         <>
-            <Typography variant="h2">設問編集画面</Typography>
+            <Typography variant="h3">設問編集画面</Typography>
             <TableContainer className={classes.table} component={Paper}>
                 <Table aria-label="simple table">
                     <TableHead>
-                        <TableCell>設問</TableCell>
-                        <TableCell>選択肢１</TableCell>
-                        <TableCell>選択肢２</TableCell>
-                        <TableCell></TableCell>
+                        <TableRow>
+                            <TableCell>設問</TableCell>
+                            <TableCell>選択肢１</TableCell>
+                            <TableCell>選択肢２</TableCell>
+                            <TableCell></TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>{textList}</TableBody>
                 </Table>
@@ -194,6 +201,14 @@ export const Index = ({ texts, setTexts }) => {
                 modalModule={modalModule}
                 handleChangeModule={handleChangeModule}
             />
+            <div className={classes.backtohome}>
+            <Button
+                variant="contained"
+                color="primary"
+                onClick={() => history.push('/')}>
+                メイン画面へ
+            </Button>
+            </div>
         </>
     );
 };
