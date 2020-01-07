@@ -34,8 +34,7 @@ export const Index = ({ texts, setTexts }) => {
 
     const clickChangeSwitch = (e, index, text) => {
         if (changeSwitch[index]) {
-            const textNode = e.target.parentNode
-            const textId = textNode.getAttribute("textid");
+            const textId = text.id;
             const updateJSON = JSON.stringify({"title": text.title, "red": text.red, "blue": text.blue});
             axios
                 .patch(`${process.env.REACT_APP_SJC_API}/${textId}`, updateJSON)
@@ -54,7 +53,6 @@ export const Index = ({ texts, setTexts }) => {
 
 
     const textList = texts.map((text, index) => {
-        const textAttr = {"title": text.title, "red": text.red, "blue": text.blue};
         const textsCopy = texts.slice();
         const handleChange = e => {
             switch(e.target.name) {
