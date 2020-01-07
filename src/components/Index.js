@@ -32,10 +32,12 @@ export const Index = ({ texts, setTexts }) => {
     switchArray.fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
 
-    const clickChangeSwitch = (e, index, text) => {
+    const clickChangeSwitch = (index, text) => {
         if (changeSwitch[index]) {
             const textId = text.id;
+            console.log(textId);
             const updateJSON = JSON.stringify({"title": text.title, "red": text.red, "blue": text.blue});
+            console.log(updateJSON);
             axios
                 .patch(`${process.env.REACT_APP_SJC_API}/${textId}`, updateJSON)
                 .then(res => {
@@ -93,8 +95,7 @@ export const Index = ({ texts, setTexts }) => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={e => clickChangeSwitch(e, index, text)}
-                        textid={text.id}
+                        onClick={() => clickChangeSwitch(index, text)}
                 >{changeSwitch[index] ? "確定" : "編集"}</ Button>
                     <Button
                         variant="contained"
