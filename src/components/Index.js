@@ -11,7 +11,6 @@ import {
     TableRow,
     Paper,
     Typography,
-    Snackbar
 } from "@material-ui/core";
 import {
     Add
@@ -59,8 +58,8 @@ export const Index = ({ texts, setTexts }) => {
 
     const clickDeleteSwitch = text => {
         const textId = text.id;
-        const alert = window.confirm(`${text.title}を削除してもよろしいですか？`);
-        if (alert) {
+        const confirmWindow = window.confirm(`${text.title}を削除してもよろしいですか？`);
+        if (confirmWindow) {
             axios
             .delete(`${process.env.REACT_APP_SJC_API}/${textId}`)
             .then(res => {
