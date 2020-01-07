@@ -74,6 +74,12 @@ export const Index = ({ texts, setTexts }) => {
         setNewContent({...newContent, blue: e.target.value})
     };
 
+    const handleChangeModule = {
+        handleChange_title: handleChange_title,
+        handleChange_red: handleChange_red,
+        handleChange_blue: handleChange_blue
+    };
+
     
     const clickUpdateSwitch = (index, text) => {
         if (changeSwitch[index]) {
@@ -183,12 +189,10 @@ export const Index = ({ texts, setTexts }) => {
                 </Table>
             </TableContainer>
             <AddDialog
-                modalModule={modalModule}
                 clickAddSwitch={clickAddSwitch}
                 newContent={newContent}
-                handleChange_title={handleChange_title}
-                handleChange_red={handleChange_red}
-                handleChange_blue={handleChange_blue}
+                modalModule={modalModule}
+                handleChangeModule={handleChangeModule}
             />
         </>
     );

@@ -15,12 +15,11 @@ import {
 export const AddDialog = ({
     clickAddSwitch, 
     newContent,
-    handleChange_blue, 
-    handleChange_red, 
-    handleChange_title,
+    handleChangeModule,
     modalModule
 }) => {
     const { open, handleClickOpen, handleClose } = modalModule;
+    const { handleChange_blue, handleChange_red, handleChange_title} = handleChangeModule;
 
     return (
         <>
