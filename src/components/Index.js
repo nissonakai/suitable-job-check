@@ -21,7 +21,7 @@ const useStyles = makeStyles({
       maxWidth: "80%",
       margin: "0 auto 2em"
     },
-    backtohome: {
+    mt: {
         marginTop: "2em"
     }
   });
@@ -52,7 +52,7 @@ export const Index = ({ texts, setTexts }) => {
         open: open,
         handleClickOpen: handleClickOpen,
         handleClose: handleClose
-    }
+    };
 
     const clickAddSwitch = () => {
         axios
@@ -70,13 +70,13 @@ export const Index = ({ texts, setTexts }) => {
     }
 
     const handleChange_title = e => {
-        setNewContent({...newContent, title: e.target.value})
+        setNewContent({...newContent, title: e.target.value});
     };
     const handleChange_red = e => {
-        setNewContent({...newContent, red: e.target.value})
+        setNewContent({...newContent, red: e.target.value});
     };
     const handleChange_blue = e => {
-        setNewContent({...newContent, blue: e.target.value})
+        setNewContent({...newContent, blue: e.target.value});
     };
 
     const handleChangeModule = {
@@ -100,7 +100,7 @@ export const Index = ({ texts, setTexts }) => {
                     alert("更新に失敗しました。");
                     console.log(err);
                 });
-        }
+        };
         const copyArray = changeSwitch.slice();
         copyArray[index] = !changeSwitch[index];
         setChangeSwitch(copyArray);
@@ -117,7 +117,7 @@ export const Index = ({ texts, setTexts }) => {
                     return text.id !== textId;
                 });
                 setTexts(deletedTexts);
-                alert(`${res.data.data.title}を削除しました。`)
+                alert(`${res.data.data.title}を削除しました。`);
             })
             .catch(err => {
                 alert("削除に失敗しました。");
@@ -201,7 +201,7 @@ export const Index = ({ texts, setTexts }) => {
                 modalModule={modalModule}
                 handleChangeModule={handleChangeModule}
             />
-            <div className={classes.backtohome}>
+            <div className={classes.mt}>
             <Button
                 variant="contained"
                 color="primary"
