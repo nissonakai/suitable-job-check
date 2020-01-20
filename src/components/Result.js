@@ -9,7 +9,7 @@ import imageTypeC from "../images/typeC.png";
 const useStyles = makeStyles({
     typeImage: {
         width: "10%",
-        minWidth: 300,
+        minWidth: 200,
         margin: "0 auto"
     }
 });
