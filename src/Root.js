@@ -7,7 +7,6 @@ import {
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
-import { Edit } from "./components/Edit";
 import { Index } from "./components/Index";
 import { Admin } from "./components/Admin";
 import axios from "axios";
