@@ -30,32 +30,34 @@ export const Result = ({answers, resetAnswers}) => {
         return answer.index === 0;
     });
 
-    const computedAnswer = count => {
+    const computedElement = count => {
         if (count.length <= 1) {
-            return (
-                <>
-                <h2>タイプA!</h2>
-                <img src={imageTypeA} alt="タイプAのイメージ" className={classes.typeImage}/>
-                <p>タイプAなお仕事がおススメ！</p>
-                </>
-            )
-        } else if (count.length <= 2){
-            return (
-                <>
-                <h2>タイプB!</h2>
-                <img src={imageTypeB} alt="タイプBのイメージ" className={classes.typeImage}/>
-                <p>タイプBなお仕事がおススメ！</p>
-                </>
-            )
+            return {
+                type: "A",
+                img: imageTypeA
+            }
+        } else if (count.length <= 2) {
+            return {
+                type: "B",
+                img: imageTypeB
+            }
         } else {
+            return {
+                type: "C",
+                img: imageTypeC
+            }
+        }
+    }
+
+    const computedAnswer = count => {
+        const type = computedElement(count);
             return (
                 <>
-                <h2>タイプC!</h2>
-                <img src={imageTypeC} alt="タイプCのイメージ" className={classes.typeImage}/>
-                <p>タイプCなお仕事がおススメ！</p>
+                <h2>{`タイプ${type.type}！`}</h2>
+                <img src={type.img} alt={`タイプ${type.type}のイメージ`} className={classes.typeImage}/>
+                <p>{`タイプ${type.type}なお仕事がおススメ！`}</p>
                 </>
             )
-        }
     };
 
     if (answers.includes(undefined) || answers.length === 0) {
