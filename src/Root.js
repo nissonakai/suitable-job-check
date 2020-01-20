@@ -52,11 +52,6 @@ export const Root = () => {
             resetAnswers={resetAnswers}
           />
         </Route>
-        <Route path="/admin/edit/:index" exact>
-          <Edit
-            texts={texts}
-          />
-        </Route>
         <Route path="/admin" exact>
           <Admin />
         </Route>
