@@ -26,9 +26,13 @@ export const Board = ({ texts, doAnswer, index }) => {
     const colors = ["primary", "secondary"];
     const images = [image1, image2];
     const cards = titles.map((title, index) => {
+        const answer = { 
+            index: index,
+            body: title
+        };
         return (
             <Card className={classes.card} key={title}>
-                    <CardActionArea onClick={() => doAnswer(title)}>
+                    <CardActionArea onClick={() => doAnswer(answer)}>
                         <CardMedia
                             component="img"
                             alt="select1 image"
