@@ -57,7 +57,7 @@ export default class Auth {
     this.idToken = authResult.idToken;
     this.profile = authResult.idTokenPayload;
     // set the time that the id token will expire at
-    this.expiresAt = authResult.expiresIn * 1000 + new Date().getTime();
+    this.expiresAt = authResult.expiresIn * 100 + new Date().getTime();
   }
 
   silentAuth() {
