@@ -4,20 +4,23 @@ import {
   Route,
   Switch,
 } from 'react-router-dom';
+import Auth from './Auth';
+import Callback from "./callback/Callback";
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
 import { Index } from "./components/Index";
-import { Admin } from "./components/Admin";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
+
+const auth = new Auth();
 
 export const Root = () => {
   const [answers, setAnswers] = useState([]);
   const [texts, setTexts] = useState([]);
 
   const getData = () => {
-    axios.get(process.env.REACT_APP_SJC_API)
+    axios.get(process.env.REACT_APP_SJC_QUESTIONS)
       .then(results => {
         const data = results.data.data;
         setTexts(data);
@@ -38,6 +41,9 @@ export const Root = () => {
         <Route path="/" exact>
           <Start />
         </Route>
+        <Route path="/callback" render={() => (
+          <Callback auth={auth} />
+        )}/>
         <Route path="/questions/:index" exact>
           <Questions
             texts={texts}
@@ -51,11 +57,9 @@ export const Root = () => {
             resetAnswers={resetAnswers}
           />
         </Route>
-        <Route path="/admin" exact>
-          <Admin />
-        </Route>
         <Route path="/admin/questions" exact>
           <Index
+            auth={auth}
             texts={texts}
             setTexts={setTexts}
           />
@@ -64,4 +68,3 @@ export const Root = () => {
     </Router>
   );
 };
-

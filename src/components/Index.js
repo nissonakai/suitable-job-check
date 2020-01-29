@@ -26,7 +26,9 @@ const useStyles = makeStyles({
     }
   });
 
-export const Index = ({ texts, setTexts }) => {
+export const Index = ({ texts, setTexts, auth }) => {
+    const authenticated = auth.isAuthenticated();
+
     const classes = useStyles();
     const history = useHistory();
     const switchArray = Array(texts.length);
@@ -56,7 +58,7 @@ export const Index = ({ texts, setTexts }) => {
 
     const clickAddSwitch = () => {
         axios
-            .post(process.env.REACT_APP_SJC_API, newContent)
+            .post(process.env.REACT_APP_SJC_QUESTIONS, newContent)
             .then(res => {
                 const newTexts = [...texts, newContent];
                 setTexts(newTexts);
@@ -91,7 +93,7 @@ export const Index = ({ texts, setTexts }) => {
             const textId = text.id;
             const updateJSON = {"title": text.title, "red": text.red, "blue": text.blue};
             axios
-                .patch(`${process.env.REACT_APP_SJC_API}/${textId}`, updateJSON)
+                .patch(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, updateJSON)
                 .then(res => {
                     alert(`${res.data.data.title}を更新しました。`);
 
@@ -111,7 +113,7 @@ export const Index = ({ texts, setTexts }) => {
         const confirmWindow = window.confirm(`${text.title}を削除してもよろしいですか？`);
         if (confirmWindow) {
             axios
-            .delete(`${process.env.REACT_APP_SJC_API}/${textId}`)
+            .delete(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`)
             .then(res => {
                 const deletedTexts = texts.filter(text => {
                     return text.id !== textId;
@@ -126,7 +128,7 @@ export const Index = ({ texts, setTexts }) => {
         };
     };
 
-
+    
     const textList = texts.map((text, index) => {
         const textsCopy = texts.slice();
         const handleChange = e => {
@@ -179,6 +181,21 @@ export const Index = ({ texts, setTexts }) => {
             </TableRow>
         )
     });
+
+
+    if (!authenticated) {
+        return (
+            <div>
+                <h1>ログイン画面</h1>
+                <Button
+                variant="contained"
+                color="primary"
+                onClick={() => auth.login()}>ログインする</Button>
+            </div>
+            
+        )
+    };
+
     return (
         <>
             <Typography variant="h3">設問編集画面</Typography>
