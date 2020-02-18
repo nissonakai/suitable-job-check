@@ -9,7 +9,9 @@ import Callback from "./callback/Callback";
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
-import { Index } from "./components/Index";
+import { AdminQuestions } from "./components/AdminQuestions";
+import { AdminSurveys } from "./components/AdminSurveys";
+import { Admin } from "./components/Admin";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -18,20 +20,42 @@ const auth = new Auth();
 export const Root = () => {
   const [answers, setAnswers] = useState([]);
   const [texts, setTexts] = useState([]);
+  const [surveys, setSurveys] = useState([]);
+  const [surveyId, setSurveyId] = useState(false);
 
-  const getData = () => {
+  const getSurveys = () => {
+    axios.get(process.env.REACT_APP_SJC_SURVEYS)
+      .then(results => {
+        const datas = results.data.data;
+        setSurveys(datas);
+        const targetSurveys = datas.filter(data => {
+          return data.selected === true;
+        });
+        setSurveyId(targetSurveys[0].id);
+      }).catch(error => {
+        console.log(error);
+      })
+  };
+
+  const getQuestions = () => {
     axios.get(process.env.REACT_APP_SJC_QUESTIONS)
       .then(results => {
-        const data = results.data.data;
-        setTexts(data);
+        const datas = results.data.data;
+        setTexts(datas);
       }).catch(error => {
         console.log(error);
       });
   };
 
+
   useEffect(() => {
-    getData();
+    getSurveys();
+    getQuestions();
   }, []);
+
+  const targetDatas = texts.filter(text => {
+    return text.survey_id === surveyId;
+  });
 
   const resetAnswers = () => setAnswers([]);
 
@@ -46,7 +70,7 @@ export const Root = () => {
         )}/>
         <Route path="/questions/:index" exact>
           <Questions
-            texts={texts}
+            texts={targetDatas}
             answers={answers}
             setAnswers={setAnswers}
           />
@@ -57,11 +81,23 @@ export const Root = () => {
             resetAnswers={resetAnswers}
           />
         </Route>
-        <Route path="/admin/questions" exact>
-          <Index
+        <Route path="/admin" exact>
+          <Admin
             auth={auth}
+          />
+        </Route>
+        <Route path="/admin/questions/:questionIndex" exact>
+          <AdminQuestions
             texts={texts}
             setTexts={setTexts}
+            auth={auth}
+          />
+        </Route>
+        <Route path="/admin/surveys" exact>
+          <AdminSurveys
+            surveys={surveys}
+            setSurveys={setSurveys}
+            auth={auth}
           />
         </Route>
       </Switch>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
@@ -12,7 +12,7 @@ import {
     Typography,
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
-import { useHistory } from "react-router-dom";
+import { useHistory, useParams, Redirect } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -26,18 +26,33 @@ const useStyles = makeStyles({
     }
   });
 
-export const Index = ({ texts, setTexts, auth }) => {
-    const authenticated = auth.isAuthenticated();
+export const AdminQuestions = ({texts, setTexts, auth}) => {
 
+    const authenticated = auth.isAuthenticated();
     const classes = useStyles();
     const history = useHistory();
+    const { questionIndex } = useParams();
+    const [targetTexts, setTargetTexts] = useState([]);
+
+    const getTarget = texts => {
+        const targetArr = texts.filter(text => {
+            return text.survey_id === Number(questionIndex);
+        });
+        setTargetTexts(targetArr);
+    };
+
+    useEffect(() => {
+        getTarget(texts);
+    }, []);
+
     const switchArray = Array(texts.length);
     switchArray.fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
     const [newContent, setNewContent] = useState({
         title: "",
         red: "",
-        blue: ""
+        blue: "",
+        "survey_id": questionIndex
     });
 
     const [open, setOpen] = useState(false);
@@ -64,6 +79,12 @@ export const Index = ({ texts, setTexts, auth }) => {
                 setTexts(newTexts);
                 alert(`${res.data.data.title}を追加しました。`);
                 setOpen(false);
+                setNewContent({
+                    title: "",
+                    red: "",
+                    blue: "",
+                    "survey_id": questionIndex
+                });
             })
             .catch(err => {
                 alert("追加に失敗しました。");
@@ -129,7 +150,7 @@ export const Index = ({ texts, setTexts, auth }) => {
     };
 
     
-    const textList = texts.map((text, index) => {
+    const textList = targetTexts.map((text, index) => {
         const textsCopy = texts.slice();
         const handleChange = e => {
             switch(e.target.name) {
@@ -182,21 +203,8 @@ export const Index = ({ texts, setTexts, auth }) => {
         )
     });
 
-
-    if (!authenticated) {
-        return (
-            <div>
-                <h1>ログイン画面</h1>
-                <Button
-                variant="contained"
-                color="primary"
-                onClick={() => auth.login()}>ログインする</Button>
-            </div>
-            
-        )
-    };
-
     return (
+        authenticated ? (
         <>
             <Typography variant="h3">設問編集画面</Typography>
             <TableContainer className={classes.table} component={Paper}>
@@ -225,7 +233,16 @@ export const Index = ({ texts, setTexts, auth }) => {
                 onClick={() => history.push('/')}>
                 メイン画面へ
             </Button>
+            <Button
+                variant="contained"
+                color="secondary"
+                onClick={() => history.push('/admin/surveys')}>
+                    調査一覧
+            </Button>
             </div>
         </>
+        ) : (
+            <Redirect to={'/admin'} />
+        )
     );
 };

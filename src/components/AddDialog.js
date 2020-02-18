@@ -19,7 +19,7 @@ export const AddDialog = ({
     modalModule
 }) => {
     const { open, handleClickOpen, handleClose } = modalModule;
-    const { handleChange_blue, handleChange_red, handleChange_title} = handleChangeModule;
+    const { handleChange_blue, handleChange_red, handleChange_title, handleChange_name } = handleChangeModule;
 
     return (
         <>
@@ -29,6 +29,19 @@ export const AddDialog = ({
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">新規追加</DialogTitle>
                 <DialogContent>
+                    {handleChange_name && (
+                        <TextField
+                        autoFocus
+                        margin="dense"
+                        id="name"
+                        label="タイトル"
+                        type="text"
+                        value={newContent.name}
+                        onChange={e => handleChange_name(e)}
+                    />
+                    )}
+                    {!handleChange_name && (
+                    <>
                     <TextField
                         autoFocus
                         margin="dense"
@@ -54,6 +67,9 @@ export const AddDialog = ({
                         value={newContent.blue}
                         onChange={e => handleChange_blue(e)}
                     />
+                    </>
+                    )}
+                    
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={() => clickAddSwitch()} color="primary">
