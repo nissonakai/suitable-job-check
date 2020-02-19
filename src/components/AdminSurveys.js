@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
@@ -7,12 +7,12 @@ import {
     TableBody,
     TableCell,
     TableContainer,
-    TableHead,
     TableRow,
     Paper,
     Typography,
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
+import { TableHeads } from "./TableHeads";
 import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -35,10 +35,22 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     const switchArray = Array(surveys.length);
     switchArray.fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
-    const [newContent, setNewContent] = useState({
-        name: ""
-    });
+    const [newContent, setNewContent] = useState({name: ""});
 
+    const getSurveys = () => {
+        axios.get(process.env.REACT_APP_SJC_SURVEYS)
+          .then(results => {
+            const datas = results.data.data;
+            setSurveys(datas);
+          }).catch(error => {
+            console.log(error);
+          })
+      };
+    
+      useEffect(() => {
+        getSurveys();
+      }, [surveys]);
+    
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -59,9 +71,9 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         axios
             .post(process.env.REACT_APP_SJC_SURVEYS, newContent)
             .then(res => {
-                const newSurveys = [...surveys, newContent];
-                setSurveys(newSurveys);
-                alert(`${res.data.data.title}を追加しました。`);
+                getSurveys();
+                console.log(res);
+                alert(`${res.data.data.name}を追加しました。`);
                 setOpen(false);
             })
             .catch(err => {
@@ -118,6 +130,13 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         };
     };
 
+    const dialogAtrr = {
+        clickAddSwitch: clickAddSwitch,
+        newContent: newContent,
+        modalModule: modalModule,
+        handleChangeModule: handleChangeModule
+    }
+
     
     const surveyList = surveys.map((survey, index) => {
         const surveysCopy = surveys.slice();
@@ -169,22 +188,11 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             <Typography variant="h3">調査編集画面</Typography>
             <TableContainer className={classes.table} component={Paper}>
                 <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>タイトル</TableCell>
-                            <TableCell>作成日時</TableCell>
-                            <TableCell></TableCell>
-                        </TableRow>
-                    </TableHead>
+                    <TableHeads cells={["タイトル", "作成日時", ""]} />
                     <TableBody>{surveyList}</TableBody>
                 </Table>
             </TableContainer>
-            <AddDialog
-                clickAddSwitch={clickAddSwitch}
-                newContent={newContent}
-                modalModule={modalModule}
-                handleChangeModule={handleChangeModule}
-            />
+            <AddDialog {...dialogAtrr} />
             <div className={classes.mt}>
             <Button
                 variant="contained"

@@ -51,7 +51,7 @@ export const Root = () => {
   useEffect(() => {
     getSurveys();
     getQuestions();
-  }, []);
+  }, [setTexts, setSurveys]);
 
   const targetDatas = texts.filter(text => {
     return text.survey_id === surveyId;
@@ -63,7 +63,10 @@ export const Root = () => {
     <Router>
       <Switch>
         <Route path="/" exact>
-          <Start />
+          <Start 
+            getQuestions={getQuestions}
+            getSurveys={getSurveys}
+          />
         </Route>
         <Route path="/callback" render={() => (
           <Callback auth={auth} />
@@ -89,7 +92,7 @@ export const Root = () => {
         <Route path="/admin/questions/:questionIndex" exact>
           <AdminQuestions
             texts={texts}
-            setTexts={setTexts}
+            surveys={surveys}
             auth={auth}
           />
         </Route>
