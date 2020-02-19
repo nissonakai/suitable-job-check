@@ -2,17 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
-    Badge,
-    Table,
-    TableBody,
     TableCell,
-    TableContainer,
     TableRow,
-    Paper,
     Typography,
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
-import { TableHeads } from "./TableHeads";
+import { AdminTable } from "./AdminTable";
+import { InputCells } from "./InputCells";
+import { LinkCells } from "./LinkCells";
 import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -135,7 +132,7 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         newContent: newContent,
         modalModule: modalModule,
         handleChangeModule: handleChangeModule
-    }
+    };
 
     
     const surveyList = surveys.map((survey, index) => {
@@ -144,27 +141,29 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             surveysCopy[index].name = e.target.value;
             setSurveys(surveysCopy);
         }
+
+        const inputData = [{
+            name: "title",
+            placeholder: "タイトル",
+            value: survey.name,
+            onChange: (e => handleChange(e, index))
+        }];
+
+        const linkData = [{
+            text: survey.name,
+            path: `/admin/questions/${survey.id}`
+        }];
     
         return (
 
             <TableRow key={survey.id}>
                 {changeSwitch[index] ? (
-                    <>
-                        <TableCell><input name="title" placeholder="タイトル" value={survey.name} onChange={e => handleChange(e, index)} /></TableCell>
-                    </>
+                    <InputCells datas={inputData} />
                 ) : (
-                    <>
-                        <TableCell onClick={() => history.push(`/admin/questions/${survey.id}`)}>
-                            {survey.selected ? (
-                                <Badge badgeContent="選択中" color="primary"><p>{survey.name}</p></Badge>
-                            ): (
-                                <p>{survey.name}</p>
-                            )}
-                        </TableCell>
-                    </>
+                    <LinkCells datas={linkData} />
                 )}
                 <TableCell>
-                            <p>{survey.created_at}</p>
+                    <p>{survey.created_at}</p>
                 </TableCell>
                 <TableCell>
                     <Button
@@ -172,11 +171,19 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
                         color="primary"
                         onClick={() => clickUpdateSwitch(index, survey)}
                     >{changeSwitch[index] ? "確定" : "編集"}</ Button>
-                    <Button
-                        variant="contained"
-                        color="secondary"
-                        onClick={() => clickDeleteSwitch(survey)}
-                    >削除</ Button>
+                    {survey.selected ? (
+                        <Button
+                            variant="contained"
+                            disabled
+                        >選択中</ Button>
+                    ): (
+                        <Button
+                            variant="contained"
+                            color="secondary"
+                            onClick={() => clickDeleteSwitch(survey)}
+                        >削除</Button>
+                    )}
+                    
                 </TableCell>
             </TableRow>
         )
@@ -186,12 +193,7 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         authenticated ? (
             <>
             <Typography variant="h3">調査編集画面</Typography>
-            <TableContainer className={classes.table} component={Paper}>
-                <Table aria-label="simple table">
-                    <TableHeads cells={["タイトル", "作成日時", ""]} />
-                    <TableBody>{surveyList}</TableBody>
-                </Table>
-            </TableContainer>
+            <AdminTable dataList={surveyList} headList={["タイトル", "作成日時", ""]} />
             <AddDialog {...dialogAtrr} />
             <div className={classes.mt}>
             <Button

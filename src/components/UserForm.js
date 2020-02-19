@@ -22,7 +22,7 @@ const useStyle = makeStyles({
     }
 })
 
-export const Admin = () => {
+export const UserForm = () => {
     const history = useHistory();
     const classes = useStyle();
     const [loginElements, setLoginElements] = useState({

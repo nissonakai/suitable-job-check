@@ -2,17 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import {
     Button,
-    Table,
-    TableBody,
     TableCell,
-    TableContainer,
     TableRow,
-    Paper,
     Typography,
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
 import { SurveySwitch } from "./SurveySwitch";
-import { TableHeads } from "./TableHeads";
+import { AdminTable } from "./AdminTable";
+import { InputCells } from "./InputCells";
+import { TextCells } from "./TextCells";
 import { useHistory, useParams, Redirect } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -184,6 +182,13 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         };
     };
 
+    const dialogAtrr = {
+        clickAddSwitch: clickAddSwitch,
+        newContent: newContent,
+        modalModule: modalModule,
+        handleChangeModule: handleChangeModule
+    };
+
     
     const textList = targetTexts.map((text, index) => {
         const textsCopy = targetTexts.slice();
@@ -191,22 +196,41 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
             textsCopy[index][e.target.name] = e.target.value;
             setTargetTexts(textsCopy);
         };
+
+        const inputData = [
+            {
+            name: "title",
+            placeholder: "設問",
+            value: text.title,
+            onChange: (e => handleChange(e, index))
+            },
+            {
+            name: "red",
+            placeholder: "選択肢1",
+            value: text.red,
+            onChange: (e => handleChange(e, index))
+            },
+            {
+            name: "blue",
+            placeholder: "選択肢2",
+            value: text.blue,
+            onChange: (e => handleChange(e, index))
+            }
+        ];
+
+        const textData = [
+            text.title,
+            text.red,
+            text.blue
+        ];
+
     
         return (
-
             <TableRow key={text.id}>
                 {changeSwitch[index] ? (
-                    <>
-                        <TableCell><input name="title" placeholder="設問" value={text.title} onChange={e => handleChange(e, index)} /></TableCell>
-                        <TableCell><input name="red" placeholder="選択肢１" value={text.red} onChange={e => handleChange(e, index)} /></TableCell>
-                        <TableCell><input name="blue" placeholder="選択肢２" value={text.blue} onChange={e => handleChange(e, index)} /></TableCell>
-                    </>
+                    <InputCells datas={inputData} />
                 ) : (
-                    <>
-                        <TableCell><p>{text.title}</p></TableCell>
-                        <TableCell><p>{text.red}</p></TableCell>
-                        <TableCell><p>{text.blue}</p></TableCell>
-                    </>
+                    <TextCells datas={textData} />
                 )}
                 <TableCell>
                     <Button
@@ -229,18 +253,8 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         <>
             <Typography variant="h3">{`${targetSurveyName}編集画面`}</Typography>
             <SurveySwitch selected={selected} setSelected={setSelected} />
-            <TableContainer className={classes.table} component={Paper}>
-                <Table aria-label="simple table">
-                    <TableHeads cells={["設問", "選択肢1", "選択肢2", ""]} />
-                    <TableBody>{textList}</TableBody>
-                </Table>
-            </TableContainer>
-            <AddDialog
-                clickAddSwitch={clickAddSwitch}
-                newContent={newContent}
-                modalModule={modalModule}
-                handleChangeModule={handleChangeModule}
-            />
+            <AdminTable dataList={textList} headList={["設問", "選択肢1", "選択肢2", ""]} />
+            <AddDialog {...dialogAtrr} />
             <div className={classes.mt}>
             <Button
                 variant="contained"

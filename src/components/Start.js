@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from "react-router-dom";
 import { Button } from "@material-ui/core";
 
-export const Start = ({getQuestions, getSurveys}) => {
+export const Start = ({ getQuestions, getSurveys }) => {
     const history = useHistory();
 
     const startQuestions = (async () => {
