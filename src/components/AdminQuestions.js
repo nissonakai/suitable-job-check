@@ -65,7 +65,7 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         getTarget();
         getSelected();
         getCurrentSurvey();
-    }, [texts]);
+    }, []);
     
 
     const switchArray = Array(targetTexts.length);
@@ -197,27 +197,6 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
             setTargetTexts(textsCopy);
         };
 
-        const inputData = [
-            {
-            name: "title",
-            placeholder: "設問",
-            value: text.title,
-            onChange: (e => handleChange(e, index))
-            },
-            {
-            name: "red",
-            placeholder: "選択肢1",
-            value: text.red,
-            onChange: (e => handleChange(e, index))
-            },
-            {
-            name: "blue",
-            placeholder: "選択肢2",
-            value: text.blue,
-            onChange: (e => handleChange(e, index))
-            }
-        ];
-
         const textData = [
             text.title,
             text.red,
@@ -228,7 +207,11 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         return (
             <TableRow key={text.id}>
                 {changeSwitch[index] ? (
-                    <InputCells datas={inputData} />
+                    <>
+                    <TableCell><input name="title" placeholder="タイトル" value={text.title} onChange={e => handleChange(e)} /></TableCell>
+                    <TableCell><input name="red" placeholder="選択肢1" value={text.red} onChange={e => handleChange(e)} /></TableCell>
+                    <TableCell><input name="blue" placeholder="選択肢2" value={text.blue} onChange={e => handleChange(e)} /></TableCell>
+                    </>
                 ) : (
                     <TextCells datas={textData} />
                 )}

@@ -5,7 +5,7 @@ export const TableHeads = ({cells}) => {
 
     const tableCells = cells.map(cell => {
         return (
-            <TableCell>{cell}</TableCell>
+            <TableCell key={cell}>{cell}</TableCell>
         )
     });
 

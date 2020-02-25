@@ -4,7 +4,7 @@ import { TableCell } from '@material-ui/core';
 export const TextCells = ({datas}) => {
     const cells = datas.map(data => {
         return (
-            <TableCell><p>{data}</p></TableCell>
+            <TableCell key={data}><p>{data}</p></TableCell>
         );
     });
     return (

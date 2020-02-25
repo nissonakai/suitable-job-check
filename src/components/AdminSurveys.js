@@ -8,8 +8,7 @@ import {
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
 import { AdminTable } from "./AdminTable";
-import { InputCells } from "./InputCells";
-import { LinkCells } from "./LinkCells";
+import { TextCells } from "./TextCells";
 import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -31,7 +30,6 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     const history = useHistory();
     const switchArray = Array(surveys.length);
     switchArray.fill(false);
-    const [changeSwitch, setChangeSwitch] = useState(switchArray);
     const [newContent, setNewContent] = useState({name: ""});
 
     const getSurveys = () => {
@@ -87,26 +85,6 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         handleChange_name: handleChange_name,
     };
     
-    const clickUpdateSwitch = (index, survey) => {
-        if (changeSwitch[index]) {
-            const surveyId = survey.id;
-            const updateJSON = { "name": survey.name };
-            axios
-                .patch(`${process.env.REACT_APP_SJC_SURVEYS}/${surveyId}`, updateJSON)
-                .then(res => {
-                    alert(`${res.data.data.name}を更新しました。`);
-
-                })
-                .catch(err => {
-                    alert("更新に失敗しました。");
-                    console.log(err);
-                });
-        };
-        const copyArray = changeSwitch.slice();
-        copyArray[index] = !changeSwitch[index];
-        setChangeSwitch(copyArray);
-    };
-
     const clickDeleteSwitch = survey => {
         const surveyId = survey.id;
         const confirmWindow = window.confirm(`${survey.name}を削除してもよろしいですか？`);
@@ -136,32 +114,13 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
 
     
     const surveyList = surveys.map((survey, index) => {
-        const surveysCopy = surveys.slice();
-        const handleChange = e => {
-            surveysCopy[index].name = e.target.value;
-            setSurveys(surveysCopy);
-        }
 
-        const inputData = [{
-            name: "title",
-            placeholder: "タイトル",
-            value: survey.name,
-            onChange: (e => handleChange(e, index))
-        }];
-
-        const linkData = [{
-            text: survey.name,
-            path: `/admin/questions/${survey.id}`
-        }];
+        const textData = [survey.name];
     
         return (
 
             <TableRow key={survey.id}>
-                {changeSwitch[index] ? (
-                    <InputCells datas={inputData} />
-                ) : (
-                    <LinkCells datas={linkData} />
-                )}
+                <TextCells datas={textData} />
                 <TableCell>
                     <p>{survey.created_at}</p>
                 </TableCell>
@@ -169,8 +128,8 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
                     <Button
                         variant="contained"
                         color="primary"
-                        onClick={() => clickUpdateSwitch(index, survey)}
-                    >{changeSwitch[index] ? "確定" : "編集"}</ Button>
+                        onClick={() => history.push(`/admin/questions/${survey.id}`)}
+                    >編集</ Button>
                     {survey.selected ? (
                         <Button
                             variant="contained"
