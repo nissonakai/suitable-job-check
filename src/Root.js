@@ -12,6 +12,7 @@ import { Result } from "./components/Result";
 import { AdminQuestions } from "./components/AdminQuestions";
 import { AdminSurveys } from "./components/AdminSurveys";
 import { Admin } from "./components/Admin";
+import { UserForm } from "./components/UserForm";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
@@ -92,6 +93,7 @@ export const Root = () => {
         <Route path="/admin/questions/:questionIndex" exact>
           <AdminQuestions
             texts={texts}
+            getQuestions={getQuestions}
             surveys={surveys}
             auth={auth}
           />
@@ -101,6 +103,10 @@ export const Root = () => {
             surveys={surveys}
             setSurveys={setSurveys}
             auth={auth}
+          />
+        </Route>
+        <Route path="/form" exact>
+          <UserForm
           />
         </Route>
       </Switch>

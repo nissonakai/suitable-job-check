@@ -14,7 +14,7 @@ export const Questions = ({ texts, answers, setAnswers }) => {
         answerArr[questionIndex] = answer;
         setAnswers(answerArr);
         const questionsParams = texts.length <= index ?
-            "/result" : `${parseInt(index, 10) + 1}`;
+            "/form" : `${parseInt(index, 10) + 1}`;
         history.push(questionsParams);
     };
 

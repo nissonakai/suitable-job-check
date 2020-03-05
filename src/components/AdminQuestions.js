@@ -9,7 +9,6 @@ import {
 import { AddDialog } from "./AddDialog";
 import { SurveySwitch } from "./SurveySwitch";
 import { AdminTable } from "./AdminTable";
-import { InputCells } from "./InputCells";
 import { TextCells } from "./TextCells";
 import { useHistory, useParams, Redirect } from "react-router-dom";
 import axios from "axios";
@@ -148,7 +147,6 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
                 })
                 .catch(err => {
                     alert("更新に失敗しました。");
-                    getQuestions();
                 });
         };
         const copyArray = changeSwitch.slice();
