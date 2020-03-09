@@ -6,7 +6,7 @@ import axios from 'axios';
 
 const useStyle = makeStyles({
     loginOuter: {
-        width: "70%",
+        width: "85%",
         margin: "3rem auto"
     },
     loginInner: {
@@ -171,7 +171,6 @@ export const UserForm = () => {
                         <Button
                             variant="outlined"
                             color="primary"
-                            style={{ textTransform: "none" }}
                             className={classes.mb} onClick={() => sendData(sendElements)}
                             >結果を見る！</Button>
                     </Grid>

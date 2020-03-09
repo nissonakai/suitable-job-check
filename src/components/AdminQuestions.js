@@ -201,7 +201,6 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
             text.blue
         ];
 
-    
         return (
             <TableRow key={text.id}>
                 {changeSwitch[index] ? (
