@@ -20,14 +20,14 @@ export const Result = ({answers, resetAnswers}) => {
     const resetAndBacktoHome = () => {
         resetAnswers();
         history.push("/");
-    }
+    };
 
     const answerList = answers.map(answer => {
-        return <li key={answer.body}>{answer.body}</li>
+        return <p key={answer.title}>{answer.title} :{answer.value}</p>
     });
 
     const answersCount = answers.filter(answer => {
-        return answer.index === 0;
+        return answer.value > 50;
     });
 
     const computedElement = count => {
@@ -45,9 +45,9 @@ export const Result = ({answers, resetAnswers}) => {
             return {
                 type: "C",
                 img: imageTypeC
-            }
-        }
-    }
+            };
+        };
+    };
 
     const computedAnswer = count => {
         const type = computedElement(count);

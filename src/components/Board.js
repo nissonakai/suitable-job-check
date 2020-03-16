@@ -1,13 +1,10 @@
-import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import image1 from "../images/image1.png";
-import image2 from "../images/image2.png";
+import React, { useState } from "react";
+import { makeStyles, withStyles } from "@material-ui/core/styles";
 import {
-    Card,
-    CardActionArea,
-    CardContent,
-    CardMedia,
-    Typography
+    Typography,
+    Slider,
+    Grid,
+    Button
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
@@ -16,45 +13,88 @@ const useStyles = makeStyles({
         margin: "0 auto"
     },
     cardBox: {
-        display: "flex"
+        display: "flex",
+        maxWidth: 600,
+        margin: "0 auto"
     },
 });
 
+const PrettoSlider = withStyles({
+    root: {
+      color: '#52af77',
+      height: 8,
+    },
+    thumb: {
+      height: 24,
+      width: 24,
+      backgroundColor: '#fff',
+      border: '2px solid currentColor',
+      marginTop: -8,
+      marginLeft: -12,
+      '&:focus,&:hover,&$active': {
+        boxShadow: 'inherit',
+      },
+    },
+    active: {},
+    valueLabel: {
+      left: 'calc(-50% + 4px)',
+    },
+    track: {
+      height: 8,
+      borderRadius: 4,
+    },
+    rail: {
+      height: 8,
+      borderRadius: 4,
+    },
+  })(Slider);
+
 export const Board = ({ texts, doAnswer, index }) => {
     const classes = useStyles();
-    const titles = [texts[index].red, texts[index].blue];
-    const colors = ["primary", "secondary"];
-    const images = [image1, image2];
-    const cards = titles.map((title, index) => {
-        const answer = { 
-            index: index,
-            body: title
-        };
-        return (
-            <Card className={classes.card} key={title}>
-                    <CardActionArea onClick={() => doAnswer(answer)}>
-                        <CardMedia
-                            component="img"
-                            alt="select1 image"
-                            height="150"
-                            image={images[index]}
-                            title="title1"
-                        />
-                        <CardContent>
-                            <Typography gutterBottom component="p" color={colors[index]}>
-                                {title}
-                            </Typography>
-                        </CardContent>
-                    </CardActionArea>
-                </Card>
-        );
-    });
+
+    const [ qValue, setQValue ] = useState(20);
+
+    let answerObj = {
+        title: texts[index].title,
+        value: qValue
+    };
+
+    const handleChange = e => {
+        const targetValue = e.target.getAttribute('aria-valuenow');
+        setQValue(targetValue);
+    };
+
     return (
         <div>
             <h1>{texts[index].title}</h1>
             <div className={classes.cardBox}>
-                {cards}
+            <Grid container>
+                <Grid item>
+                    <Typography
+                        gutterBottom
+                        component="p"
+                    >あまり当てはまらない
+                    </Typography>
+                </Grid>
+                <Grid item xs>
+                    <PrettoSlider
+                        valueLabelDisplay="auto"
+                        aria-label="pretto slider"
+                        aria-valuenow={qValue}
+                        defaultValue={20}
+                        onChange={e => handleChange(e)}
+                    />
+                </Grid>
+                <Grid item>
+                    <Typography
+                        gutterBottom
+                        component="p"
+                    >とても当てはまる
+                    </Typography>
+                </Grid>
+            </Grid>
             </div>
+            <Button onClick={() => doAnswer(answerObj)}>次へ</Button>
         </div>
 
     )

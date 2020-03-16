@@ -2,11 +2,13 @@ import React from 'react';
 
 export const Current = ({answers}) => {
     const answerList = answers.map(answer => {
-        return <li key={answer.body}>{answer.body}</li>
+        return (
+            <p key={answer.title}>{answer.title} :{answer.value}</p>
+        );
     });
     return (
-        <ul>
+        <div>
             {answerList}
-        </ul>
+        </div>
     )
 };

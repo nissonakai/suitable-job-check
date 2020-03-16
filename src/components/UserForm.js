@@ -57,20 +57,24 @@ export const UserForm = () => {
         "400万円以上"
     ];
 
-    const handleChangeEmail = e => {
-        setSendElements({...sendElements, email: e.target.value});
-    };
-    const handleChangeAge = e => {
-        setSendElements({...sendElements, age: e.target.value});
-    };
-    const handleChangeSex = e => {
-        setSendElements({...sendElements, sex: e.target.value});
-    };
-    const handleChangeJob = e => {
-        setSendElements({...sendElements, job: e.target.value});
-    };
-    const handleChangeWage = e => {
-        setSendElements({...sendElements, wage: e.target.value});
+    // const handleChangeEmail = e => {
+    //     setSendElements({...sendElements, email: e.target.value});
+    // };
+    // const handleChangeAge = e => {
+    //     setSendElements({...sendElements, age: e.target.value});
+    // };
+    // const handleChangeSex = e => {
+    //     setSendElements({...sendElements, sex: e.target.value});
+    // };
+    // const handleChangeJob = e => {
+    //     setSendElements({...sendElements, job: e.target.value});
+    // };
+    // const handleChangeWage = e => {
+    //     setSendElements({...sendElements, wage: e.target.value});
+    // };
+
+    const handleChange = e => {
+        setSendElements({...sendElements, [e.target.id]: e.target.value})
     };
 
     const sendData = datas => {
@@ -98,7 +102,7 @@ export const UserForm = () => {
                                 label="年齢"
                                 type="number"
                                 value={sendElements.age}
-                                onChange={e => handleChangeAge(e)}
+                                onChange={e => handleChange(e)}
                                 fullWidth
                                 autoFocus
                                 required
@@ -111,7 +115,7 @@ export const UserForm = () => {
                                 label="性別"
                                 type="number"
                                 value={sendElements.sex}
-                                onChange={e => handleChangeSex(e)}
+                                onChange={e => handleChange(e)}
                                 fullWidth
                                 required
                             >
@@ -130,7 +134,7 @@ export const UserForm = () => {
                                 label="職業（任意）"
                                 type="text"
                                 value={sendElements.job}
-                                onChange={e => handleChangeJob(e)}
+                                onChange={e => handleChange(e)}
                                 fullWidth
                                 helperText="現職または直近のご職業をお答えください"
                             />
@@ -142,7 +146,7 @@ export const UserForm = () => {
                                 label="年収（任意）"
                                 type="text"
                                 value={sendElements.wage}
-                                onChange={e => handleChangeWage(e)}
+                                onChange={e => handleChange(e)}
                                 fullWidth
                                 helperText="現職または直近の年収をお答え下さい"
                             >
@@ -161,7 +165,7 @@ export const UserForm = () => {
                                 label="メールアドレス"
                                 type="email"
                                 value={sendElements.email}
-                                onChange={e => handleChangeEmail(e)}
+                                onChange={e => handleChange(e)}
                                 fullWidth
                                 helperText="メールをご登録していただくと、今回の結果を基に厳選したお仕事をメールにてご紹介いたします。"
                             />

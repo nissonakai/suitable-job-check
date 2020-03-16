@@ -13,8 +13,9 @@ export const Questions = ({ texts, answers, setAnswers }) => {
         const answerArr = answers.slice();
         answerArr[questionIndex] = answer;
         setAnswers(answerArr);
+        console.log(answers);
         const questionsParams = texts.length <= index ?
-            "/form" : `${parseInt(index, 10) + 1}`;
+            "/result" : `${parseInt(index, 10) + 1}`;
         history.push(questionsParams);
     };
 
