@@ -13,7 +13,6 @@ const useStyles = makeStyles({
         margin: "0 auto"
     },
     cardBox: {
-        display: "flex",
         maxWidth: 600,
         margin: "0 auto"
     },
@@ -69,11 +68,11 @@ export const Board = ({ texts, doAnswer, index }) => {
             <h1>{texts[index].title}</h1>
             <div className={classes.cardBox}>
             <Grid container>
-                <Grid item>
+                <Grid item xs>
                     <Typography
                         gutterBottom
                         component="p"
-                    >あまり当てはまらない
+                    >当てはまらない
                     </Typography>
                 </Grid>
                 <Grid item xs>
@@ -85,11 +84,11 @@ export const Board = ({ texts, doAnswer, index }) => {
                         onChange={e => handleChange(e)}
                     />
                 </Grid>
-                <Grid item>
+                <Grid item xs>
                     <Typography
                         gutterBottom
                         component="p"
-                    >とても当てはまる
+                    >当てはまる
                     </Typography>
                 </Grid>
             </Grid>
