@@ -8,12 +8,8 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
-    card: {
-        maxWidth: 600,
-        margin: "0 auto"
-    },
-    cardBox: {
-        maxWidth: 600,
+    sliderBox: {
+        maxWidth: 400,
         margin: "0 auto"
     },
 });
@@ -66,15 +62,8 @@ export const Board = ({ texts, doAnswer, index }) => {
     return (
         <div>
             <h1>{texts[index].title}</h1>
-            <div className={classes.cardBox}>
+            <div className={classes.sliderBox}>
             <Grid container>
-                <Grid item xs>
-                    <Typography
-                        gutterBottom
-                        component="p"
-                    >当てはまらない
-                    </Typography>
-                </Grid>
                 <Grid item xs>
                     <PrettoSlider
                         valueLabelDisplay="auto"
@@ -84,8 +73,17 @@ export const Board = ({ texts, doAnswer, index }) => {
                         onChange={e => handleChange(e)}
                     />
                 </Grid>
-                <Grid item xs>
-                    <Typography
+            </Grid>
+            <Grid container justify="space-between">
+                <Grid item>
+                <Typography
+                        gutterBottom
+                        component="p"
+                    >当てはまらない
+                    </Typography>
+                </Grid>
+                <Grid item>
+                <Typography
                         gutterBottom
                         component="p"
                     >当てはまる
@@ -93,7 +91,9 @@ export const Board = ({ texts, doAnswer, index }) => {
                 </Grid>
             </Grid>
             </div>
-            <Button onClick={() => doAnswer(answerObj)}>次へ</Button>
+            <Button
+                variant="contained" 
+                onClick={() => doAnswer(answerObj)}>次へ</Button>
         </div>
 
     )
