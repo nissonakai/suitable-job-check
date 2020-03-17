@@ -74,7 +74,9 @@ export const UserForm = () => {
     // };
 
     const handleChange = e => {
-        setSendElements({...sendElements, [e.target.id]: e.target.value})
+        console.log(`${e.target.value} : value`);
+        console.log(`${e.target.name} : name`)
+        setSendElements({...sendElements, [e.target.name]: e.target.value});
     };
 
     const sendData = datas => {
@@ -98,7 +100,7 @@ export const UserForm = () => {
                     <Grid container spacing={4} alignItems="flex-end">
                         <Grid item md={true} sm={true} xs={true}>
                             <TextField
-                                id="age"
+                                name="age"
                                 label="年齢"
                                 type="number"
                                 value={sendElements.age}
@@ -110,7 +112,7 @@ export const UserForm = () => {
                         </Grid>
                         <Grid item md={true} sm={true} xs={true}>
                             <TextField
-                                id="sex"
+                                name="sex"
                                 select
                                 label="性別"
                                 type="number"
@@ -130,7 +132,7 @@ export const UserForm = () => {
                     <Grid container spacing={4} alignItems="flex-end">
                         <Grid item md={true} sm={true} xs={true}>
                             <TextField
-                                id="job"
+                                name="job"
                                 label="職業（任意）"
                                 type="text"
                                 value={sendElements.job}
@@ -141,7 +143,7 @@ export const UserForm = () => {
                         </Grid>
                         <Grid item md={true} sm={true} xs={true}>
                             <TextField
-                                id="wage"
+                                name="wage"
                                 select
                                 label="年収（任意）"
                                 type="text"
@@ -161,7 +163,7 @@ export const UserForm = () => {
                     <Grid container spacing={8} alignItems="flex-end">
                         <Grid item md={true} sm={true} xs={true} className={classes.mb} >
                             <TextField
-                                id="email"
+                                name="email"
                                 label="メールアドレス"
                                 type="email"
                                 value={sendElements.email}
