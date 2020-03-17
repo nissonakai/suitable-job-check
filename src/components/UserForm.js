@@ -74,8 +74,6 @@ export const UserForm = () => {
     // };
 
     const handleChange = e => {
-        console.log(`${e.target.value} : value`);
-        console.log(`${e.target.name} : name`)
         setSendElements({...sendElements, [e.target.name]: e.target.value});
     };
 
