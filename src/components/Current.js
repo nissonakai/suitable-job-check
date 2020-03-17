@@ -1,14 +1,9 @@
 import React from 'react';
 
-export const Current = ({answers}) => {
-    const answerList = answers.map(answer => {
-        return (
-            <p key={answer.title}>{answer.title} :{answer.value}</p>
-        );
-    });
+export const Current = ({texts, index}) => {
     return (
         <div>
-            {answerList}
+            <p>{texts.length}問中{index}問目</p>
         </div>
     )
 };

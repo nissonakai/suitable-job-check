@@ -57,22 +57,6 @@ export const UserForm = () => {
         "400万円以上"
     ];
 
-    // const handleChangeEmail = e => {
-    //     setSendElements({...sendElements, email: e.target.value});
-    // };
-    // const handleChangeAge = e => {
-    //     setSendElements({...sendElements, age: e.target.value});
-    // };
-    // const handleChangeSex = e => {
-    //     setSendElements({...sendElements, sex: e.target.value});
-    // };
-    // const handleChangeJob = e => {
-    //     setSendElements({...sendElements, job: e.target.value});
-    // };
-    // const handleChangeWage = e => {
-    //     setSendElements({...sendElements, wage: e.target.value});
-    // };
-
     const handleChange = e => {
         setSendElements({...sendElements, [e.target.name]: e.target.value});
     };

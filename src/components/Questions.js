@@ -10,6 +10,9 @@ export const Questions = ({ texts, answers, setAnswers }) => {
     let questionIndex = index - 1;
 
     const doAnswer = answer => {
+        if (answer.value === null) {
+            return
+        };
         const answerArr = answers.slice();
         answerArr[questionIndex] = answer;
         setAnswers(answerArr);
@@ -21,7 +24,7 @@ export const Questions = ({ texts, answers, setAnswers }) => {
     return (
         <div className="App">
             <Board texts={texts} doAnswer={doAnswer} index={questionIndex} />
-            <Current answers={answers} />
+            <Current texts={texts} index={index} />
         </div>
     );
 }
