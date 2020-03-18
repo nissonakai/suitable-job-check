@@ -5,6 +5,8 @@ import {
     TableCell,
     TableRow,
     Typography,
+    TextField,
+    MenuItem
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
 import { SurveySwitch } from "./SurveySwitch";
@@ -104,8 +106,7 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
                     setOpen(false);
                     setNewContent({
                         title: "",
-                        red: "",
-                        blue: "",
+                        category: 0,
                         survey_id: questionIndex
                     });
                 } else {
@@ -118,27 +119,14 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
             });
     }
 
-    const handleChange_title = e => {
-        setNewContent({...newContent, title: e.target.value});
+    const handleChange = e => {
+        setNewContent({...newContent, [e.target.name]: e.target.value});
     };
-    const handleChange_red = e => {
-        setNewContent({...newContent, red: e.target.value});
-    };
-    const handleChange_blue = e => {
-        setNewContent({...newContent, blue: e.target.value});
-    };
-
-    const handleChangeModule = {
-        handleChange_title: handleChange_title,
-        handleChange_red: handleChange_red,
-        handleChange_blue: handleChange_blue
-    };
-
     
     const clickUpdateSwitch = (index, text) => {
         if (changeSwitch[index]) {
             const textId = text.id;
-            const updateJSON = {"title": text.title, "red": text.red, "blue": text.blue, "survey_id": questionIndex };
+            const updateJSON = {"title": text.title, "category": text.category, "survey_id": questionIndex };
             axios
                 .patch(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, updateJSON)
                 .then(res => {
@@ -180,34 +168,85 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         };
     };
 
+    const categories = [
+        {
+            value: 0,
+            label: "収入"
+        },
+        {
+            value: 1,
+            label: "安定"
+        },
+        {
+            value: 2,
+            label: "ライフスタイル"
+        },
+        {
+            value: 3,
+            label: "環境"
+        }
+    ];
+
     const dialogAtrr = {
         clickAddSwitch: clickAddSwitch,
         newContent: newContent,
         modalModule: modalModule,
-        handleChangeModule: handleChangeModule
+        handleChange: handleChange,
+        categories: categories
     };
 
-    
     const textList = targetTexts.map((text, index) => {
         const textsCopy = targetTexts.slice();
-        const handleChange = e => {
+        const handleChangetext = e => {
             textsCopy[index][e.target.name] = e.target.value;
             setTargetTexts(textsCopy);
         };
 
+        const computedCategory = num => {
+            const targetCategory = categories.find(category => {
+                return category.value === num;
+            });
+            return targetCategory.label;
+        };
+
+
         const textData = [
             text.title,
-            text.red,
-            text.blue
+            computedCategory(text.category)
         ];
 
         return (
             <TableRow key={text.id}>
                 {changeSwitch[index] ? (
                     <>
-                    <TableCell><input name="title" placeholder="タイトル" value={text.title} onChange={e => handleChange(e)} /></TableCell>
-                    <TableCell><input name="red" placeholder="選択肢1" value={text.red} onChange={e => handleChange(e)} /></TableCell>
-                    <TableCell><input name="blue" placeholder="選択肢2" value={text.blue} onChange={e => handleChange(e)} /></TableCell>
+                    <TableCell>
+                        <TextField
+                            name="title"
+                            label="タイトル"
+                            type="text"
+                            value={text.title}
+                            onChange={e => handleChangetext(e)}
+                            fullWidth
+                        />
+                    </TableCell>
+                    <TableCell>
+                        <TextField
+                            name="category"
+                            select
+                            label="カテゴリ"
+                            type="number"
+                            value={text.category}
+                            onChange={e => handleChangetext(e)}
+                            fullWidth
+                            required
+                        >
+                            {categories.map(category => (
+                                <MenuItem key={category.value} value={category.value}>
+                                    {category.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
+                    </TableCell>
                     </>
                 ) : (
                     <TextCells datas={textData} />
@@ -233,7 +272,7 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         <>
             <Typography variant="h3">{`${targetSurveyName}編集画面`}</Typography>
             <SurveySwitch selected={selected} setSelected={setSelected} />
-            <AdminTable dataList={textList} headList={["設問", "選択肢1", "選択肢2", ""]} />
+            <AdminTable dataList={textList} headList={["設問", "カテゴリ", ""]} />
             <AddDialog {...dialogAtrr} />
             <div className={classes.mt}>
             <Button

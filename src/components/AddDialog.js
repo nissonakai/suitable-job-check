@@ -2,6 +2,7 @@ import React from "react";
 import {
     Dialog,
     TextField,
+    MenuItem,
     DialogActions,
     DialogContent,
     DialogTitle,
@@ -15,11 +16,12 @@ import {
 export const AddDialog = ({
     clickAddSwitch, 
     newContent,
-    handleChangeModule,
-    modalModule
+    editSurvey,
+    handleChange,
+    modalModule,
+    categories
 }) => {
     const { open, handleClickOpen, handleClose } = modalModule;
-    const { handleChange_blue, handleChange_red, handleChange_title, handleChange_name } = handleChangeModule;
 
     return (
         <>
@@ -29,44 +31,42 @@ export const AddDialog = ({
             <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
                 <DialogTitle id="form-dialog-title">新規追加</DialogTitle>
                 <DialogContent>
-                    {handleChange_name && (
+                    {editSurvey ? (
                         <TextField
                         autoFocus
                         margin="dense"
-                        id="name"
+                        name="name"
                         label="タイトル"
                         type="text"
                         value={newContent.name}
-                        onChange={e => handleChange_name(e)}
+                        onChange={e => handleChange(e)}
                     />
-                    )}
-                    {!handleChange_name && (
+                    ) : (
                     <>
                     <TextField
                         autoFocus
                         margin="dense"
-                        id="title"
+                        name="title"
                         label="設問"
                         type="text"
                         value={newContent.title}
-                        onChange={e => handleChange_title(e)}
+                        onChange={e => handleChange(e)}
                     />
                     <TextField
-                        margin="dense"
-                        id="red"
-                        label="選択肢1"
-                        type="text"
-                        value={newContent.red}
-                        onChange={e => handleChange_red(e)}
-                    />
-                    <TextField
-                        margin="dense"
-                        id="blue"
-                        label="選択肢2"
-                        type="text"
-                        value={newContent.blue}
-                        onChange={e => handleChange_blue(e)}
-                    />
+                        name="category"
+                        select
+                        label="カテゴリ"
+                        type="number"
+                        value={newContent.category}
+                        onChange={e => handleChange(e)}
+                        fullWidth
+                    >
+                        {categories.map(category => (
+                            <MenuItem key={category.value} value={category.value}>
+                                {category.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                     </>
                     )}
                     

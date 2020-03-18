@@ -77,13 +77,11 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             });
     }
 
-    const handleChange_name = e => {
-        setNewContent({...newContent, name: e.target.value});
+    const handleChange = e => {
+        setNewContent({...newContent, [e.target.name]: e.target.value});
     };
 
-    const handleChangeModule = {
-        handleChange_name: handleChange_name,
-    };
+    const editSurvey = true;
     
     const clickDeleteSwitch = survey => {
         const surveyId = survey.id;
@@ -109,7 +107,8 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         clickAddSwitch: clickAddSwitch,
         newContent: newContent,
         modalModule: modalModule,
-        handleChangeModule: handleChangeModule
+        editSurvey: editSurvey,
+        handleChange: handleChange
     };
 
     
