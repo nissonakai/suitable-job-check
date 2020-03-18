@@ -64,6 +64,7 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
                     });
             obj.key = computedCategory(num);
             obj.value = parseInt(targetValue, 10) / targetBaseValue * 100;
+            obj.fullMark = 100;
         };
         return obj;
     };
