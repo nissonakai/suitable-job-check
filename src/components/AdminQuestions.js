@@ -184,6 +184,10 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         {
             value: 3,
             label: "環境"
+        },
+        {
+            value: 4,
+            label: "診断外"
         }
     ];
 
