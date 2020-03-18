@@ -57,6 +57,7 @@ export const UserForm = () => {
         "400万円以上"
     ];
 
+
     const handleChange = e => {
         setSendElements({...sendElements, [e.target.name]: e.target.value});
     };
@@ -73,6 +74,14 @@ export const UserForm = () => {
             });
     };
 
+    const emailRegexp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
+
+    const canSubmit = () => {
+        const validAge = sendElements.age !== "";
+        const validSex = sendElements.sex !== "";
+        const validEmail = emailRegexp.test(sendElements.email);
+        return validAge && validSex && validEmail;
+    };
 
     return (
         <>
@@ -152,6 +161,7 @@ export const UserForm = () => {
                                 onChange={e => handleChange(e)}
                                 fullWidth
                                 helperText="メールをご登録していただくと、今回の結果を基に厳選したお仕事をメールにてご紹介いたします。"
+                                required
                             />
                         </Grid>
                     </Grid>
@@ -159,6 +169,7 @@ export const UserForm = () => {
                         <Button
                             variant="outlined"
                             color="primary"
+                            disabled={!canSubmit()}
                             className={classes.mb} onClick={() => sendData(sendElements)}
                             >結果を見る！</Button>
                     </Grid>
