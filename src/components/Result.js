@@ -101,8 +101,8 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
             {computedAnswer(answersCount)}
             <p>グラフ</p>
             <RadarChart
-                height={400}
-                width={500}
+                height={200}
+                width={250}
                 cx="50%"
                 cy="50%"
                 data={computedDataRader}
