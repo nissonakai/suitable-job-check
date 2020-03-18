@@ -26,7 +26,14 @@ const useStyles = makeStyles({
     }
   });
 
-export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
+export const AdminQuestions = ({
+    texts,
+    surveys,
+    getQuestions,
+    auth,
+    categories,
+    computedCategory
+}) => {
 
     const authenticated = auth.isAuthenticated();
     const classes = useStyles();
@@ -168,28 +175,6 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
         };
     };
 
-    const categories = [
-        {
-            value: 0,
-            label: "収入"
-        },
-        {
-            value: 1,
-            label: "安定"
-        },
-        {
-            value: 2,
-            label: "ライフスタイル"
-        },
-        {
-            value: 3,
-            label: "環境"
-        },
-        {
-            value: 4,
-            label: "診断外"
-        }
-    ];
 
     const dialogAtrr = {
         clickAddSwitch: clickAddSwitch,
@@ -206,12 +191,7 @@ export const AdminQuestions = ({texts, surveys, getQuestions, auth}) => {
             setTargetTexts(textsCopy);
         };
 
-        const computedCategory = num => {
-            const targetCategory = categories.find(category => {
-                return category.value === num;
-            });
-            return targetCategory.label;
-        };
+        
 
 
         const textData = [

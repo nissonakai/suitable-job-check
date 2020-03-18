@@ -47,10 +47,11 @@ const PrettoSlider = withStyles({
 export const Board = ({ texts, doAnswer, index }) => {
     const classes = useStyles();
 
-    const [ qValue, setQValue ] = useState(20);
+    const [ qValue, setQValue ] = useState("20");
 
     let answerObj = {
         title: texts[index].title,
+        category: texts[index].category,
         value: qValue
     };
 

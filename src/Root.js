@@ -60,18 +60,48 @@ export const Root = () => {
 
   const resetAnswers = () => setAnswers([]);
 
+  const categories = [
+    {
+      value: 0,
+      label: "収入"
+    },
+    {
+      value: 1,
+      label: "安定"
+    },
+    {
+      value: 2,
+      label: "ライフスタイル"
+    },
+    {
+      value: 3,
+      label: "環境"
+    },
+    {
+      value: 4,
+      label: "診断外"
+    }
+  ];
+
+  const computedCategory = num => {
+    const targetCategory = categories.find(category => {
+      return category.value === num;
+    });
+    return targetCategory.label;
+  };
+
   return (
     <Router>
       <Switch>
         <Route path="/" exact>
-          <Start 
+          <Start
             getQuestions={getQuestions}
             getSurveys={getSurveys}
           />
         </Route>
         <Route path="/callback" render={() => (
           <Callback auth={auth} />
-        )}/>
+        )} />
         <Route path="/questions/:index" exact>
           <Questions
             texts={targetDatas}
@@ -83,6 +113,8 @@ export const Root = () => {
           <Result
             answers={answers}
             resetAnswers={resetAnswers}
+            computedCategory={computedCategory}
+            categories={categories}
           />
         </Route>
         <Route path="/admin" exact>
@@ -95,6 +127,8 @@ export const Root = () => {
             texts={texts}
             getQuestions={getQuestions}
             surveys={surveys}
+            categories={categories}
+            computedCategory={computedCategory}
             auth={auth}
           />
         </Route>
