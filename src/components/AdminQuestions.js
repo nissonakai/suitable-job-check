@@ -6,7 +6,8 @@ import {
     TableRow,
     Typography,
     TextField,
-    MenuItem
+    MenuItem,
+    Container
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
 import { SurveySwitch } from "./SurveySwitch";
@@ -258,7 +259,7 @@ export const AdminQuestions = ({
                 <SurveySwitch selected={selected} setSelected={setSelected} />
                 <AdminTable dataList={textList} headList={["設問", "カテゴリ", ""]} />
                 <AddDialog {...dialogAtrr} />
-                <div className={classes.mt}>
+                <Container className={classes.mt}>
                     <Button
                         variant="contained"
                         color="primary"
@@ -271,7 +272,7 @@ export const AdminQuestions = ({
                         onClick={() => history.push('/admin/surveys')}>
                         調査一覧
             </Button>
-                </div>
+                </Container>
             </>
         ) : (
                 <Redirect to={'/admin'} />

@@ -4,13 +4,13 @@ import {
     Typography,
     Slider,
     Grid,
-    Button
+    Button,
+    Container
 } from "@material-ui/core";
 
 const useStyles = makeStyles({
     sliderBox: {
         maxWidth: 400,
-        margin: "0 auto"
     },
 });
 
@@ -61,11 +61,11 @@ export const Board = ({ texts, doAnswer, index }) => {
     };
 
     return (
-        <div>
+        <Container>
             <Typography variant="h4" component="h1" gutterBottom>
                 {texts[index].title}
             </Typography>
-            <div className={classes.sliderBox}>
+            <Container className={classes.sliderBox}>
             <Grid container>
                 <Grid item xs>
                     <PrettoSlider
@@ -93,11 +93,11 @@ export const Board = ({ texts, doAnswer, index }) => {
                     </Typography>
                 </Grid>
             </Grid>
-            </div>
+            </Container>
             <Button
                 variant="contained" 
                 onClick={() => doAnswer(answerObj)}>次へ</Button>
-        </div>
+        </Container>
 
     )
 };

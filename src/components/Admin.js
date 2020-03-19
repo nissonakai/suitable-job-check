@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, Container } from "@material-ui/core";
 
 export const Admin = ({auth}) => {
     const authenticated = auth.isAuthenticated();
     if (!authenticated) {
         return (
-            <div>
+            <Container>
                 <Typography variant="h4" component="h1" gutterBottom>
                     ログイン画面
                 </Typography>
@@ -13,7 +13,7 @@ export const Admin = ({auth}) => {
                 variant="contained"
                 color="primary"
                 onClick={() => auth.login()}>ログインする</Button>
-            </div>
+            </Container>
             
         )
     };

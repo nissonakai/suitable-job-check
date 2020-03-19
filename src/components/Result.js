@@ -1,7 +1,8 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { Button, Typography, Container } from "@material-ui/core";
+import Image from 'material-ui-image'
 import imageTypeA from "../images/typeA.png";
 import imageTypeB from "../images/typeB.png";
 import imageTypeC from "../images/typeC.png";
@@ -9,9 +10,8 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip } from "recharts"
 
 const useStyles = makeStyles({
     typeImage: {
-        width: "10%",
-        minWidth: 200,
-        margin: "0 auto"
+        margin: "0 auto",
+        maxWidth: "200px"
     },
     graphPosition: {
         margin: "0 auto"
@@ -83,11 +83,18 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
     const computedAnswer = count => {
         const type = computedElement(count);
         return (
-            <>
-                <h2>{`タイプ${type.type}！`}</h2>
-                <img src={type.img} alt={`タイプ${type.type}のイメージ`} className={classes.typeImage} />
-                <p>{`タイプ${type.type}なお仕事がおススメ！`}</p>
-            </>
+            <Container>
+                <Typography variant="h5" component="h2">
+                    {`タイプ${type.type}！`}
+                </Typography>
+                <Image
+                    src={type.img}
+                    alt={`タイプ${type.type}のイメージ`}
+                />
+                <Typography variant="p">
+                    {`タイプ${type.type}なお仕事がおススメ！`}
+                </Typography>
+            </Container>
         )
     };
 
@@ -99,9 +106,13 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
 
     return (
         <>
-            <h1>あなたは…</h1>
+            <Typography variant="h4" component="h1">
+                    あなたは…
+            </Typography>
             {computedAnswer(answersCount)}
-            <p>グラフ</p>
+            <Typography variant="p">
+                グラフ
+            </Typography>
             <RadarChart
                 height={200}
                 width={250}
@@ -123,7 +134,9 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
                 />
                 <Tooltip />
             </RadarChart>
-            <Button variant="contained" onClick={() => resetAndBacktoHome()}>トップに戻る</Button>
+            <Button variant="contained" onClick={() => resetAndBacktoHome()}>
+                トップに戻る
+            </Button>
         </>
 
     )

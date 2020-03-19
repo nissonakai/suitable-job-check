@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button } from '@material-ui/core';
+import { Button, Container, Typography } from '@material-ui/core';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 
@@ -33,9 +33,11 @@ export const SurveySwitch = ({selected, setSelected}) => {
 
 
   return (
-    <div className={classes.mt}>
+    <Container className={classes.mt}>
         {selected ? (
-            <p>適用中</p>
+            <Typography variant="p">
+                適用中
+            </Typography>
         ):(
             <Button
                 variant="contained"
@@ -43,6 +45,6 @@ export const SurveySwitch = ({selected, setSelected}) => {
                 onClick={() => updateSelected()}
             >適用する</ Button>
         )}
-    </div>
+    </Container>
   );
 }

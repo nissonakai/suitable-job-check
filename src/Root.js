@@ -5,6 +5,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import { Container } from '@material-ui/core';
 import Auth from './Auth';
 import Callback from "./callback/Callback";
 import { Questions } from "./components/Questions";
@@ -95,60 +96,62 @@ export const Root = () => {
 
   return (
     <MuiThemeProvider theme={theme} >
-      <Router>
-        <Switch>
-          <Route path="/" exact>
-            <Start
-              getQuestions={getQuestions}
-              getSurveys={getSurveys}
-            />
-          </Route>
-          <Route path="/callback" render={() => (
-            <Callback auth={auth} />
-          )} />
-          <Route path="/questions/:index" exact>
-            <Questions
-              texts={targetDatas}
-              answers={answers}
-              setAnswers={setAnswers}
-            />
-          </Route>
-          <Route path="/result" exact>
-            <Result
-              answers={answers}
-              resetAnswers={resetAnswers}
-              computedCategory={computedCategory}
-              categories={categories}
-            />
-          </Route>
-          <Route path="/admin" exact>
-            <Admin
-              auth={auth}
-            />
-          </Route>
-          <Route path="/admin/questions/:questionIndex" exact>
-            <AdminQuestions
-              texts={texts}
-              getQuestions={getQuestions}
-              surveys={surveys}
-              categories={categories}
-              computedCategory={computedCategory}
-              auth={auth}
-            />
-          </Route>
-          <Route path="/admin/surveys" exact>
-            <AdminSurveys
-              surveys={surveys}
-              setSurveys={setSurveys}
-              auth={auth}
-            />
-          </Route>
-          <Route path="/form" exact>
-            <UserForm
-            />
-          </Route>
-        </Switch>
-      </Router>
+      <Container>
+        <Router>
+          <Switch>
+            <Route path="/" exact>
+              <Start
+                getQuestions={getQuestions}
+                getSurveys={getSurveys}
+              />
+            </Route>
+            <Route path="/callback" render={() => (
+              <Callback auth={auth} />
+            )} />
+            <Route path="/questions/:index" exact>
+              <Questions
+                texts={targetDatas}
+                answers={answers}
+                setAnswers={setAnswers}
+              />
+            </Route>
+            <Route path="/result" exact>
+              <Result
+                answers={answers}
+                resetAnswers={resetAnswers}
+                computedCategory={computedCategory}
+                categories={categories}
+              />
+            </Route>
+            <Route path="/admin" exact>
+              <Admin
+                auth={auth}
+              />
+            </Route>
+            <Route path="/admin/questions/:questionIndex" exact>
+              <AdminQuestions
+                texts={texts}
+                getQuestions={getQuestions}
+                surveys={surveys}
+                categories={categories}
+                computedCategory={computedCategory}
+                auth={auth}
+              />
+            </Route>
+            <Route path="/admin/surveys" exact>
+              <AdminSurveys
+                surveys={surveys}
+                setSurveys={setSurveys}
+                auth={auth}
+              />
+            </Route>
+            <Route path="/form" exact>
+              <UserForm
+              />
+            </Route>
+          </Switch>
+        </Router>
+      </Container>
     </MuiThemeProvider>
   );
 };

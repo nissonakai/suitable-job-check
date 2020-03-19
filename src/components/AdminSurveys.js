@@ -5,6 +5,7 @@ import {
     TableCell,
     TableRow,
     Typography,
+    Container
 } from "@material-ui/core";
 import { AddDialog } from "./AddDialog";
 import { AdminTable } from "./AdminTable";
@@ -153,14 +154,14 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             <Typography variant="h4" component="h1" gutterBottom>調査編集画面</Typography>
             <AdminTable dataList={surveyList} headList={["タイトル", "作成日時", ""]} />
             <AddDialog {...dialogAtrr} />
-            <div className={classes.mt}>
+            <Container className={classes.mt}>
             <Button
                 variant="contained"
                 color="primary"
                 onClick={() => history.push('/')}>
                 メイン画面へ
             </Button>
-            </div>
+            </Container>
         </>
         ):(
             <Redirect to={'/admin'} />

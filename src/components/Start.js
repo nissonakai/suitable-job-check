@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Typography, Container } from "@material-ui/core";
 
 export const Start = ({ getQuestions, getSurveys }) => {
     const history = useHistory();
@@ -12,12 +12,12 @@ export const Start = ({ getQuestions, getSurveys }) => {
     })
 
     return (
-        <div>
+        <Container>
             <Typography variant="h4" component="h1" gutterBottom>適職診断テスト</Typography>
             <Button
                 variant="contained"
                 onClick={() => startQuestions()}
             >始める</Button>
-        </div>
+        </Container>
     );
 };

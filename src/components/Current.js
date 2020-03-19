@@ -1,12 +1,12 @@
 import React from 'react';
-import { Typography } from "@material-ui/core";
+import { Typography, Container } from "@material-ui/core";
 
 export const Current = ({texts, index}) => {
     return (
-        <div>
+        <Container>
             <Typography variant="p">
                 {texts.length}問中{index}問目
             </Typography>
-        </div>
+        </Container>
     )
 };

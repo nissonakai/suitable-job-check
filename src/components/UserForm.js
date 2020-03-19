@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Paper, Grid, TextField, MenuItem, Typography } from "@material-ui/core";
+import { Button, Paper, Grid, TextField, MenuItem, Typography, Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
@@ -11,8 +11,7 @@ const useStyle = makeStyles({
     },
     loginInner: {
         width: "80%",
-        margin: "2rem auto",
-        paddingTop: ".5rem"
+        paddingTop: "1.5rem"
     },
     pb: {
         padding: "0 auto 3rem"
@@ -85,7 +84,7 @@ export const UserForm = () => {
     return (
         <>
             <Paper className={classes.loginOuter}>
-                <div className={classes.loginInner}>
+                <Container className={classes.loginInner}>
                     <Typography variant="h4" component="h1" gutterBottom>アンケート</Typography>
                     <Grid container spacing={4} alignItems="flex-end">
                         <Grid item md={true} sm={true} xs={true}>
@@ -172,7 +171,7 @@ export const UserForm = () => {
                             className={classes.mb} onClick={() => sendData(sendElements)}
                             >結果を見る！</Button>
                     </Grid>
-                </div>
+                </Container>
 
             </Paper>
         </>

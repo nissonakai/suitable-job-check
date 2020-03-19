@@ -2,6 +2,7 @@ import React from 'react';
 import { Board } from "./Board";
 import { Current } from "./Current";
 import { useHistory, useParams } from "react-router-dom";
+import { Container } from "@material-ui/core";
 
 
 export const Questions = ({ texts, answers, setAnswers }) => {
@@ -22,10 +23,10 @@ export const Questions = ({ texts, answers, setAnswers }) => {
     };
 
     return (
-        <div className="App">
+        <Container>
             <Board texts={texts} doAnswer={doAnswer} index={questionIndex} />
             <Current texts={texts} index={index} />
-        </div>
+        </Container>
     );
 }
 
