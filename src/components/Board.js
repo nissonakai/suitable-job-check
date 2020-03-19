@@ -62,7 +62,9 @@ export const Board = ({ texts, doAnswer, index }) => {
 
     return (
         <div>
-            <h1>{texts[index].title}</h1>
+            <Typography variant="h4" component="h1" gutterBottom>
+                {texts[index].title}
+            </Typography>
             <div className={classes.sliderBox}>
             <Grid container>
                 <Grid item xs>

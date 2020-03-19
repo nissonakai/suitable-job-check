@@ -121,7 +121,7 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             <TableRow key={survey.id}>
                 <TextCells datas={textData} />
                 <TableCell>
-                    <p>{survey.created_at}</p>
+                    <Typography variant="p" gutterBottom>{survey.created_at}</Typography>
                 </TableCell>
                 <TableCell>
                     <Button
@@ -150,7 +150,7 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     return (
         authenticated ? (
             <>
-            <Typography variant="h3">調査編集画面</Typography>
+            <Typography variant="h4" component="h1" gutterBottom>調査編集画面</Typography>
             <AdminTable dataList={surveyList} headList={["タイトル", "作成日時", ""]} />
             <AddDialog {...dialogAtrr} />
             <div className={classes.mt}>

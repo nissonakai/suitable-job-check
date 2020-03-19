@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 
 export const Start = ({ getQuestions, getSurveys }) => {
     const history = useHistory();
@@ -13,7 +13,7 @@ export const Start = ({ getQuestions, getSurveys }) => {
 
     return (
         <div>
-            <h1>診断テスト</h1>
+            <Typography variant="h4" component="h1" gutterBottom>適職診断テスト</Typography>
             <Button
                 variant="contained"
                 onClick={() => startQuestions()}

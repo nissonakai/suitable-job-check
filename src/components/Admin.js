@@ -1,12 +1,14 @@
 import React from 'react';
-import { Button } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 
 export const Admin = ({auth}) => {
     const authenticated = auth.isAuthenticated();
     if (!authenticated) {
         return (
             <div>
-                <h1>ログイン画面</h1>
+                <Typography variant="h4" component="h1" gutterBottom>
+                    ログイン画面
+                </Typography>
                 <Button
                 variant="contained"
                 color="primary"

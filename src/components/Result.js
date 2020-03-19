@@ -75,6 +75,7 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
                 return category.label !== "診断外";
             })
             .map(category => {
+                console.log(computedData(category.value));
                 return computedData(category.value);
             });
 

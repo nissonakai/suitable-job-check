@@ -18,13 +18,13 @@ axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded
 
 const useStyles = makeStyles({
     table: {
-      maxWidth: "80%",
-      margin: "0 auto 2em"
+        maxWidth: "80%",
+        margin: "0 auto 2em"
     },
     mt: {
         marginTop: "2em"
     }
-  });
+});
 
 export const AdminQuestions = ({
     texts,
@@ -40,7 +40,7 @@ export const AdminQuestions = ({
     const history = useHistory();
     const { questionIndex } = useParams();
     const [targetTexts, setTargetTexts] = useState([]);
-    
+
     const getTarget = () => {
         const targetArr = texts.filter(text => {
             return text.survey_id === Number(questionIndex);
@@ -63,10 +63,10 @@ export const AdminQuestions = ({
 
     const getCurrentSurvey = (async () => {
         const targetSurvey = await surveys.find(survey => {
-            return survey.id === Number(questionIndex); 
-         });
-         const currentSurvey = await targetSurvey.name;
-         return await setTargetSurveyName(currentSurvey);
+            return survey.id === Number(questionIndex);
+        });
+        const currentSurvey = await targetSurvey.name;
+        return await setTargetSurveyName(currentSurvey);
     });
 
     useEffect(() => {
@@ -74,7 +74,7 @@ export const AdminQuestions = ({
         getSelected();
         getCurrentSurvey();
     }, []);
-    
+
 
     const switchArray = Array(targetTexts.length);
     switchArray.fill(false);
@@ -127,13 +127,13 @@ export const AdminQuestions = ({
     }
 
     const handleChange = e => {
-        setNewContent({...newContent, [e.target.name]: e.target.value});
+        setNewContent({ ...newContent, [e.target.name]: e.target.value });
     };
-    
+
     const clickUpdateSwitch = (index, text) => {
         if (changeSwitch[index]) {
             const textId = text.id;
-            const updateJSON = {"title": text.title, "category": text.category, "survey_id": questionIndex };
+            const updateJSON = { "title": text.title, "category": text.category, "survey_id": questionIndex };
             axios
                 .patch(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, updateJSON)
                 .then(res => {
@@ -154,18 +154,18 @@ export const AdminQuestions = ({
         const confirmWindow = window.confirm(`${text.title}を削除してもよろしいですか？`);
         if (confirmWindow && textId) {
             axios
-            .delete(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`)
-            .then(res => {
-                const deletedTexts = targetTexts.filter(text => {
-                    return text.id !== textId;
+                .delete(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`)
+                .then(res => {
+                    const deletedTexts = targetTexts.filter(text => {
+                        return text.id !== textId;
+                    });
+                    setTargetTexts(deletedTexts);
+                    alert(`${res.data.data.title}を削除しました。`);
+                })
+                .catch(err => {
+                    alert("削除に失敗しました。");
+                    console.log(err);
                 });
-                setTargetTexts(deletedTexts);
-                alert(`${res.data.data.title}を削除しました。`);
-            })
-            .catch(err => {
-                alert("削除に失敗しました。");
-                console.log(err);
-            });
         } else if (confirmWindow) {
             const deletedTexts = targetTexts.filter(data => {
                 return data.title !== text.title;
@@ -191,7 +191,7 @@ export const AdminQuestions = ({
             setTargetTexts(textsCopy);
         };
 
-        
+
 
 
         const textData = [
@@ -203,44 +203,44 @@ export const AdminQuestions = ({
             <TableRow key={text.id}>
                 {changeSwitch[index] ? (
                     <>
-                    <TableCell>
-                        <TextField
-                            name="title"
-                            label="タイトル"
-                            type="text"
-                            value={text.title}
-                            onChange={e => handleChangetext(e)}
-                            fullWidth
-                        />
-                    </TableCell>
-                    <TableCell>
-                        <TextField
-                            name="category"
-                            select
-                            label="カテゴリ"
-                            type="number"
-                            value={text.category}
-                            onChange={e => handleChangetext(e)}
-                            fullWidth
-                            required
-                        >
-                            {categories.map(category => (
-                                <MenuItem key={category.value} value={category.value}>
-                                    {category.label}
-                                </MenuItem>
-                            ))}
-                        </TextField>
-                    </TableCell>
+                        <TableCell>
+                            <TextField
+                                name="title"
+                                label="タイトル"
+                                type="text"
+                                value={text.title}
+                                onChange={e => handleChangetext(e)}
+                                fullWidth
+                            />
+                        </TableCell>
+                        <TableCell>
+                            <TextField
+                                name="category"
+                                select
+                                label="カテゴリ"
+                                type="number"
+                                value={text.category}
+                                onChange={e => handleChangetext(e)}
+                                fullWidth
+                                required
+                            >
+                                {categories.map(category => (
+                                    <MenuItem key={category.value} value={category.value}>
+                                        {category.label}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </TableCell>
                     </>
                 ) : (
-                    <TextCells datas={textData} />
-                )}
+                        <TextCells datas={textData} />
+                    )}
                 <TableCell>
                     <Button
                         variant="contained"
                         color="primary"
                         onClick={() => clickUpdateSwitch(index, text)}
-                >{changeSwitch[index] ? "確定" : "編集"}</ Button>
+                    >{changeSwitch[index] ? "確定" : "編集"}</ Button>
                     <Button
                         variant="contained"
                         color="secondary"
@@ -253,28 +253,28 @@ export const AdminQuestions = ({
 
     return (
         authenticated ? (
-        <>
-            <Typography variant="h3">{`${targetSurveyName}編集画面`}</Typography>
-            <SurveySwitch selected={selected} setSelected={setSelected} />
-            <AdminTable dataList={textList} headList={["設問", "カテゴリ", ""]} />
-            <AddDialog {...dialogAtrr} />
-            <div className={classes.mt}>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push('/')}>
-                メイン画面へ
+            <>
+                <Typography variant="h4" component="h1" gutterBottom>{`${targetSurveyName}編集画面`}</Typography>
+                <SurveySwitch selected={selected} setSelected={setSelected} />
+                <AdminTable dataList={textList} headList={["設問", "カテゴリ", ""]} />
+                <AddDialog {...dialogAtrr} />
+                <div className={classes.mt}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => history.push('/')}>
+                        メイン画面へ
             </Button>
-            <Button
-                variant="contained"
-                color="secondary"
-                onClick={() => history.push('/admin/surveys')}>
-                    調査一覧
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => history.push('/admin/surveys')}>
+                        調査一覧
             </Button>
-            </div>
-        </>
+                </div>
+            </>
         ) : (
-            <Redirect to={'/admin'} />
-        )
+                <Redirect to={'/admin'} />
+            )
     );
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Paper, Grid, TextField, MenuItem } from "@material-ui/core";
+import { Button, Paper, Grid, TextField, MenuItem, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
@@ -86,7 +86,7 @@ export const UserForm = () => {
         <>
             <Paper className={classes.loginOuter}>
                 <div className={classes.loginInner}>
-                    <h1>アンケート</h1>
+                    <Typography variant="h4" component="h1" gutterBottom>アンケート</Typography>
                     <Grid container spacing={4} alignItems="flex-end">
                         <Grid item md={true} sm={true} xs={true}>
                             <TextField
