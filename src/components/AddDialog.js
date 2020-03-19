@@ -33,13 +33,13 @@ export const AddDialog = ({
                 <DialogContent>
                     {editSurvey ? (
                         <TextField
-                        autoFocus
-                        margin="dense"
-                        name="name"
-                        label="タイトル"
-                        type="text"
-                        value={newContent.name}
-                        onChange={e => handleChange(e)}
+                            autoFocus
+                            margin="dense"
+                            name="name"
+                            label="タイトル"
+                            type="text"
+                            value={newContent.name}
+                            onChange={e => handleChange(e)}
                     />
                     ) : (
                     <>
