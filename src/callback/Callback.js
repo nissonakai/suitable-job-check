@@ -1,16 +1,13 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { CircularProgress } from '@material-ui/core';
 
 const Callback = props => {
     props.auth.handleAuthentication().then(() => {
         props.history.push('/admin/surveys');
     });
 
-    return (
-        <div>
-            Loading user profile.
-        </div>
-    );
+    return <CircularProgress />;
 };
 
 export default withRouter(Callback);
