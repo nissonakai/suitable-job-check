@@ -1,8 +1,9 @@
 import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import { useHistory } from "react-router-dom";
-import { Button, Typography, Container } from "@material-ui/core";
+import { Button, Typography } from "@material-ui/core";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip } from "recharts";
+import { ComputedAnswer } from './ComputedAnswer';
 
 const useStyles = makeStyles({
     graphPosition: {
@@ -22,7 +23,7 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
         const obj = {};
         if (answers.length === 0) {
             history.push("/");
-            return;
+            return false;
         };
         const targetBase = answers.filter(answer => answer.category === num);
 
@@ -56,27 +57,8 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
 
     const topScoreTitles =
         computedDataRader
-            .filter(data => data.value === topScore)
+            .filter(data => data.value > topScore - 3)
             .map(data => data.key);
-
-    const computedAnswer = titles => {
-        let title = ""
-        if (titles.length === 4) {
-            title = "バランス";
-        } else {
-            title = topScoreTitles.reduce((accum, current) => accum + current);
-        }
-        return (
-            <Container>
-                <Typography variant="h5" component="h2">
-                    {`${title}重視タイプ！`}
-                </Typography>
-                <Button variant="outline">
-                    {`${title}重視タイプなあなたへのおススメ！`}
-                </Button>
-            </Container>
-        );
-    };
 
 
     if (answers.includes(undefined) || answers.length === 0) {
@@ -89,7 +71,9 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
             <Typography variant="h4" component="h1">
                 あなたは…
             </Typography>
-            {computedAnswer(topScoreTitles)}
+            <ComputedAnswer
+                topScoreTitles={topScoreTitles}
+            />
             <Typography variant="p">
                 グラフ
             </Typography>
