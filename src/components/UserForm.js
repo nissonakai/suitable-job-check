@@ -21,15 +21,25 @@ const useStyle = makeStyles({
     }
 });
 
-export const UserForm = () => {
+export const UserForm = ({ answers, computedData, categories, calcResult }) => {
     const history = useHistory();
     const classes = useStyle();
+
+    const answers_text =
+        answers
+            .map(answer => `設問: ${answer.title}, カテゴリ: ${answer.category}, 値: ${answer.value}`)
+            .reduce((accum, current) => `${accum}/${current}`);
+
+    const resultTitle = calcResult()[1];
+
     const [sendElements, setSendElements] = useState({
         email: "",
         age: "",
         sex: "",
         job: "",
-        wage: ""
+        wage: "",
+        answers: answers_text,
+        result_title: resultTitle
     });
 
     const sexs = [
@@ -48,21 +58,22 @@ export const UserForm = () => {
     ];
 
     const wages = [
-        "200万円以下", 
-        "250万円以下", 
-        "300万円以下", 
-        "350万円以下", 
-        "400万円以下", 
+        "200万円以下",
+        "250万円以下",
+        "300万円以下",
+        "350万円以下",
+        "400万円以下",
         "400万円以上"
     ];
 
 
     const handleChange = e => {
-        setSendElements({...sendElements, [e.target.name]: e.target.value});
+        setSendElements({ ...sendElements, [e.target.name]: e.target.value });
     };
 
-    const sendData = datas => {
-        axios.post(process.env.REACT_APP_SJC_SEND_RESULT, datas)
+    const sendData = data => {
+        console.log(data);
+        axios.post(process.env.REACT_APP_SJC_SEND_RESULT, data)
             .then(res => {
                 console.log(res);
                 history.push('/result');
@@ -169,12 +180,12 @@ export const UserForm = () => {
                             color="primary"
                             disabled={!canSubmit()}
                             className={classes.mb} onClick={() => sendData(sendElements)}
-                            >結果を見る！</Button>
+                        >結果を見る！</Button>
                     </Grid>
                 </Container>
 
             </Paper>
         </>
-        
+
     );
 };

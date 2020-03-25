@@ -11,7 +11,7 @@ const useStyles = makeStyles({
     }
 });
 
-export const Result = ({ answers, resetAnswers, computedCategory, categories }) => {
+export const Result = ({ answers, resetAnswers, calcResult }) => {
     const history = useHistory();
     const classes = useStyles();
     const resetAndBacktoHome = () => {
@@ -19,47 +19,8 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
         history.push("/");
     };
 
-    const computedData = num => {
-        const obj = {};
-        if (answers.length === 0) {
-            history.push("/");
-            return false;
-        };
-        const targetBase = answers.filter(answer => answer.category === num);
-
-        const targetBaseValue = targetBase.length * 100;
-
-        const targetValue =
-            targetBase
-                .map(answer => answer.value)
-                .reduce((accm, current) => {
-                    return parseInt(accm, 10) + parseInt(current, 10);
-                });
-        obj.key = computedCategory(num);
-        obj.value = parseInt(targetValue, 10) / targetBaseValue * 100;
-        obj.fullMark = 100;
-        return obj;
-    };
-
-    const computedDataRader =
-        categories
-            .filter(category => {
-                return category.label !== "診断外";
-            })
-            .map(category => {
-                return computedData(category.value);
-            });
-
-    const topScore =
-        computedDataRader
-            .map(data => data.value)
-            .reduce((accum, current) => current >= accum ? current : accum);
-
-    const topScoreTitles =
-        computedDataRader
-            .filter(data => data.value > topScore - 3)
-            .map(data => data.key);
-
+    const computedDataRader = calcResult()[0];
+    const topScoreTitles = calcResult()[2];
 
     if (answers.includes(undefined) || answers.length === 0) {
         resetAndBacktoHome();
@@ -74,9 +35,6 @@ export const Result = ({ answers, resetAnswers, computedCategory, categories }) 
             <ComputedAnswer
                 topScoreTitles={topScoreTitles}
             />
-            <Typography variant="p">
-                グラフ
-            </Typography>
             <RadarChart
                 height={200}
                 width={250}

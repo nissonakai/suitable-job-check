@@ -94,6 +94,54 @@ export const Root = () => {
     return targetCategory.label;
   };
 
+  const computedData = num => {
+    const obj = {};
+    if (answers.length === 0) {
+      return false;
+    };
+    const targetBase = answers.filter(answer => answer.category === num);
+
+    const targetBaseValue = targetBase.length * 100;
+
+    const targetValue =
+      targetBase
+        .map(answer => answer.value)
+        .reduce((accm, current) => {
+          return parseInt(accm, 10) + parseInt(current, 10);
+        });
+    obj.key = computedCategory(num);
+    obj.value = parseInt(targetValue, 10) / targetBaseValue * 100;
+    obj.fullMark = 100;
+    return obj;
+  };
+
+  const calcResult = () => {
+    const computedResult =
+        categories
+            .filter(category => {
+                return category.label !== "診断外";
+            })
+            .map(category => {
+                return computedData(category.value);
+            });
+
+    const topScore =
+        computedResult
+            .map(data => data.value)
+            .reduce((accum, current) => current >= accum ? current : accum);
+    
+    const topScoreTitles =
+        computedResult
+            .filter(data => data.value > topScore - 3)
+            .map(data => data.key);
+
+    const resultTitle = topScoreTitles.length === 4 
+        ? "バランス"
+        : topScoreTitles.reduce((accum, current) => `${accum}・${current}`);
+
+    return [computedResult, resultTitle, topScoreTitles];
+  };
+
   return (
     <MuiThemeProvider theme={theme} >
       <Container>
@@ -119,8 +167,7 @@ export const Root = () => {
               <Result
                 answers={answers}
                 resetAnswers={resetAnswers}
-                computedCategory={computedCategory}
-                categories={categories}
+                calcResult={calcResult}
               />
             </Route>
             <Route path="/admin" exact>
@@ -147,6 +194,10 @@ export const Root = () => {
             </Route>
             <Route path="/form" exact>
               <UserForm
+                answers={answers}
+                computedData={computedData}
+                categories={categories}
+                calcResult={calcResult}
               />
             </Route>
           </Switch>

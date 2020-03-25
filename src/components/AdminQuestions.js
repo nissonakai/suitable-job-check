@@ -138,8 +138,11 @@ export const AdminQuestions = ({
             axios
                 .patch(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, updateJSON)
                 .then(res => {
-                    alert(`${res.data.data.title}を更新しました。`);
-
+                    if(res.data.status === 'SUCCESS') {
+                        alert(`${res.data.data.title}を更新しました。`);
+                    } else {
+                        alert(res.data.data.title);
+                    }
                 })
                 .catch(err => {
                     alert("更新に失敗しました。");
@@ -157,11 +160,15 @@ export const AdminQuestions = ({
             axios
                 .delete(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`)
                 .then(res => {
-                    const deletedTexts = targetTexts.filter(text => {
-                        return text.id !== textId;
-                    });
-                    setTargetTexts(deletedTexts);
-                    alert(`${res.data.data.title}を削除しました。`);
+                    if(res.data.status === 'SUCCESS') {
+                        const deletedTexts = targetTexts.filter(text => {
+                            return text.id !== textId;
+                        });
+                        setTargetTexts(deletedTexts);
+                        alert(`${res.data.data.title}を削除しました。`);
+                    } else {
+                        alert(res.data.data);
+                    };
                 })
                 .catch(err => {
                     alert("削除に失敗しました。");
