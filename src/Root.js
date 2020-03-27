@@ -6,7 +6,7 @@ import {
 } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
-import Auth from './Auth';
+import { Auth } from './Auth';
 import Callback from "./callback/Callback";
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
@@ -110,7 +110,7 @@ export const Root = () => {
           return parseInt(accm, 10) + parseInt(current, 10);
         });
     obj.key = computedCategory(num);
-    obj.value = parseInt(targetValue, 10) / targetBaseValue * 100;
+    obj.value = Math.floor(parseInt(targetValue, 10) / targetBaseValue * 100);
     obj.fullMark = 100;
     return obj;
   };

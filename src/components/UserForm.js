@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { Button, Paper, Grid, TextField, MenuItem, Typography, Container } from "@material-ui/core";
+import { Button, Paper, Grid, TextField, Checkbox, FormControlLabel, MenuItem, Typography, Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 
@@ -10,7 +10,7 @@ const useStyle = makeStyles({
         margin: "3rem auto"
     },
     loginInner: {
-        width: "80%",
+        width: "95%",
         paddingTop: "1.5rem"
     },
     pb: {
@@ -38,6 +38,8 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
         sex: "",
         job: "",
         wage: "",
+        place: "",
+        dormitory: false,
         answers: answers_text,
         result_title: resultTitle
     });
@@ -66,9 +68,22 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
         "400万円以上"
     ];
 
+    const places = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
+    "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
+    "新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県",
+    "静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
+    "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県",
+    "徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県",
+    "熊本県","大分県","宮崎県","鹿児島県","沖縄県"
+];
+
 
     const handleChange = e => {
         setSendElements({ ...sendElements, [e.target.name]: e.target.value });
+    };
+
+    const handleChecked = e => {
+        setSendElements({ ...sendElements, dormitory: e.target.checked });
     };
 
     const sendData = data => {
@@ -88,8 +103,9 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
         const emailRegexp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
         const validAge = sendElements.age !== "";
         const validSex = sendElements.sex !== "";
+        const validPlace = sendElements.place !== "";
         const validEmail = emailRegexp.test(sendElements.email);
-        return validAge && validSex && validEmail;
+        return validAge && validSex && validEmail && validPlace;
     };
 
     return (
@@ -97,8 +113,8 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
             <Paper className={classes.loginOuter}>
                 <Container className={classes.loginInner}>
                     <Typography variant="h4" component="h1" gutterBottom>アンケート</Typography>
-                    <Grid container spacing={4} alignItems="flex-end">
-                        <Grid item md={true} sm={true} xs={true}>
+                    <Grid container spacing={4} >
+                        <Grid item sm={6} xs={12}>
                             <TextField
                                 name="age"
                                 label="年齢"
@@ -110,7 +126,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
                                 required
                             />
                         </Grid>
-                        <Grid item md={true} sm={true} xs={true}>
+                        <Grid item sm={6} xs={12}>
                             <TextField
                                 name="sex"
                                 select
@@ -129,8 +145,45 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
                             </TextField>
                         </Grid>
                     </Grid>
-                    <Grid container spacing={4} alignItems="flex-end">
-                        <Grid item md={true} sm={true} xs={true}>
+
+                    <Grid container spacing={4} >
+                        <Grid item sm={6} xs={12}>
+                            <TextField
+                                name="place"
+                                select
+                                label="居住地"
+                                type="text"
+                                value={sendElements.place}
+                                fullWidth
+                                onChange={e => handleChange(e)}
+                                helperText="現在の居住地をお答えください"
+                                required
+                            >
+                                {places.map(place => (
+                                    <MenuItem key={place} value={place}>
+                                        {place}
+                                    </MenuItem>
+                                ))}
+                            </TextField>
+                        </Grid>
+                        <Grid item sm={6} xs={12}>
+                        <FormControlLabel
+                            control={
+                            <Checkbox
+                                name="dormitory"
+                                checked={sendElements.dormitory}
+                                onChange={e => handleChecked(e)}
+                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                            />
+                            }
+                            label="寮付きのお仕事を希望"
+                            labelPlacement="bottom"
+                        />
+                        </Grid>
+                    </Grid>
+
+                    <Grid container spacing={4} >
+                        <Grid item sm={6} xs={12}>
                             <TextField
                                 name="job"
                                 label="職業（任意）"
@@ -141,7 +194,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
                                 helperText="現職または直近のご職業をお答えください"
                             />
                         </Grid>
-                        <Grid item md={true} sm={true} xs={true}>
+                        <Grid item sm={6} xs={12}>
                             <TextField
                                 name="wage"
                                 select
@@ -160,8 +213,9 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
                             </TextField>
                         </Grid>
                     </Grid>
-                    <Grid container spacing={8} alignItems="flex-end">
-                        <Grid item md={true} sm={true} xs={true} className={classes.mb} >
+                    
+                    <Grid container spacing={8} >
+                        <Grid item sm={6} xs={12} className={classes.mb} >
                             <TextField
                                 name="email"
                                 label="メールアドレス"

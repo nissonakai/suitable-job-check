@@ -1,6 +1,6 @@
 import auth0 from 'auth0-js';
 
-export default class Auth {
+export class Auth {
   constructor() {
     this.auth0 = new auth0.WebAuth({
       // the following three lines MUST be updated
