@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Typography } from "@material-ui/core";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip } from "recharts";
 import { ComputedAnswer } from './ComputedAnswer';
+import { RecommendJobCards } from './RecommendJobCards';
 
 const useStyles = makeStyles({
     graphPosition: {
@@ -11,16 +12,17 @@ const useStyles = makeStyles({
     }
 });
 
-export const Result = ({ answers, resetAnswers, calcResult }) => {
+export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, resetRecommendJobs }) => {
     const history = useHistory();
     const classes = useStyles();
     const resetAndBacktoHome = () => {
         resetAnswers();
+        resetRecommendJobs();
         history.push("/");
     };
 
     const computedDataRader = calcResult()[0];
-    const topScoreTitles = calcResult()[2];
+    const topScoreTitle = calcResult()[1];
 
     if (answers.includes(undefined) || answers.length === 0) {
         resetAndBacktoHome();
@@ -33,7 +35,7 @@ export const Result = ({ answers, resetAnswers, calcResult }) => {
                 あなたは…
             </Typography>
             <ComputedAnswer
-                topScoreTitles={topScoreTitles}
+                topScoreTitle={topScoreTitle}
             />
             <RadarChart
                 height={200}
@@ -55,6 +57,9 @@ export const Result = ({ answers, resetAnswers, calcResult }) => {
                 />
                 <Tooltip />
             </RadarChart>
+            <RecommendJobCards 
+                recommendJobs={recommendJobs}
+            />
             <Button variant="contained" onClick={() => resetAndBacktoHome()}>
                 トップに戻る
             </Button>

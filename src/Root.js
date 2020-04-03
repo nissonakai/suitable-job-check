@@ -27,6 +27,7 @@ export const Root = () => {
   const [texts, setTexts] = useState([]);
   const [surveys, setSurveys] = useState([]);
   const [surveyId, setSurveyId] = useState(false);
+  const [recommendJobs, setRecommendJobs] = useState([]);
 
   const getSurveys = () => {
     axios.get(process.env.REACT_APP_SJC_SURVEYS)
@@ -63,26 +64,27 @@ export const Root = () => {
   });
 
   const resetAnswers = () => setAnswers([]);
+  const resetRecommendJobs = () => setRecommendJobs([]);
 
   const categories = [
     {
-      value: 0,
+      value: 1,
       label: "収入"
     },
     {
-      value: 1,
+      value: 2,
       label: "安定"
     },
     {
-      value: 2,
+      value: 3,
       label: "ライフスタイル"
     },
     {
-      value: 3,
+      value: 4,
       label: "環境"
     },
     {
-      value: 4,
+      value: 5,
       label: "診断外"
     }
   ];
@@ -109,6 +111,7 @@ export const Root = () => {
         .reduce((accm, current) => {
           return parseInt(accm, 10) + parseInt(current, 10);
         });
+    obj.id = num;
     obj.key = computedCategory(num);
     obj.value = Math.floor(parseInt(targetValue, 10) / targetBaseValue * 100);
     obj.fullMark = 100;
@@ -119,7 +122,7 @@ export const Root = () => {
     const computedResult =
         categories
             .filter(category => {
-                return category.label !== "診断外";
+                return category.value !== 5;
             })
             .map(category => {
                 return computedData(category.value);
@@ -132,14 +135,16 @@ export const Root = () => {
     
     const topScoreTitles =
         computedResult
-            .filter(data => data.value > topScore - 3)
-            .map(data => data.key);
+            .filter(data => data.value === topScore);
 
     const resultTitle = topScoreTitles.length === 4 
         ? "バランス"
-        : topScoreTitles.reduce((accum, current) => `${accum}・${current}`);
+        : topScoreTitles
+          .map(data => data.key)
+          .reduce((accum, current) => `${accum}・${current}`);
 
-    return [computedResult, resultTitle, topScoreTitles];
+    const resultIds = topScoreTitles.map(data => data.id);
+    return [computedResult, resultTitle, resultIds];
   };
 
   return (
@@ -167,7 +172,9 @@ export const Root = () => {
               <Result
                 answers={answers}
                 resetAnswers={resetAnswers}
+                resetRecommendJobs={resetRecommendJobs}
                 calcResult={calcResult}
+                recommendJobs={recommendJobs}
               />
             </Route>
             <Route path="/admin" exact>
@@ -198,6 +205,7 @@ export const Root = () => {
                 computedData={computedData}
                 categories={categories}
                 calcResult={calcResult}
+                setRecommendJobs={setRecommendJobs}
               />
             </Route>
           </Switch>

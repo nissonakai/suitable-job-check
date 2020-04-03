@@ -21,7 +21,7 @@ const useStyle = makeStyles({
     }
 });
 
-export const UserForm = ({ answers, computedData, categories, calcResult }) => {
+export const UserForm = ({ answers, computedData, categories, calcResult, setRecommendJobs }) => {
     const history = useHistory();
     const classes = useStyle();
 
@@ -30,7 +30,9 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
             .map(answer => `設問: ${answer.title}, カテゴリ: ${answer.category}, 値: ${answer.value}`)
             .reduce((accum, current) => `${accum}/${current}`);
 
-    const resultTitle = calcResult()[1];
+    const resultIds = calcResult()[2];
+
+    const resultTitle = resultIds.length === 4 ? 0 : resultIds[Math.floor(Math.random() * resultIds.length)];
 
     const [sendElements, setSendElements] = useState({
         email: "",
@@ -38,7 +40,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
         sex: "",
         job: "",
         wage: "",
-        place: "",
+        prefecture_id: "",
         dormitory: false,
         answers: answers_text,
         result_title: resultTitle
@@ -46,15 +48,15 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
 
     const sexs = [
         {
-            value: 0,
+            value: 1,
             label: "男性"
         },
         {
-            value: 1,
+            value: 2,
             label: "女性"
         },
         {
-            value: 2,
+            value: 3,
             label: "答えない"
         }
     ];
@@ -68,13 +70,23 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
         "400万円以上"
     ];
 
-    const places = ["北海道","青森県","岩手県","宮城県","秋田県","山形県","福島県",
-    "茨城県","栃木県","群馬県","埼玉県","千葉県","東京都","神奈川県",
-    "新潟県","富山県","石川県","福井県","山梨県","長野県","岐阜県",
-    "静岡県","愛知県","三重県","滋賀県","京都府","大阪府","兵庫県",
-    "奈良県","和歌山県","鳥取県","島根県","岡山県","広島県","山口県",
-    "徳島県","香川県","愛媛県","高知県","福岡県","佐賀県","長崎県",
-    "熊本県","大分県","宮崎県","鹿児島県","沖縄県"
+    const prefectures = [
+      {id: 1, name: '北海道'}, {id: 2, name: '青森県'}, {id: 3, name: '岩手県'},
+      {id: 4, name: '宮城県'}, {id: 5, name: '秋田県'}, {id: 6, name: '山形県'},
+      {id: 7, name: '福島県'}, {id: 8, name: '茨城県'}, {id: 9, name: '栃木県'},
+      {id: 10, name: '群馬県'}, {id: 11, name: '埼玉県'}, {id: 12, name: '千葉県'},
+      {id: 13, name: '東京都'}, {id: 14, name: '神奈川県'}, {id: 15, name: '新潟県'},
+      {id: 16, name: '富山県'}, {id: 17, name: '石川県'}, {id: 18, name: '福井県'},
+      {id: 19, name: '山梨県'}, {id: 20, name: '長野県'}, {id: 21, name: '岐阜県'},
+      {id: 22, name: '静岡県'}, {id: 23, name: '愛知県'}, {id: 24, name: '三重県'},
+      {id: 25, name: '滋賀県'}, {id: 26, name: '京都府'}, {id: 27, name: '大阪府'},
+      {id: 28, name: '兵庫県'}, {id: 29, name: '奈良県'}, {id: 30, name: '和歌山県'},
+      {id: 31, name: '鳥取県'}, {id: 32, name: '島根県'}, {id: 33, name: '岡山県'},
+      {id: 34, name: '広島県'}, {id: 35, name: '山口県'}, {id: 36, name: '徳島県'},
+      {id: 37, name: '香川県'}, {id: 38, name: '愛媛県'}, {id: 39, name: '高知県'},
+      {id: 40, name: '福岡県'}, {id: 41, name: '佐賀県'}, {id: 42, name: '長崎県'},
+      {id: 43, name: '熊本県'}, {id: 44, name: '大分県'}, {id: 45, name: '宮崎県'},
+      {id: 46, name: '鹿児島県'}, {id: 47, name: '沖縄県'}
 ];
 
 
@@ -90,7 +102,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
         console.log(data);
         axios.post(process.env.REACT_APP_SJC_SEND_RESULT, data)
             .then(res => {
-                console.log(res);
+                setRecommendJobs(res.data.data);
                 history.push('/result');
             })
             .catch(err => {
@@ -103,7 +115,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
         const emailRegexp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
         const validAge = sendElements.age !== "";
         const validSex = sendElements.sex !== "";
-        const validPlace = sendElements.place !== "";
+        const validPlace = sendElements.prefecture_id !== "";
         const validEmail = emailRegexp.test(sendElements.email);
         return validAge && validSex && validEmail && validPlace;
     };
@@ -149,19 +161,19 @@ export const UserForm = ({ answers, computedData, categories, calcResult }) => {
                     <Grid container spacing={4} >
                         <Grid item sm={6} xs={12}>
                             <TextField
-                                name="place"
+                                name="prefecture_id"
                                 select
                                 label="居住地"
                                 type="text"
-                                value={sendElements.place}
+                                value={sendElements.prefecture_id}
                                 fullWidth
                                 onChange={e => handleChange(e)}
                                 helperText="現在の居住地をお答えください"
                                 required
                             >
-                                {places.map(place => (
-                                    <MenuItem key={place} value={place}>
-                                        {place}
+                                {prefectures.map(prefecture => (
+                                    <MenuItem key={prefecture.id} value={prefecture.id}>
+                                        {prefecture.name}
                                     </MenuItem>
                                 ))}
                             </TextField>
