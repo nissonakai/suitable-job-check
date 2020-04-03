@@ -1,6 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActionArea, CardMedia, CardContent, CardActions, Button, Typography, Grid, Container } from '@material-ui/core';
+import { Card, CardActionArea, CardMedia, CardContent, CardActions, Typography, Grid, Container, Link } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -59,9 +59,14 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                         </CardContent>
                     </CardActionArea>
                     <CardActions>
-                        <Button variant="outlined" color="secondary" href={job.target_link}>
+                        <Link
+                            variant="body2"
+                            target="_blank"
+                            rel="noopener"
+                            href={job.page_link}
+                        >
                             詳細を見る
-                        </Button>
+                        </Link>
                     </CardActions>
                 </Card>
             </Grid>
@@ -72,7 +77,7 @@ export const RecommendJobCards = ({ recommendJobs }) => {
             <Typography gutterBottom variant="h5" component="h2">
                 あなたにおすすめのお仕事！
             </Typography>
-            <Grid container justify="center" xs={12}>
+            <Grid container justify="center">
                 {cards}
             </Grid>
         </ Container>
