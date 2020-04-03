@@ -63,7 +63,7 @@ export const RecommendJobCards = ({ recommendJobs }) => {
         });
         
         return (
-            <Card className={classes.root}>
+            <Card className={classes.root} key={job.title}>
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}
