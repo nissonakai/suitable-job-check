@@ -77,8 +77,7 @@ export const AdminQuestions = ({
     }, []);
 
 
-    const switchArray = Array(targetTexts.length);
-    switchArray.fill(false);
+    const switchArray = Array(targetTexts.length).fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
     const [newContent, setNewContent] = useState({
         title: "",

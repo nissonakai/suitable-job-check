@@ -1,16 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { 
+import clsx from 'clsx';
+import {
     Card,
     CardActionArea,
     CardMedia,
     CardContent,
     CardActions,
+    Collapse,
     Typography,
     Container,
     Link,
     Button
 } from '@material-ui/core';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -29,31 +32,50 @@ const useStyles = makeStyles(theme => ({
     },
     jobTitle: {
         fontWeight: "bold"
-    }
+    },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
+    },
+    expandOpen: {
+        transform: 'rotate(180deg)',
+    },
 }));
 
 export const RecommendJobCards = ({ recommendJobs }) => {
+    const expandedArray = Array(recommendJobs.length).fill(false);
+    const [expanded, setExpanded] = useState(expandedArray);
+    console.log(expanded);
     const settings = {
         dots: true,
         infinite: true,
         speed: 500,
-        autoplay:true,
-        autoplaySpeed:5000,
+        autoplay: true,
+        autoplaySpeed: 5000,
         centerMode: true,
         centerPadding: '20px',
         slidesToShow: 3,
         slidesToScroll: 1,
-        responsive:[
+        responsive: [
             {
                 breakpoint: 768,
-                settings:{
-                    slidesToShow:1,
+                settings: {
+                    slidesToShow: 1,
                 }
             },
         ]
-      };
+    };
+
+    const handleExpandClick = index => {
+        const changedExpanded = expanded.slice();
+        changedExpanded[index] = !changedExpanded[index];
+        setExpanded(changedExpanded);
+    }
     const classes = useStyles();
-    const cards = recommendJobs.map(job => {
+    const cards = recommendJobs.map((job, jobIndex) => {
         const points = job.points.map(point => {
             return (
                 <Typography variant="body1" gutterBottom key={point}>
@@ -61,7 +83,7 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                 </Typography>
             );
         });
-        
+
         return (
             <Card className={classes.root} key={job.title}>
                 <CardActionArea>
@@ -70,15 +92,33 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                         image={job.image_path}
                         title={`image${recommendJobs.indexOf(job) + 1}`}
                     />
-                    <CardContent className={classes.jobText}>
-                        <Typography
-                            gutterBottom
-                            variant="subtitle1"
-                            className={classes.jobTitle}
+                </CardActionArea>
+                <CardContent className={classes.jobText}>
+                    <Typography
+                        gutterBottom
+                        variant="subtitle1"
+                        className={classes.jobTitle}
+                    >
+                        {job.title}
+                    </Typography>
+                    {points}
+                    <CardActions>
+                        <Link
+                            variant="body2"
+                            onClick={() => handleExpandClick(jobIndex)}
                         >
-                            {job.title}
-                        </Typography>
-                        {points}
+                            <ExpandMoreIcon
+                                className={clsx(classes.expand, {
+                                    [classes.expandOpen]: expanded[jobIndex],
+                                })}
+                            />詳しく見る
+                    </Link>
+                    </CardActions>
+                    <Collapse
+                        in={expanded[jobIndex]}
+                        unmountOnExit
+                        className={classes.jobText}
+                    >
                         <Typography variant="body2" gutterBottom>
                             【作業内容】{job.content}
                         </Typography>
@@ -91,8 +131,8 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                         <Typography variant="body2">
                             【休　　日】{job.holiday}
                         </Typography>
-                    </CardContent>
-                </CardActionArea>
+                    </Collapse>
+                </CardContent>
                 <CardActions>
                     <Link
                         variant="body2"
@@ -101,7 +141,7 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                         href={job.page_link}
                     >
                         <Button variant="outlined" color="secondary">
-                            詳細を見る
+                            応募はこちらから
                         </Button>
                     </Link>
                 </CardActions>
@@ -113,9 +153,9 @@ export const RecommendJobCards = ({ recommendJobs }) => {
             <Typography gutterBottom variant="h5" component="h2">
                 あなたにおすすめのお仕事！
             </Typography>
-                <Slider {...settings}>
-                    {cards}
-                </Slider>
+            <Slider {...settings}>
+                {cards}
+            </Slider>
         </ Container>
     )
 };
