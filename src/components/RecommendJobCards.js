@@ -1,6 +1,17 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Card, CardActionArea, CardMedia, CardContent, CardActions, Typography, Grid, Container, Link } from '@material-ui/core';
+import { 
+    Card,
+    CardActionArea,
+    CardMedia,
+    CardContent,
+    CardActions,
+    Typography,
+    Grid,
+    Container,
+    Link,
+    Button
+} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -30,17 +41,28 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                 </Typography>
             );
         });
+        
+        const jumpLink = () => {
+            window.open(job.page_link, '_blank');
+        };
+
         return (
             <Grid key={job.title} item xs={12} sm={4}>
                 <Card className={classes.root}>
-                    <CardActionArea>
+                    <CardActionArea
+                        onClick={() => jumpLink()}
+                    >
                         <CardMedia
                             className={classes.media}
                             image={job.image_path}
                             title={`image${recommendJobs.indexOf(job) + 1}`}
                         />
                         <CardContent className={classes.jobText}>
-                            <Typography gutterBottom variant="subtitle1" className={classes.jobTitle}>
+                            <Typography
+                                gutterBottom
+                                variant="subtitle1"
+                                className={classes.jobTitle}
+                            >
                                 {job.title}
                             </Typography>
                             {points}
@@ -65,7 +87,9 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                             rel="noopener"
                             href={job.page_link}
                         >
-                            詳細を見る
+                            <Button variant="outlined" color="secondary">
+                                詳細を見る
+                            </Button>
                         </Link>
                     </CardActions>
                 </Card>
