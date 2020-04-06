@@ -48,7 +48,6 @@ const useStyles = makeStyles(theme => ({
 export const RecommendJobCards = ({ recommendJobs }) => {
     const expandedArray = Array(recommendJobs.length).fill(false);
     const [expanded, setExpanded] = useState(expandedArray);
-    console.log(expanded);
     const settings = {
         dots: true,
         infinite: true,
@@ -71,7 +70,7 @@ export const RecommendJobCards = ({ recommendJobs }) => {
 
     const handleExpandClick = index => {
         const changedExpanded = expanded.slice();
-        changedExpanded[index] = !changedExpanded[index];
+        changedExpanded[index] = !expanded[index];
         setExpanded(changedExpanded);
     }
     const classes = useStyles();

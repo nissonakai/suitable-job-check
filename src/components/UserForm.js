@@ -30,9 +30,11 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
             .map(answer => `設問: ${answer.title}, カテゴリ: ${answer.category}, 値: ${answer.value}`)
             .reduce((accum, current) => `${accum}/${current}`);
 
-    const resultIds = calcResult()[2];
+    const calcResults = calcResult();
+    const resultIds = calcResults[2];
+    const resultId = resultIds.length === 4 ? 0 : resultIds[Math.floor(Math.random() * resultIds.length)];
 
-    const resultTitle = resultIds.length === 4 ? 0 : resultIds[Math.floor(Math.random() * resultIds.length)];
+    const resultTitle = calcResults[1];
 
     const [sendElements, setSendElements] = useState({
         email: "",
@@ -43,6 +45,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
         prefecture_id: "",
         dormitory: false,
         answers: answers_text,
+        result_id: resultId,
         result_title: resultTitle
     });
 
