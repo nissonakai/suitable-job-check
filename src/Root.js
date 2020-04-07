@@ -13,6 +13,8 @@ import { Start } from "./components/Start";
 import { Result } from "./components/Result";
 import { AdminQuestions } from "./components/AdminQuestions";
 import { AdminSurveys } from "./components/AdminSurveys";
+import { AdminAreas } from "./components/AdminAreas";
+import { AdminJobNumbers } from "./components/AdminJobNumbers";
 import { Admin } from "./components/Admin";
 import { UserForm } from "./components/UserForm";
 import axios from "axios";
@@ -27,6 +29,7 @@ export const Root = () => {
   const [texts, setTexts] = useState([]);
   const [surveys, setSurveys] = useState([]);
   const [surveyId, setSurveyId] = useState(false);
+  const [jobNumbers, setJobNumbers] = useState([]);
   const [recommendJobs, setRecommendJobs] = useState([]);
 
   const getSurveys = () => {
@@ -53,6 +56,21 @@ export const Root = () => {
       });
   };
 
+  const getJobNumbers = () => {
+    axios.get(process.env.REACT_APP_SJC_JOBNUMBERS)
+      .then(results => {
+        const datas = results.data.data;
+        setJobNumbers(datas);
+      }).catch(error => {
+        console.log(error);
+      });
+  };
+
+  const checkJobNumbers = numbers => {
+    if (numbers.length === 0) {
+      getJobNumbers();
+    };
+  };
 
   useEffect(() => {
     getSurveys();
@@ -89,6 +107,17 @@ export const Root = () => {
     }
   ];
 
+  const areas = [
+    { area_id: 0, name: "寮あり" },
+    { area_id: 1, name: "北海道・東北エリア" },
+    { area_id: 2, name: "関東エリア" },
+    { area_id: 3, name: "甲信越・北陸エリア" },
+    { area_id: 4, name: "東海エリア" },
+    { area_id: 5, name: "近畿エリア" },
+    { area_id: 6, name: "中国・四国エリア" },
+    { area_id: 7, name: "九州・沖縄エリア" }
+];
+
   const computedCategory = num => {
     const targetCategory = categories.find(category => {
       return category.value === num;
@@ -120,28 +149,28 @@ export const Root = () => {
 
   const calcResult = () => {
     const computedResult =
-        categories
-            .filter(category => {
-                return category.value !== 5;
-            })
-            .map(category => {
-                return computedData(category.value);
-            });
+      categories
+        .filter(category => {
+          return category.value !== 5;
+        })
+        .map(category => {
+          return computedData(category.value);
+        });
 
     const topScore =
-        computedResult
-            .map(data => data.value)
-            .reduce((accum, current) => current >= accum ? current : accum);
-    
-    const topScoreTitles =
-        computedResult
-            .filter(data => data.value === topScore);
+      computedResult
+        .map(data => data.value)
+        .reduce((accum, current) => current >= accum ? current : accum);
 
-    const resultTitle = topScoreTitles.length === 4 
-        ? "バランス"
-        : topScoreTitles
-          .map(data => data.key)
-          .reduce((accum, current) => `${accum}・${current}`);
+    const topScoreTitles =
+      computedResult
+        .filter(data => data.value === topScore);
+
+    const resultTitle = topScoreTitles.length === 4
+      ? "バランス"
+      : topScoreTitles
+        .map(data => data.key)
+        .reduce((accum, current) => `${accum}・${current}`);
 
     const resultIds = topScoreTitles.map(data => data.id);
     return [computedResult, resultTitle, resultIds];
@@ -196,6 +225,23 @@ export const Root = () => {
               <AdminSurveys
                 surveys={surveys}
                 setSurveys={setSurveys}
+                auth={auth}
+              />
+            </Route>
+            <Route path="/admin/areas" exact>
+              <AdminAreas
+                getJobNumbers={getJobNumbers}
+                areas={areas}
+                auth={auth}
+              />
+            </Route>
+            <Route path="/admin/areas/:area_id" exact>
+              <AdminJobNumbers
+                jobNumbers={jobNumbers}
+                setJobNumbers={setJobNumbers}
+                checkJobNumbers={checkJobNumbers}
+                areas={areas}
+                categories={categories}
                 auth={auth}
               />
             </Route>

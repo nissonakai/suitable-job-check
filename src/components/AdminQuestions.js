@@ -198,9 +198,6 @@ export const AdminQuestions = ({
             setTargetTexts(textsCopy);
         };
 
-
-
-
         const textData = [
             text.title,
             computedCategory(text.category)
@@ -280,8 +277,6 @@ export const AdminQuestions = ({
             </Button>
                 </Container>
             </>
-        ) : (
-                <Redirect to={'/admin'} />
-            )
+        ) : <Redirect to={'/admin'} />
     );
 };

@@ -16,13 +16,13 @@ axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded
 
 const useStyles = makeStyles({
     table: {
-      maxWidth: "80%",
-      margin: "0 auto 2em"
+        maxWidth: "80%",
+        margin: "0 auto 2em"
     },
     mt: {
         marginTop: "2em"
     }
-  });
+});
 
 export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
 
@@ -31,22 +31,22 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     const history = useHistory();
     const switchArray = Array(surveys.length);
     switchArray.fill(false);
-    const [newContent, setNewContent] = useState({name: ""});
+    const [newContent, setNewContent] = useState({ name: "" });
 
     const getSurveys = () => {
         axios.get(process.env.REACT_APP_SJC_SURVEYS)
-          .then(results => {
-            const datas = results.data.data;
-            setSurveys(datas);
-          }).catch(error => {
-            console.log(error);
-          })
-      };
-    
-      useEffect(() => {
+            .then(results => {
+                const datas = results.data.data;
+                setSurveys(datas);
+            }).catch(error => {
+                console.log(error);
+            })
+    };
+
+    useEffect(() => {
         getSurveys();
-      }, [surveys]);
-    
+    }, [surveys]);
+
     const [open, setOpen] = useState(false);
 
     const handleClickOpen = () => {
@@ -79,28 +79,28 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     }
 
     const handleChange = e => {
-        setNewContent({...newContent, [e.target.name]: e.target.value});
+        setNewContent({ ...newContent, [e.target.name]: e.target.value });
     };
 
     const editSurvey = true;
-    
+
     const clickDeleteSwitch = survey => {
         const surveyId = survey.id;
         const confirmWindow = window.confirm(`${survey.name}を削除してもよろしいですか？`);
         if (confirmWindow) {
             axios
-            .delete(`${process.env.REACT_APP_SJC_SURVEYS}/${surveyId}`)
-            .then(res => {
-                const deletedSurveys = surveys.filter(survey => {
-                    return survey.id !== surveyId;
+                .delete(`${process.env.REACT_APP_SJC_SURVEYS}/${surveyId}`)
+                .then(res => {
+                    const deletedSurveys = surveys.filter(survey => {
+                        return survey.id !== surveyId;
+                    });
+                    setSurveys(deletedSurveys);
+                    alert(`${res.data.data.name}を削除しました。`);
+                })
+                .catch(err => {
+                    alert("削除に失敗しました。");
+                    console.log(err);
                 });
-                setSurveys(deletedSurveys);
-                alert(`${res.data.data.name}を削除しました。`);
-            })
-            .catch(err => {
-                alert("削除に失敗しました。");
-                console.log(err);
-            });
         };
     };
 
@@ -112,11 +112,11 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         handleChange: handleChange
     };
 
-    
+
     const surveyList = surveys.map((survey, index) => {
 
         const textData = [survey.name];
-    
+
         return (
 
             <TableRow key={survey.id}>
@@ -135,14 +135,14 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
                             variant="contained"
                             disabled
                         >選択中</ Button>
-                    ): (
-                        <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={() => clickDeleteSwitch(survey)}
-                        >削除</Button>
-                    )}
-                    
+                    ) : (
+                            <Button
+                                variant="contained"
+                                color="secondary"
+                                onClick={() => clickDeleteSwitch(survey)}
+                            >削除</Button>
+                        )}
+
                 </TableCell>
             </TableRow>
         )
@@ -151,21 +151,23 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     return (
         authenticated ? (
             <>
-            <Typography variant="h4" component="h1" gutterBottom>調査編集画面</Typography>
-            <AdminTable dataList={surveyList} headList={["タイトル", "作成日時", ""]} />
-            <AddDialog {...dialogAtrr} />
-            <Container className={classes.mt}>
-            <Button
-                variant="contained"
-                color="primary"
-                onClick={() => history.push('/')}>
-                メイン画面へ
+                <Typography variant="h4" component="h1" gutterBottom>調査編集画面</Typography>
+                <AdminTable dataList={surveyList} headList={["タイトル", "作成日時", ""]} />
+                <AddDialog {...dialogAtrr} />
+                <Container className={classes.mt}>
+                    <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => history.push('/')}>
+                        メイン画面へ
             </Button>
-            </Container>
-        </>
-        ):(
-            <Redirect to={'/admin'} />
-        )
-        
-    );
+                    <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => history.push('/admin/areas')}>
+                        お仕事No.編集画面へ
+            </Button>
+                </Container>
+            </>
+        ) : <Redirect to={'/admin'} />);
 };
