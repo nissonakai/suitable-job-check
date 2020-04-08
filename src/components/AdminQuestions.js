@@ -113,7 +113,7 @@ export const AdminQuestions = ({
                     setOpen(false);
                     setNewContent({
                         title: "",
-                        category: 0,
+                        category: 1,
                         survey_id: questionIndex
                     });
                 } else {
@@ -197,7 +197,7 @@ export const AdminQuestions = ({
             textsCopy[index][e.target.name] = e.target.value;
             setTargetTexts(textsCopy);
         };
-
+        console.log(typeof text.category);
         const textData = [
             text.title,
             computedCategory(text.category)

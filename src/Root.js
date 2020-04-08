@@ -122,6 +122,7 @@ export const Root = () => {
     const targetCategory = categories.find(category => {
       return category.value === num;
     });
+    console.log(targetCategory);
     return targetCategory.label;
   };
 
