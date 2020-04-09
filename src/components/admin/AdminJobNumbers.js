@@ -19,21 +19,23 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
 
     const switchArray = Array(targetNumbers.length).fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
-
     const targetCategories = categories.filter(category => category.value !== 5);
     const categoryNumbers = category => targetNumbers.filter(num => num.category === category);
 
     const EachTables = targetCategories.map(category => {
-        const eachData = categoryNumbers(category.value).map((num, index) => {
+        const eachData = categoryNumbers(category.value).map(num => {
+
+            // const currentNumIndex = targetNumbers.indexOf(targetNumbers.find(number => number.id === num.id));
+            const currentNumIndex = targetNumbers.findIndex(number => number.id === num.id);
 
             const changeSwitchState = () => {
                 const copyChangeSwitch = changeSwitch.slice();
-                copyChangeSwitch[index] = !changeSwitch[index];
+                copyChangeSwitch[currentNumIndex] = !changeSwitch[currentNumIndex];
                 setChangeSwitch(copyChangeSwitch);
             };
 
             const updateNumber = num => {
-                if (changeSwitch[index]) {
+                if (changeSwitch[currentNumIndex]) {
                     const updateJson = { "number": num.number };
                     axios
                         .patch(`${process.env.REACT_APP_SJC_JOBNUMBERS}/${num.id}`, updateJson)
@@ -42,7 +44,6 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
                                 alert(`${res.data.data.number}に変更しました。`);
                                 changeSwitchState();
                             } else {
-                                console.log(res.data);
                                 alert(res.data.data.number);
                             }
                         })
@@ -61,7 +62,7 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
             };
             return (
                 <TableRow key={num.id}>
-                    {changeSwitch[index] ? (
+                    {changeSwitch[currentNumIndex] ? (
                         <>
                             <TableCell>
                                 <TextField
@@ -81,7 +82,7 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
                             variant="contained"
                             color="primary"
                             onClick={() => updateNumber(num)}
-                        >{changeSwitch[index] ? "確定" : "編集"}</ Button>
+                        >{changeSwitch[currentNumIndex] ? "確定" : "編集"}</ Button>
                     </TableCell>
                 </TableRow>
             );

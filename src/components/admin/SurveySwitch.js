@@ -21,7 +21,6 @@ export const SurveySwitch = ({selected, setSelected}) => {
             axios
             .patch(`${process.env.REACT_APP_SJC_SURVEYS}/${questionIndex}/selected`, {"selected": true})
             .then(res => {
-                console.log(res.data);
                 setSelected(true);
                 alert(`更新しました。`);
             })
@@ -35,7 +34,7 @@ export const SurveySwitch = ({selected, setSelected}) => {
   return (
     <Container className={classes.mt}>
         {selected ? (
-            <Typography variant="p">
+            <Typography variant="body1" gutterBottom>
                 適用中
             </Typography>
         ):(

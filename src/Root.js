@@ -11,20 +11,24 @@ import Callback from "./callback/Callback";
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
-import { AdminQuestions } from "./components/AdminQuestions";
-import { AdminSurveys } from "./components/AdminSurveys";
-import { AdminAreas } from "./components/AdminAreas";
-import { AdminJobNumbers } from "./components/AdminJobNumbers";
-import { Admin } from "./components/Admin";
+import { AdminQuestions } from "./components/admin/AdminQuestions";
+import { AdminSurveys } from "./components/admin/AdminSurveys";
+import { AdminAreas } from "./components/admin/AdminAreas";
+import { AdminJobNumbers } from "./components/admin/AdminJobNumbers";
+import { Admin } from "./components/admin/Admin";
 import { UserForm } from "./components/UserForm";
 import axios from "axios";
 import { theme } from "./assets/theme";
+import Consts from "./consts";
 
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 const auth = new Auth();
 
 export const Root = () => {
+
+  const { categories, areas } = Consts;
+
   const [answers, setAnswers] = useState([]);
   const [texts, setTexts] = useState([]);
   const [surveys, setSurveys] = useState([]);
@@ -84,45 +88,10 @@ export const Root = () => {
   const resetAnswers = () => setAnswers([]);
   const resetRecommendJobs = () => setRecommendJobs([]);
 
-  const categories = [
-    {
-      value: 1,
-      label: "収入"
-    },
-    {
-      value: 2,
-      label: "安定"
-    },
-    {
-      value: 3,
-      label: "ライフスタイル"
-    },
-    {
-      value: 4,
-      label: "環境"
-    },
-    {
-      value: 5,
-      label: "診断外"
-    }
-  ];
-
-  const areas = [
-    { area_id: 0, name: "寮あり" },
-    { area_id: 1, name: "北海道・東北エリア" },
-    { area_id: 2, name: "関東エリア" },
-    { area_id: 3, name: "甲信越・北陸エリア" },
-    { area_id: 4, name: "東海エリア" },
-    { area_id: 5, name: "近畿エリア" },
-    { area_id: 6, name: "中国・四国エリア" },
-    { area_id: 7, name: "九州・沖縄エリア" }
-];
-
   const computedCategory = num => {
     const targetCategory = categories.find(category => {
       return category.value === num;
     });
-    console.log(targetCategory);
     return targetCategory.label;
   };
 
@@ -188,9 +157,12 @@ export const Root = () => {
                 getSurveys={getSurveys}
               />
             </Route>
-            <Route path="/callback" render={() => (
-              <Callback auth={auth} />
-            )} />
+            <Route
+              path="/callback"
+              exact
+              render={props => (
+                <Callback {...props} auth={auth} />
+              )} />
             <Route path="/questions/:index" exact>
               <Questions
                 texts={targetDatas}
@@ -215,7 +187,6 @@ export const Root = () => {
             <Route path="/admin/questions/:questionIndex" exact>
               <AdminQuestions
                 texts={texts}
-                getQuestions={getQuestions}
                 surveys={surveys}
                 categories={categories}
                 computedCategory={computedCategory}

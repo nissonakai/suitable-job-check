@@ -68,7 +68,6 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             .post(process.env.REACT_APP_SJC_SURVEYS, newContent)
             .then(res => {
                 getSurveys();
-                console.log(res);
                 alert(`${res.data.data.name}を追加しました。`);
                 setOpen(false);
             })
@@ -122,7 +121,7 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             <TableRow key={survey.id}>
                 <TextCells datas={textData} />
                 <TableCell>
-                    <Typography variant="p" gutterBottom>{survey.created_at}</Typography>
+                    <Typography variant="body1" gutterBottom>{survey.created_at}</Typography>
                 </TableCell>
                 <TableCell>
                     <Button

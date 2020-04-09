@@ -7,7 +7,7 @@ export const LinkCells = ({datas}) => {
     const cells = datas.map(data => {
         return (
             <TableCell onClick={() => history.push(data.path)}>
-                <Typography variant="p">
+                <Typography variant="body1">
                     {data.text}
                 </Typography>
             </TableCell>

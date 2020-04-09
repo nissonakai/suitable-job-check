@@ -30,7 +30,6 @@ const useStyles = makeStyles({
 export const AdminQuestions = ({
     texts,
     surveys,
-    getQuestions,
     auth,
     categories,
     computedCategory
@@ -197,7 +196,6 @@ export const AdminQuestions = ({
             textsCopy[index][e.target.name] = e.target.value;
             setTargetTexts(textsCopy);
         };
-        console.log(typeof text.category);
         const textData = [
             text.title,
             computedCategory(text.category)
