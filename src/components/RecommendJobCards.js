@@ -9,7 +9,6 @@ import {
     CardActions,
     Collapse,
     Typography,
-    Container,
     Link,
     Button
 } from '@material-ui/core';
@@ -148,13 +147,13 @@ export const RecommendJobCards = ({ recommendJobs }) => {
         )
     })
     return (
-        <Container>
+        <>
             <Typography gutterBottom variant="h5" component="h2">
                 あなたにおすすめのお仕事！
             </Typography>
             <Slider {...settings}>
                 {cards}
             </Slider>
-        </ Container>
+        </>
     )
 };
