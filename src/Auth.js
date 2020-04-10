@@ -1,4 +1,4 @@
-import auth0 from 'auth0-js';
+import * as auth0 from 'auth0-js';
 
 export class Auth {
   constructor() {
@@ -22,6 +22,10 @@ export class Auth {
 
   getProfile() {
     return this.profile;
+  }
+
+  getIdToken() {
+    return this.idToken;
   }
 
   handleAuthentication() {
@@ -59,13 +63,4 @@ export class Auth {
     this.expiresAt = authResult.expiresIn * 100 + new Date().getTime();
   }
 
-  silentAuth() {
-    return new Promise((resolve, reject) => {
-      this.auth0.checkSession({}, (err, authResult) => {
-        if (err) return reject(err);
-        this.setSession(authResult);
-        resolve();
-      });
-    });
-  }
 }

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useHistory, Redirect } from 'react-router-dom';
-import axios from 'axios';
 import {
     Container,
     TableRow,
@@ -10,8 +9,6 @@ import {
 } from '@material-ui/core';
 import { TextCells } from "./TextCells";
 import { AdminTable } from "./AdminTable";
-axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
-
 
 export const AdminAreas = ({ areas, getJobNumbers, auth }) => {
     const history = useHistory();

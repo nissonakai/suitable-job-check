@@ -4,6 +4,7 @@ import { Typography, TableRow, TableCell, TextField, Button, Container } from "@
 import { AdminTable } from "./AdminTable";
 import { TextCells } from "./TextCells";
 import axios from 'axios';
+axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, areas, categories, auth }) => {
     const { area_id } = useParams();
@@ -35,12 +36,16 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
             };
 
             const updateNumber = num => {
+                const auth_options = {
+                    headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
+                };
                 if (changeSwitch[currentNumIndex]) {
                     const updateJson = { "number": num.number };
                     axios
-                        .patch(`${process.env.REACT_APP_SJC_JOBNUMBERS}/${num.id}`, updateJson)
+                        .patch(`${process.env.REACT_APP_SJC_JOBNUMBERS}/${num.id}`, updateJson, auth_options)
                         .then(res => {
                             if (res.data.status === 'SUCCESS') {
+                                console.log(res);
                                 alert(`${res.data.data.number}に変更しました。`);
                                 changeSwitchState();
                             } else {
@@ -48,7 +53,7 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
                             }
                         })
                         .catch(e => {
-                            console.log(e);
+                            alert(e);
                         });
                 } else {
                     changeSwitchState();
@@ -89,10 +94,10 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
         });
 
         return (
-            <>
+            <Container key={category.label}>
                 <Typography variant="h5" component="h2" gutterBottom>{category.label}</Typography>
                 <AdminTable dataList={eachData} headList={["お仕事No", ""]} />
-            </>
+            </Container>
         )
     })
 

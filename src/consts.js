@@ -11,41 +11,17 @@ class Consts {
     ];
 
     static categories = [
-        {
-          value: 1,
-          label: "収入"
-        },
-        {
-          value: 2,
-          label: "安定"
-        },
-        {
-          value: 3,
-          label: "ライフスタイル"
-        },
-        {
-          value: 4,
-          label: "環境"
-        },
-        {
-          value: 5,
-          label: "診断外"
-        }
+        { value: 1, label: "収入"},
+        { value: 2, label: "安定"},
+        { value: 3, label: "ライフスタイル"},
+        { value: 4, label: "環境"},
+        { value: 5, label: "診断外"}
       ];
 
       static sexs = [
-        {
-            value: 1,
-            label: "男性"
-        },
-        {
-            value: 2,
-            label: "女性"
-        },
-        {
-            value: 3,
-            label: "答えない"
-        }
+        {value: 1, label: "男性"},
+        {value: 2, label: "女性"},
+        {value: 3, label: "答えない"}
     ];
 
     static prefectures = [

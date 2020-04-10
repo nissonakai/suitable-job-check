@@ -39,6 +39,7 @@ export const RecommendJobCards = ({ recommendJobs }) => {
                 jobIndex={jobIndex}
                 expanded={expanded}
                 handleExpandClick={handleExpandClick}
+                key={jobIndex}
                 />
     })
     return (

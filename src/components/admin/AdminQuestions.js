@@ -102,8 +102,11 @@ export const AdminQuestions = ({
     };
 
     const clickAddSwitch = () => {
+        const auth_options = {
+            headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
+        };
         axios
-            .post(process.env.REACT_APP_SJC_QUESTIONS, newContent)
+            .post(process.env.REACT_APP_SJC_QUESTIONS, newContent, auth_options)
             .then(res => {
                 if (res.data.status === 'SUCCESS') {
                     const newTexts = [...targetTexts, newContent];
@@ -130,11 +133,14 @@ export const AdminQuestions = ({
     };
 
     const clickUpdateSwitch = (index, text) => {
+        const auth_options = {
+            headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
+        };
         if (changeSwitch[index]) {
             const textId = text.id;
             const updateJSON = { "title": text.title, "category": text.category, "survey_id": questionIndex };
             axios
-                .patch(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, updateJSON)
+                .patch(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, updateJSON, auth_options)
                 .then(res => {
                     if(res.data.status === 'SUCCESS') {
                         alert(`${res.data.data.title}を更新しました。`);
@@ -152,11 +158,14 @@ export const AdminQuestions = ({
     };
 
     const clickDeleteSwitch = text => {
+        const auth_options = {
+            headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
+        };
         const textId = text.id;
         const confirmWindow = window.confirm(`${text.title}を削除してもよろしいですか？`);
         if (confirmWindow && textId) {
             axios
-                .delete(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`)
+                .delete(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, auth_options)
                 .then(res => {
                     if(res.data.status === 'SUCCESS') {
                         const deletedTexts = targetTexts.filter(text => {

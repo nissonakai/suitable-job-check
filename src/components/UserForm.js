@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Button, Paper, Grid, TextField, Checkbox, FormControlLabel, MenuItem, Typography, Container } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
-import Consts from "../consts";
+import Consts from "../Consts";
 
 const useStyle = makeStyles({
     loginOuter: {
@@ -22,7 +22,7 @@ const useStyle = makeStyles({
     }
 });
 
-export const UserForm = ({ answers, computedData, categories, calcResult, setRecommendJobs }) => {
+export const UserForm = ({ answers, computedData, categories, calcResult, setRecommendJobs, auth }) => {
     const { sexs, prefectures, wages } = Consts;
     const history = useHistory();
     const classes = useStyle();

@@ -19,11 +19,14 @@ import { Admin } from "./components/admin/Admin";
 import { UserForm } from "./components/UserForm";
 import axios from "axios";
 import { theme } from "./assets/theme";
-import Consts from "./consts";
+import Consts from "./Consts";
 
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 const auth = new Auth();
+const auth_options = {
+  headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
+};
 
 export const Root = () => {
 
@@ -191,6 +194,7 @@ export const Root = () => {
                 categories={categories}
                 computedCategory={computedCategory}
                 auth={auth}
+                auth_options={auth_options}
               />
             </Route>
             <Route path="/admin/surveys" exact>
@@ -198,6 +202,7 @@ export const Root = () => {
                 surveys={surveys}
                 setSurveys={setSurveys}
                 auth={auth}
+                auth_options={auth_options}
               />
             </Route>
             <Route path="/admin/areas" exact>
@@ -215,6 +220,7 @@ export const Root = () => {
                 areas={areas}
                 categories={categories}
                 auth={auth}
+                auth_options={auth_options}
               />
             </Route>
             <Route path="/form" exact>
@@ -224,6 +230,7 @@ export const Root = () => {
                 categories={categories}
                 calcResult={calcResult}
                 setRecommendJobs={setRecommendJobs}
+                auth={auth}
               />
             </Route>
           </Switch>

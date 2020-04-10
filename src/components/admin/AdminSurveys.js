@@ -64,8 +64,11 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     };
 
     const clickAddSwitch = () => {
+        const auth_options = {
+            headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
+        };
         axios
-            .post(process.env.REACT_APP_SJC_SURVEYS, newContent)
+            .post(process.env.REACT_APP_SJC_SURVEYS, newContent, auth_options)
             .then(res => {
                 getSurveys();
                 alert(`${res.data.data.name}を追加しました。`);
@@ -84,11 +87,14 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     const editSurvey = true;
 
     const clickDeleteSwitch = survey => {
+        const auth_options = {
+            headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
+        };
         const surveyId = survey.id;
         const confirmWindow = window.confirm(`${survey.name}を削除してもよろしいですか？`);
         if (confirmWindow) {
             axios
-                .delete(`${process.env.REACT_APP_SJC_SURVEYS}/${surveyId}`)
+                .delete(`${process.env.REACT_APP_SJC_SURVEYS}/${surveyId}`, auth_options)
                 .then(res => {
                     const deletedSurveys = surveys.filter(survey => {
                         return survey.id !== surveyId;
