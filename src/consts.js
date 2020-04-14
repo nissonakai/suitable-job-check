@@ -51,8 +51,6 @@ class Consts {
     "400万円以下",
     "400万円以上"
 ];
-
-  
 };
 
 export default Consts;
