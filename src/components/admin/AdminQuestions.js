@@ -41,47 +41,43 @@ export const AdminQuestions = ({
     const { questionIndex } = useParams();
     const [targetTexts, setTargetTexts] = useState([]);
 
-    const getTarget = () => {
-        const targetArr = texts.filter(text => {
-            return text.survey_id === Number(questionIndex);
-        });
-        setTargetTexts(targetArr);
-    };
-
     const [selected, setSelected] = useState(false);
     const [targetSurveyName, setTargetSurveyName] = useState(false);
 
-    const getSelected = () => {
-        const selectedSurvey = surveys.find(survey => {
-            return survey.selected === true;
-        });
-        const selectedId = selectedSurvey.id;
-        if (selectedId === Number(questionIndex)) {
-            setSelected(true);
-        };
-    };
-
-    const getCurrentSurvey = (async () => {
-        const targetSurvey = await surveys.find(survey => {
-            return survey.id === Number(questionIndex);
-        });
-        const currentSurvey = await targetSurvey.name;
-        return await setTargetSurveyName(currentSurvey);
-    });
-
     useEffect(() => {
+        const getTarget = () => {
+            const targetArr = texts.filter(text => {
+                return text.survey_id === Number(questionIndex);
+            });
+            setTargetTexts(targetArr);
+        };
+        const getSelected = () => {
+            const selectedSurvey = surveys.find(survey => {
+                return survey.selected === true;
+            });
+            const selectedId = selectedSurvey.id;
+            if (selectedId === Number(questionIndex)) {
+                setSelected(true);
+            };
+        };
+        const getCurrentSurvey = (async () => {
+            const targetSurvey = await surveys.find(survey => {
+                return survey.id === Number(questionIndex);
+            });
+            const currentSurvey = await targetSurvey.name;
+            return await setTargetSurveyName(currentSurvey);
+        });
         getTarget();
         getSelected();
         getCurrentSurvey();
-    }, []);
+    }, [questionIndex, surveys, texts]);
 
 
     const switchArray = Array(targetTexts.length).fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
     const [newContent, setNewContent] = useState({
         title: "",
-        red: "",
-        blue: "",
+        category: "",
         survey_id: questionIndex
     });
 

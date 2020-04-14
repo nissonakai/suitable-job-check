@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useHistory, Redirect } from "react-router-dom";
-import { Typography, TableRow, TableCell, TextField, Button, Container } from "@material-ui/core";
-import { AdminTable } from "./AdminTable";
-import { TextCells } from "./TextCells";
+import { Typography, Button, Container } from "@material-ui/core";
 import axios from 'axios';
+import { JobNumberTables } from './JobNumberTables';
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, areas, categories, auth }) => {
@@ -13,8 +12,24 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
     const authenticated = auth.isAuthenticated();
 
     useEffect(() => {
+        const getJobNumbers = () => {
+            axios.get(process.env.REACT_APP_SJC_JOBNUMBERS)
+              .then(results => {
+                const datas = results.data.data;
+                setJobNumbers(datas);
+              }).catch(error => {
+                console.log(error);
+              });
+          };
+        
+          const checkJobNumbers = numbers => {
+            if (numbers.length === 0) {
+              getJobNumbers();
+            };
+          };
+
         checkJobNumbers(jobNumbers);
-    }, []);
+    }, [jobNumbers, setJobNumbers]);
 
     const targetNumbers = jobNumbers.filter(num => num.area_id === parseInt(area_number, 10));
 
@@ -23,87 +38,24 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
     const targetCategories = categories.filter(category => category.value !== 5);
     const categoryNumbers = category => targetNumbers.filter(num => num.category === category);
 
-    const EachTables = targetCategories.map(category => {
-        const eachData = categoryNumbers(category.value).map(num => {
-
-            const currentNumIndex = targetNumbers.findIndex(number => number.id === num.id);
-
-            const changeSwitchState = () => {
-                const copyChangeSwitch = changeSwitch.slice();
-                copyChangeSwitch[currentNumIndex] = !changeSwitch[currentNumIndex];
-                setChangeSwitch(copyChangeSwitch);
-            };
-
-            const updateNumber = num => {
-                const auth_options = {
-                    headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
-                };
-                if (changeSwitch[currentNumIndex]) {
-                    const updateJson = { "number": num.number };
-                    axios
-                        .patch(`${process.env.REACT_APP_SJC_JOBNUMBERS}/${num.id}`, updateJson, auth_options)
-                        .then(res => {
-                            if (res.data.status === 'SUCCESS') {
-                                console.log(res);
-                                alert(`${res.data.data.number}に変更しました。`);
-                                changeSwitchState();
-                            } else {
-                                alert(res.data.data.number);
-                            }
-                        })
-                        .catch(e => {
-                            alert(e);
-                        });
-                } else {
-                    changeSwitchState();
-                };
-            }
-
-            const numbersCopy = jobNumbers.slice();
-            const handleChangeNumber = e => {
-                numbersCopy.find(number => number.id === num.id).number = e.target.value;
-                setJobNumbers(numbersCopy);
-            };
-            return (
-                <TableRow key={num.id}>
-                    {changeSwitch[currentNumIndex] ? (
-                        <>
-                            <TableCell>
-                                <TextField
-                                    name="number"
-                                    label="お仕事No"
-                                    type="text"
-                                    value={num.number}
-                                    onChange={e => handleChangeNumber(e)}
-                                />
-                            </TableCell>
-                        </>
-                    ) : (
-                            <TextCells datas={[num.number]} />
-                        )}
-                    <TableCell>
-                        <Button
-                            variant="contained"
-                            color="primary"
-                            onClick={() => updateNumber(num)}
-                        >{changeSwitch[currentNumIndex] ? "確定" : "編集"}</ Button>
-                    </TableCell>
-                </TableRow>
-            );
-        });
-
-        return (
-            <Container key={category.label}>
-                <Typography variant="h5" component="h2" gutterBottom>{category.label}</Typography>
-                <AdminTable dataList={eachData} headList={["お仕事No", ""]} />
-            </Container>
-        )
-    })
+    const handleChangeNumber = (e, num) => {
+        const numbersCopy = jobNumbers.slice();
+        numbersCopy.find(number => number.id === num.id).number = e.target.value;
+        setJobNumbers(numbersCopy);
+    };
 
     return authenticated ? (
         <Container>
             <Typography variant="h4" component="h1" gutterBottom>{area_name}</Typography>
-            {EachTables}
+            <JobNumberTables
+                targetCategories={targetCategories}
+                categoryNumbers={categoryNumbers}
+                targetNumbers={targetNumbers}
+                changeSwitch={changeSwitch}
+                setChangeSwitch={setChangeSwitch}
+                handleChangeNumber={handleChangeNumber}
+                auth={auth}
+            />
             <Button variant="contained" color="secondary" onClick={() => history.push("/admin/areas")}>
                 エリア選択へ戻る
             </Button>

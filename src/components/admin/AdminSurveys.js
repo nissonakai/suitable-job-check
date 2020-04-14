@@ -33,19 +33,18 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     switchArray.fill(false);
     const [newContent, setNewContent] = useState({ name: "" });
 
-    const getSurveys = () => {
-        axios.get(process.env.REACT_APP_SJC_SURVEYS)
-            .then(results => {
-                const datas = results.data.data;
-                setSurveys(datas);
-            }).catch(error => {
-                console.log(error);
-            })
-    };
-
     useEffect(() => {
+        const getSurveys = () => {
+            axios.get(process.env.REACT_APP_SJC_SURVEYS)
+                .then(results => {
+                    const datas = results.data.data;
+                    setSurveys(datas);
+                }).catch(error => {
+                    console.log(error);
+                });
+        };
         getSurveys();
-    }, [surveys]);
+    }, [surveys, setSurveys]);
 
     const [open, setOpen] = useState(false);
 
@@ -70,7 +69,6 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
         axios
             .post(process.env.REACT_APP_SJC_SURVEYS, newContent, auth_options)
             .then(res => {
-                getSurveys();
                 alert(`${res.data.data.name}を追加しました。`);
                 setOpen(false);
             })

@@ -63,22 +63,6 @@ export const Root = () => {
       });
   };
 
-  const getJobNumbers = () => {
-    axios.get(process.env.REACT_APP_SJC_JOBNUMBERS)
-      .then(results => {
-        const datas = results.data.data;
-        setJobNumbers(datas);
-      }).catch(error => {
-        console.log(error);
-      });
-  };
-
-  const checkJobNumbers = numbers => {
-    if (numbers.length === 0) {
-      getJobNumbers();
-    };
-  };
-
   useEffect(() => {
     getSurveys();
     getQuestions();
@@ -207,16 +191,15 @@ export const Root = () => {
             </Route>
             <Route path="/admin/areas" exact>
               <AdminAreas
-                getJobNumbers={getJobNumbers}
                 areas={areas}
                 auth={auth}
+                setJobNumbers={setJobNumbers}
               />
             </Route>
             <Route path="/admin/areas/:area_number" exact>
               <AdminJobNumbers
                 jobNumbers={jobNumbers}
                 setJobNumbers={setJobNumbers}
-                checkJobNumbers={checkJobNumbers}
                 areas={areas}
                 categories={categories}
                 auth={auth}

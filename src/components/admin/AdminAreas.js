@@ -9,14 +9,26 @@ import {
 } from '@material-ui/core';
 import { TextCells } from "./TextCells";
 import { AdminTable } from "./AdminTable";
+import axios from "axios";
+axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
-export const AdminAreas = ({ areas, getJobNumbers, auth }) => {
+
+export const AdminAreas = ({ areas, setJobNumbers, auth }) => {
     const history = useHistory();
     const authenticated = auth.isAuthenticated();
 
     useEffect(() => {
+        const getJobNumbers = () => {
+            axios.get(process.env.REACT_APP_SJC_JOBNUMBERS)
+              .then(results => {
+                const datas = results.data.data;
+                setJobNumbers(datas);
+              }).catch(error => {
+                console.log(error);
+              });
+          };
         getJobNumbers();
-    }, []);
+    }, [setJobNumbers]);
 
     const areaList = areas.map((area, index) => {
         const area_names = areas.map(area => area.name);
