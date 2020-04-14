@@ -212,7 +212,7 @@ export const Root = () => {
                 auth={auth}
               />
             </Route>
-            <Route path="/admin/areas/:area_id" exact>
+            <Route path="/admin/areas/:area_number" exact>
               <AdminJobNumbers
                 jobNumbers={jobNumbers}
                 setJobNumbers={setJobNumbers}

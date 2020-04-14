@@ -7,8 +7,8 @@ import axios from 'axios';
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, areas, categories, auth }) => {
-    const { area_id } = useParams();
-    const area_name = areas.find(area => area.area_id === parseInt(area_id, 10)).name;
+    const { area_number } = useParams();
+    const area_name = areas.find(area => area.area_id === parseInt(area_number, 10)).name;
     const history = useHistory();
     const authenticated = auth.isAuthenticated();
 
@@ -16,7 +16,7 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
         checkJobNumbers(jobNumbers);
     }, []);
 
-    const targetNumbers = jobNumbers.filter(num => num.area_id === parseInt(area_id, 10));
+    const targetNumbers = jobNumbers.filter(num => num.area_id === parseInt(area_number, 10));
 
     const switchArray = Array(targetNumbers.length).fill(false);
     const [changeSwitch, setChangeSwitch] = useState(switchArray);
@@ -26,7 +26,6 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
     const EachTables = targetCategories.map(category => {
         const eachData = categoryNumbers(category.value).map(num => {
 
-            // const currentNumIndex = targetNumbers.indexOf(targetNumbers.find(number => number.id === num.id));
             const currentNumIndex = targetNumbers.findIndex(number => number.id === num.id);
 
             const changeSwitchState = () => {
