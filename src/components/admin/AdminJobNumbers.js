@@ -3,6 +3,7 @@ import { useParams, useHistory, Redirect } from "react-router-dom";
 import { Typography, Button, Container } from "@material-ui/core";
 import axios from 'axios';
 import { JobNumberTables } from './JobNumberTables';
+import { PageHeader } from "../PageHeader";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, areas, categories, auth }) => {
@@ -46,6 +47,7 @@ export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, ar
 
     return authenticated ? (
         <Container>
+            <PageHeader title={`${area_name}お仕事No.編集画面`} />
             <Typography variant="h4" component="h1" gutterBottom>{area_name}</Typography>
             <JobNumberTables
                 targetCategories={targetCategories}

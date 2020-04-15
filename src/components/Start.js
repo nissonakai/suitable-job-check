@@ -1,6 +1,7 @@
 import React from 'react';
 import { useHistory } from "react-router-dom";
 import { Button, Typography, Container } from "@material-ui/core";
+import { PageHeader } from "./PageHeader";
 
 export const Start = ({ getQuestions, getSurveys }) => {
     const history = useHistory();
@@ -13,6 +14,7 @@ export const Start = ({ getQuestions, getSurveys }) => {
 
     return (
         <Container>
+            <PageHeader />
             <Typography variant="h4" component="h1" gutterBottom>適職診断テスト</Typography>
             <Button
                 variant="contained"

@@ -3,7 +3,7 @@ import { Board } from "./Board";
 import { Current } from "./Current";
 import { useHistory, useParams } from "react-router-dom";
 import { Container } from "@material-ui/core";
-
+import { PageHeader } from "./PageHeader";
 
 export const Questions = ({ texts, answers, setAnswers }) => {
     const history = useHistory();
@@ -24,6 +24,7 @@ export const Questions = ({ texts, answers, setAnswers }) => {
 
     return (
         <Container>
+            <PageHeader title={`設問${index}`} />
             <Board texts={texts} doAnswer={doAnswer} index={questionIndex} />
             <Current texts={texts} index={index} />
         </Container>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Button, Paper, Grid, TextField, Checkbox, FormControlLabel, MenuItem, Typography, Container } from "@material-ui/core";
+import { PageHeader } from "./PageHeader";
 import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios';
 import Consts from "../Consts";
@@ -82,6 +83,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
 
     return (
         <>
+            <PageHeader title="アンケート" />
             <Paper className={classes.loginOuter}>
                 <Container className={classes.loginInner}>
                     <Typography variant="h4" component="h1" gutterBottom>アンケート</Typography>

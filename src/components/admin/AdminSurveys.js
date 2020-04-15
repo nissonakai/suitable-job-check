@@ -10,6 +10,7 @@ import {
 import { AddDialog } from "./AddDialog";
 import { AdminTable } from "./AdminTable";
 import { TextCells } from "./TextCells";
+import { PageHeader } from "../PageHeader";
 import { useHistory, Redirect } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -154,6 +155,7 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     return (
         authenticated ? (
             <>
+                <PageHeader title="調査編集画面" />
                 <Typography variant="h4" component="h1" gutterBottom>調査編集画面</Typography>
                 <AdminTable dataList={surveyList} headList={["タイトル", "作成日時", ""]} />
                 <AddDialog {...dialogAtrr} />

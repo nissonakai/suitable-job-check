@@ -5,6 +5,7 @@ import { Button, Typography } from "@material-ui/core";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip } from "recharts";
 import { ComputedAnswer } from './ComputedAnswer';
 import { RecommendJobCards } from './RecommendJobCards';
+import { PageHeader } from "./PageHeader";
 
 const useStyles = makeStyles({
     graphPosition: {
@@ -31,6 +32,7 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
 
     return (
         <>
+            <PageHeader title="診断結果" />
             <Typography variant="h4" component="h1">
                 あなたは…
             </Typography>

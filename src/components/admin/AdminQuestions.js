@@ -13,6 +13,7 @@ import { AddDialog } from "./AddDialog";
 import { SurveySwitch } from "./SurveySwitch";
 import { AdminTable } from "./AdminTable";
 import { TextCells } from "./TextCells";
+import { PageHeader } from "../PageHeader";
 import { useHistory, useParams, Redirect } from "react-router-dom";
 import axios from "axios";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
@@ -261,6 +262,7 @@ export const AdminQuestions = ({
     return (
         authenticated ? (
             <>
+                 <PageHeader title={`${targetSurveyName}編集画面`} />
                 <Typography variant="h4" component="h1" gutterBottom>{`${targetSurveyName}編集画面`}</Typography>
                 <SurveySwitch selected={selected} setSelected={setSelected} />
                 <AdminTable dataList={textList} headList={["設問", "カテゴリ", ""]} />
