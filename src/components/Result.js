@@ -17,7 +17,7 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
     const computedDataRader = calcResult()[0];
     const topScoreTitle = calcResult()[1];
 
-    const meta = [
+    const ogp = [
         { name: 'twitter:card', content: 'summary' },
         { name: 'twitter:site', content: '@717450NISSO' },
         { property: 'og:type', content: 'article'},
@@ -45,7 +45,7 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
 
     return (
         <>
-            <PageHeader title="診断結果" meta={meta} />
+            <PageHeader title="診断結果" ogp={ogp} />
             <Typography variant="h4" component="h1">
                 あなたは…
             </Typography>
