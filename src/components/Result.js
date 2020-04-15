@@ -6,6 +6,7 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip } from "recharts"
 import { ComputedAnswer } from './ComputedAnswer';
 import { RecommendJobCards } from './RecommendJobCards';
 import { PageHeader } from "./PageHeader";
+import { image1 } from "../img/image1.png";
 
 const useStyles = makeStyles({
     graphPosition: {
@@ -14,6 +15,17 @@ const useStyles = makeStyles({
 });
 
 export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, resetRecommendJobs }) => {
+    const computedDataRader = calcResult()[0];
+    const topScoreTitle = calcResult()[1];
+
+    const meta = [
+        { name: 'twitter:card', content: 'summary' },
+        { property: 'og:image', content: image1 },
+        { property: 'og:title', content: `あなたは${topScoreTitle}です | 適職診断テスト 工場求人ナビ` },
+        { property: 'og:description', content: 'あなたに合ったお仕事を探せる！' },
+        { property: 'og:url', content: 'path' }
+      ]
+
     const history = useHistory();
     const classes = useStyles();
     const resetAndBacktoHome = () => {
@@ -22,8 +34,6 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
         history.push("/");
     };
 
-    const computedDataRader = calcResult()[0];
-    const topScoreTitle = calcResult()[1];
 
     if (answers.includes(undefined) || answers.length === 0) {
         resetAndBacktoHome();
@@ -32,7 +42,7 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
 
     return (
         <>
-            <PageHeader title="診断結果" />
+            <PageHeader title="診断結果" meta={meta} />
             <Typography variant="h4" component="h1">
                 あなたは…
             </Typography>
