@@ -6,7 +6,6 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip } from "recharts"
 import { ComputedAnswer } from './ComputedAnswer';
 import { RecommendJobCards } from './RecommendJobCards';
 import { PageHeader } from "./PageHeader";
-import { image1 } from "../img/image1.png";
 
 const useStyles = makeStyles({
     graphPosition: {
@@ -21,10 +20,10 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
     const meta = [
         { name: 'twitter:card', content: 'summary' },
         { property: 'og:type', content: 'article'},
-        { property: 'og:image', content: image1 },
-        { property: 'og:title', content: `あなたは${topScoreTitle}です | 適職診断テスト 工場求人ナビ` },
+        { property: 'og:image', content: `${process.env.PUBLIC_URL}/image1.png`},
+        { property: 'og:title', content: `あなたは${topScoreTitle}タイプです | 適職診断テスト 工場求人ナビ` },
         { property: 'og:description', content: 'あなたに合ったお仕事を探せる！' },
-        { property: 'og:url', content: 'path' }
+        { property: 'og:url', content: 'https://www.717450.net/' }
       ]
 
     const history = useHistory();
