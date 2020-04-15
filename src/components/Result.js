@@ -20,6 +20,7 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
 
     const meta = [
         { name: 'twitter:card', content: 'summary' },
+        { property: 'og:type', content: 'article'},
         { property: 'og:image', content: image1 },
         { property: 'og:title', content: `あなたは${topScoreTitle}です | 適職診断テスト 工場求人ナビ` },
         { property: 'og:description', content: 'あなたに合ったお仕事を探せる！' },
