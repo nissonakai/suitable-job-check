@@ -20,6 +20,7 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
 
     const meta = [
         { name: 'twitter:card', content: 'summary' },
+        { name: 'twitter:site', content: '@717450NISSO' },
         { property: 'og:type', content: 'article'},
         { property: 'og:image', content: image1 },
         { property: 'og:title', content: `あなたは${topScoreTitle}タイプです | 適職診断テスト 工場求人ナビ` },
