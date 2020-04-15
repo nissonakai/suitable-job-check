@@ -6,7 +6,6 @@ import { RadarChart, PolarGrid, PolarAngleAxis, Radar, Tooltip } from "recharts"
 import { ComputedAnswer } from './ComputedAnswer';
 import { RecommendJobCards } from './RecommendJobCards';
 import { PageHeader } from "./PageHeader";
-import { image1 } from "../img/image1.png";
 
 const useStyles = makeStyles({
     graphPosition: {
