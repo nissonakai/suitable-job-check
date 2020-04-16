@@ -120,13 +120,13 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
     const surveyList = surveys.map((survey, index) => {
 
         const textData = [survey.name];
-
+        const createdDatetime = survey.created_at.slice(0, 16).replace("T", " ");
         return (
 
             <TableRow key={survey.id}>
                 <TextCells datas={textData} />
                 <TableCell>
-                    <Typography variant="body1" gutterBottom>{survey.created_at}</Typography>
+                    <Typography variant="body1" gutterBottom>{createdDatetime}</Typography>
                 </TableCell>
                 <TableCell>
                     <Button
