@@ -18,5 +18,5 @@ export const PageHeader = ({ title, ogp }) => {
                 meta={ogp ? head.concat(ogp) : head}
             />
         </>
-    )
-}
+    );
+};
