@@ -38,6 +38,7 @@ export const Root = () => {
   const [surveyId, setSurveyId] = useState(false);
   const [jobNumbers, setJobNumbers] = useState([]);
   const [recommendJobs, setRecommendJobs] = useState([]);
+  const [userAreaName, setUserAreaName] = useState("");
 
   const getSurveys = () => {
     axios.get(process.env.REACT_APP_SJC_SURVEYS)
@@ -164,6 +165,7 @@ export const Root = () => {
                 resetRecommendJobs={resetRecommendJobs}
                 calcResult={calcResult}
                 recommendJobs={recommendJobs}
+                userAreaName={userAreaName}
               />
             </Route>
             <Route path="/admin" exact>
@@ -214,6 +216,7 @@ export const Root = () => {
                 calcResult={calcResult}
                 setRecommendJobs={setRecommendJobs}
                 auth={auth}
+                setUserAreaName={setUserAreaName}
               />
             </Route>
           </Switch>

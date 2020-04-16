@@ -23,8 +23,8 @@ const useStyle = makeStyles({
     }
 });
 
-export const UserForm = ({ answers, computedData, categories, calcResult, setRecommendJobs, auth }) => {
-    const { sexs, prefectures, wages } = Consts;
+export const UserForm = ({ answers, computedData, categories, calcResult, setRecommendJobs, auth, setUserAreaName }) => {
+    const { sexs, prefectures, wages, areas } = Consts;
     const history = useHistory();
     const classes = useStyle();
 
@@ -61,6 +61,11 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
     };
 
     const sendData = data => {
+        const areaId = prefectures.find(prefecture => {
+            return prefecture.id === data.prefecture_id;
+        }).are_id;
+        const areaName = areas.find(area => area.id === areaId).name;
+        setUserAreaName(areaName);
         axios.post(process.env.REACT_APP_SJC_RESULTS, data)
             .then(res => {
                 setRecommendJobs(res.data.data);

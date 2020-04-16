@@ -5,7 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { JobCard } from './JobCard';
 
-export const RecommendJobCards = ({ recommendJobs }) => {
+export const RecommendJobCards = ({ recommendJobs, userAreaName }) => {
     const expandedArray = Array(recommendJobs.length).fill(false);
     const [expanded, setExpanded] = useState(expandedArray);
     const settings = {
@@ -45,7 +45,7 @@ export const RecommendJobCards = ({ recommendJobs }) => {
     return (
         <>
             <Typography gutterBottom variant="h5" component="h2">
-                あなたにおすすめのお仕事！
+                {`${userAreaName}のあなたにおすすめのお仕事！`}
             </Typography>
             <Slider {...settings}>
                 {cards}

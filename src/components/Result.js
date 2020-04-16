@@ -13,7 +13,7 @@ const useStyles = makeStyles({
     }
 });
 
-export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, resetRecommendJobs }) => {
+export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, resetRecommendJobs, userAreaName }) => {
     const computedDataRader = calcResult()[0];
     const topScoreTitle = calcResult()[1];
 
@@ -70,7 +70,8 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
                 />
                 <Tooltip />
             </RadarChart>
-            <RecommendJobCards 
+            <RecommendJobCards
+                userAreaName={userAreaName}
                 recommendJobs={recommendJobs}
             />
             <Button variant="contained" onClick={() => resetAndBacktoHome()}>
