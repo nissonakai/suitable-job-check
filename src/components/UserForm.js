@@ -61,7 +61,7 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
     };
 
     const sendData = data => {
-        axios.post(process.env.REACT_APP_SJC_SEND_RESULT, data)
+        axios.post(process.env.REACT_APP_SJC_RESULTS, data)
             .then(res => {
                 setRecommendJobs(res.data.data);
                 history.push('/result');
