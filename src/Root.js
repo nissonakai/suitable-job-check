@@ -109,7 +109,7 @@ export const Root = () => {
     const computedResult =
       categories
         .filter(category => {
-          return category.value !== 5;
+          return category.value >= 1 && category.value <= 4;
         })
         .map(category => {
           return computedData(category.value);

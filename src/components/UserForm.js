@@ -61,10 +61,8 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
     };
 
     const sendData = data => {
-        const areaId = prefectures.find(prefecture => {
-            return prefecture.id === data.prefecture_id;
-        }).are_id;
-        const areaName = areas.find(area => area.id === areaId).name;
+        const areaId = prefectures.find(prefecture => prefecture.id === data.prefecture_id).area_id;
+        const areaName = areas.find(area => area.area_id === areaId).name;
         setUserAreaName(areaName);
         axios.post(process.env.REACT_APP_SJC_RESULTS, data)
             .then(res => {

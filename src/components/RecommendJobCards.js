@@ -32,7 +32,8 @@ export const RecommendJobCards = ({ recommendJobs, userAreaName }) => {
         const changedExpanded = expanded.slice();
         changedExpanded[index] = !expanded[index];
         setExpanded(changedExpanded);
-    }
+    };
+
     const cards = recommendJobs.map((job, jobIndex) => {
         return <JobCard
                 job={job}
@@ -41,7 +42,8 @@ export const RecommendJobCards = ({ recommendJobs, userAreaName }) => {
                 handleExpandClick={handleExpandClick}
                 key={jobIndex}
                 />
-    })
+    });
+
     return (
         <>
             <Typography gutterBottom variant="h5" component="h2">
