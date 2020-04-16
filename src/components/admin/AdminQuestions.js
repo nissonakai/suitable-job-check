@@ -232,7 +232,7 @@ export const AdminQuestions = ({
                                 fullWidth
                                 required
                             >
-                                {categories.map(category => (
+                                {categories.filter(category => category.value !== 0).map(category => (
                                     <MenuItem key={category.value} value={category.value}>
                                         {category.label}
                                     </MenuItem>

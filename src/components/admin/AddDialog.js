@@ -61,7 +61,7 @@ export const AddDialog = ({
                         onChange={e => handleChange(e)}
                         fullWidth
                     >
-                        {categories.map(category => (
+                        {categories.filter(category => category.value !== 0).map(category => (
                             <MenuItem key={category.value} value={category.value}>
                                 {category.label}
                             </MenuItem>
