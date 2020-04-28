@@ -262,7 +262,7 @@ export const AdminQuestions = ({
     return (
         authenticated ? (
             <>
-                 <PageHeader title={`${targetSurveyName}編集画面`} />
+                <PageHeader title={`${targetSurveyName}編集画面`} />
                 <Typography variant="h4" component="h1" gutterBottom>{`${targetSurveyName}編集画面`}</Typography>
                 <SurveySwitch selected={selected} setSelected={setSelected} />
                 <AdminTable dataList={textList} headList={["設問", "カテゴリ", ""]} />

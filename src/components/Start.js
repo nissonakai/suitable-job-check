@@ -8,9 +8,8 @@ export const Start = ({ getQuestions, getSurveys }) => {
 
     const startQuestions = (async () => {
         await getQuestions();
-        await getSurveys();
-        await history.push('/questions/1');
-    })
+        return history.push('/questions/1');
+    });
 
     return (
         <Container>

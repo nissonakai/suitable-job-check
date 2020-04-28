@@ -29,6 +29,7 @@ export const Result = ({ answers, resetAnswers, calcResult, recommendJobs, reset
 
     const history = useHistory();
     const classes = useStyles();
+    
     const resetAndBacktoHome = () => {
         resetAnswers();
         resetRecommendJobs();
