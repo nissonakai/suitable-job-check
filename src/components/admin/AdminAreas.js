@@ -5,8 +5,10 @@ import {
     TableRow,
     TableCell,
     Button,
-    Typography
+    Typography,
+    TextField
 } from '@material-ui/core';
+import { useDropzone } from "react-dropzone";
 import { TextCells } from "./TextCells";
 import { AdminTable } from "./AdminTable";
 import { PageHeader } from "../PageHeader";
@@ -17,6 +19,13 @@ axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded
 export const AdminAreas = ({ areas, setJobNumbers, auth }) => {
     const history = useHistory();
     const authenticated = auth.isAuthenticated();
+
+    const { acceptedFiles, getRootProps, getInputProps } = useDropzone();
+
+const files = acceptedFiles.map(file => {
+        console.log(file);
+        return <p>{file.path}</p>
+    });
 
     useEffect(() => {
         const getJobNumbers = () => {
@@ -56,6 +65,11 @@ export const AdminAreas = ({ areas, setJobNumbers, auth }) => {
             <Button variant="contained" color="secondary" onClick={() => history.push("/admin/surveys")}>
                 設問編集画面へ戻る
             </Button>
+            <Container {...getRootProps({className: 'dropzone'})}>
+                <TextField {...getInputProps()} />
+                <p>Drag 'n' drop some files here, or click to select files</p>
+            </Container>
+            {files}
         </Container>
     ) : <Redirect to={'/admin'} />;
 };

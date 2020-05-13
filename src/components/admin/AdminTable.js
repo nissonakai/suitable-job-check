@@ -26,4 +26,4 @@ export const AdminTable = ({dataList, headList}) => {
             </Table>
         </TableContainer>
     )
-}
+};
