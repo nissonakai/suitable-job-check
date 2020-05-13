@@ -9,14 +9,14 @@ const useStyles = makeStyles({
         margin: "2em auto 1em"
     },
     stepbox: {
-        margin: "6em auto 2em"
+        margin: "4em auto 2em"
     },
     stepchip: {
         marginBottom: "1em" 
     }
 });
 
-export const Start = ({ getQuestions, getSurveys }) => {
+export const Start = ({ getQuestions }) => {
     const classes = useStyles();
     const history = useHistory();
 
