@@ -47,24 +47,18 @@ export const AdminQuestions = ({
 
     useEffect(() => {
         const getTarget = () => {
-            const targetArr = texts.filter(text => {
-                return text.survey_id === Number(questionIndex);
-            });
+            const targetArr = texts.filter(text => text.survey_id === Number(questionIndex));
             setTargetTexts(targetArr);
         };
         const getSelected = () => {
-            const selectedSurvey = surveys.find(survey => {
-                return survey.selected === true;
-            });
+            const selectedSurvey = surveys.find(survey =>survey.selected === true);
             const selectedId = selectedSurvey.id;
             if (selectedId === Number(questionIndex)) {
                 setSelected(true);
             };
         };
         const getCurrentSurvey = (async () => {
-            const targetSurvey = await surveys.find(survey => {
-                return survey.id === Number(questionIndex);
-            });
+            const targetSurvey = await surveys.find(survey => survey.id === Number(questionIndex));
             const currentSurvey = await targetSurvey.name;
             return await setTargetSurveyName(currentSurvey);
         });
@@ -165,9 +159,7 @@ export const AdminQuestions = ({
                 .delete(`${process.env.REACT_APP_SJC_QUESTIONS}/${textId}`, auth_options)
                 .then(res => {
                     if(res.data.status === 'SUCCESS') {
-                        const deletedTexts = targetTexts.filter(text => {
-                            return text.id !== textId;
-                        });
+                        const deletedTexts = targetTexts.filter(text => text.id !== textId);
                         setTargetTexts(deletedTexts);
                         alert(`${res.data.data.title}を削除しました。`);
                     } else {
@@ -179,9 +171,7 @@ export const AdminQuestions = ({
                     console.log(err);
                 });
         } else if (confirmWindow) {
-            const deletedTexts = targetTexts.filter(data => {
-                return data.title !== text.title;
-            });
+            const deletedTexts = targetTexts.filter(data => data.title !== text.title);
             setTargetTexts(deletedTexts);
             alert(`${text.title}を削除しました。`);
         };

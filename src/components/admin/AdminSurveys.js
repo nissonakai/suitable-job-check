@@ -95,9 +95,7 @@ export const AdminSurveys = ({ surveys, setSurveys, auth }) => {
             axios
                 .delete(`${process.env.REACT_APP_SJC_SURVEYS}/${surveyId}`, auth_options)
                 .then(res => {
-                    const deletedSurveys = surveys.filter(survey => {
-                        return survey.id !== surveyId;
-                    });
+                    const deletedSurveys = surveys.filter(survey => survey.id !== surveyId);
                     setSurveys(deletedSurveys);
                     alert(`${res.data.data.name}を削除しました。`);
                 })

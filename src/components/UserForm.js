@@ -23,7 +23,7 @@ const useStyle = makeStyles({
     }
 });
 
-export const UserForm = ({ answers, computedData, categories, calcResult, setRecommendJobs, auth, setUserAreaName }) => {
+export const UserForm = ({ answers, calcResult, setRecommendJobs, setUserAreaName }) => {
     const { sexs, prefectures, wages, areas } = Consts;
     const history = useHistory();
     const classes = useStyle();
@@ -76,12 +76,10 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
     };
 
     const canSubmit = () => {
-        const emailRegexp = /^[A-Za-z0-9]{1}[A-Za-z0-9_.-]*@{1}[A-Za-z0-9_.-]{1,}\.[A-Za-z0-9]{1,}$/;
         const validAge = sendElements.age !== "";
         const validSex = sendElements.sex !== "";
         const validPlace = sendElements.prefecture_id !== "";
-        const validEmail = emailRegexp.test(sendElements.email);
-        return validAge && validSex && validEmail && validPlace;
+        return validAge && validSex && validPlace;
     };
 
     return (
@@ -144,18 +142,18 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
                             </TextField>
                         </Grid>
                         <Grid item sm={6} xs={12}>
-                        <FormControlLabel
-                            control={
-                            <Checkbox
-                                name="dormitory"
-                                checked={sendElements.dormitory}
-                                onChange={e => handleChecked(e)}
-                                inputProps={{ 'aria-label': 'secondary checkbox' }}
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name="dormitory"
+                                        checked={sendElements.dormitory}
+                                        onChange={e => handleChecked(e)}
+                                        inputProps={{ 'aria-label': 'secondary checkbox' }}
+                                    />
+                                }
+                                label="寮付きのお仕事を希望"
+                                labelPlacement="bottom"
                             />
-                            }
-                            label="寮付きのお仕事を希望"
-                            labelPlacement="bottom"
-                        />
                         </Grid>
                     </Grid>
 
@@ -190,18 +188,17 @@ export const UserForm = ({ answers, computedData, categories, calcResult, setRec
                             </TextField>
                         </Grid>
                     </Grid>
-                    
+
                     <Grid container spacing={8} >
                         <Grid item sm={6} xs={12} className={classes.mb} >
                             <TextField
                                 name="email"
-                                label="メールアドレス"
+                                label="メールアドレス（任意）"
                                 type="email"
                                 value={sendElements.email}
                                 onChange={e => handleChange(e)}
                                 fullWidth
                                 helperText="今回の結果を基に厳選したお仕事をメールにてご紹介いたします。"
-                                required
                             />
                         </Grid>
                     </Grid>

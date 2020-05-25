@@ -6,7 +6,7 @@ import { JobNumberTables } from './JobNumberTables';
 import { PageHeader } from "../PageHeader";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
-export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, checkJobNumbers, areas, categories, auth }) => {
+export const AdminJobNumbers = ({ jobNumbers, setJobNumbers, areas, categories, auth }) => {
     const { area_number } = useParams();
     const area_name = areas.find(area => area.area_id === parseInt(area_number, 10)).name;
     const history = useHistory();

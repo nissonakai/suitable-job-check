@@ -24,9 +24,6 @@ import Consts from "./Consts";
 axios.defaults.headers.post["Content-Type"] = "application/x-www-form-urlencoded";
 
 const auth = new Auth();
-const auth_options = {
-  headers: { 'Authorization': `Bearer ${auth.getIdToken()}` }
-};
 
 export const Root = () => {
 
@@ -45,9 +42,7 @@ export const Root = () => {
       .then(results => {
         const datas = results.data.data;
         setSurveys(datas);
-        const targetSurveys = datas.filter(data => {
-          return data.selected === true;
-        });
+        const targetSurveys = datas.filter(data => data.selected === true);
         setSurveyId(targetSurveys[0].id);
       }).catch(error => {
         console.log(error);
@@ -69,25 +64,20 @@ export const Root = () => {
     getQuestions();
   }, [setTexts, setSurveys]);
 
-  const targetDatas = texts.filter(text => {
-    return text.survey_id === surveyId;
-  });
+  const targetDatas = texts.filter(text => text.survey_id === surveyId);
 
   const resetAnswers = () => setAnswers([]);
   const resetRecommendJobs = () => setRecommendJobs([]);
 
   const computedCategory = num => {
-    const targetCategory = categories.find(category => {
-      return category.value === num;
-    });
-    return targetCategory.label;
+    return categories.find(category => category.value === num).label;
   };
 
   const computedData = num => {
     const obj = {};
     if (answers.length === 0) {
       return false;
-    };
+    }
     const targetBase = answers.filter(answer => answer.category === num);
 
     const targetBaseValue = targetBase.length * 100;
@@ -95,9 +85,7 @@ export const Root = () => {
     const targetValue =
       targetBase
         .map(answer => answer.value)
-        .reduce((accm, current) => {
-          return parseInt(accm, 10) + parseInt(current, 10);
-        });
+        .reduce((accm, current) => parseInt(accm, 10) + parseInt(current, 10));
     obj.id = num;
     obj.key = computedCategory(num);
     obj.value = Math.floor(parseInt(targetValue, 10) / targetBaseValue * 100);
@@ -108,27 +96,19 @@ export const Root = () => {
   const calcResult = () => {
     const computedResult =
       categories
-        .filter(category => {
-          return category.value >= 1 && category.value <= 4;
-        })
-        .map(category => {
-          return computedData(category.value);
-        });
+        .filter(category => category.value >= 1 && category.value <= 4)
+        .map(category => computedData(category.value));
 
     const topScore =
       computedResult
         .map(data => data.value)
         .reduce((accum, current) => current >= accum ? current : accum);
 
-    const topScoreTitles =
-      computedResult
-        .filter(data => data.value === topScore);
+    const topScoreTitles = computedResult.filter(data => data.value === topScore);
 
     const resultTitle = topScoreTitles.length === 4
       ? "バランス"
-      : topScoreTitles
-        .map(data => data.key)
-        .reduce((accum, current) => `${accum}・${current}`);
+      : topScoreTitles.map(data => data.key).reduce((accum, current) => `${accum}・${current}`);
 
     const resultIds = topScoreTitles.map(data => data.id);
     return [computedResult, resultTitle, resultIds];
@@ -142,7 +122,6 @@ export const Root = () => {
             <Route path="/" exact>
               <Start
                 getQuestions={getQuestions}
-                getSurveys={getSurveys}
               />
             </Route>
             <Route
@@ -180,7 +159,6 @@ export const Root = () => {
                 categories={categories}
                 computedCategory={computedCategory}
                 auth={auth}
-                auth_options={auth_options}
               />
             </Route>
             <Route path="/admin/surveys" exact>
@@ -188,7 +166,6 @@ export const Root = () => {
                 surveys={surveys}
                 setSurveys={setSurveys}
                 auth={auth}
-                auth_options={auth_options}
               />
             </Route>
             <Route path="/admin/areas" exact>
@@ -205,17 +182,13 @@ export const Root = () => {
                 areas={areas}
                 categories={categories}
                 auth={auth}
-                auth_options={auth_options}
               />
             </Route>
             <Route path="/form" exact>
               <UserForm
                 answers={answers}
-                computedData={computedData}
-                categories={categories}
                 calcResult={calcResult}
                 setRecommendJobs={setRecommendJobs}
-                auth={auth}
                 setUserAreaName={setUserAreaName}
               />
             </Route>
