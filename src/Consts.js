@@ -50,7 +50,7 @@ class Consts {
     "350万円以下",
     "400万円以下",
     "400万円以上"
-];
+    ];
 };
 
 export default Consts;

@@ -1,13 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import {
-  BrowserRouter as Router,
-  Route,
-  Switch,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { Container } from '@material-ui/core';
 import { Auth } from './Auth';
-import Callback from "./callback/Callback";
+import { Callback } from "./callback/Callback";
 import { Questions } from "./components/Questions";
 import { Start } from "./components/Start";
 import { Result } from "./components/Result";
@@ -17,6 +13,7 @@ import { AdminAreas } from "./components/admin/AdminAreas";
 import { AdminJobNumbers } from "./components/admin/AdminJobNumbers";
 import { Admin } from "./components/admin/Admin";
 import { UserForm } from "./components/UserForm";
+import { NotFound } from "./components/NotFound";
 import axios from "axios";
 import { theme } from "./assets/theme";
 import Consts from "./Consts";
@@ -191,6 +188,9 @@ export const Root = () => {
                 setRecommendJobs={setRecommendJobs}
                 setUserAreaName={setUserAreaName}
               />
+            </Route>
+            <Route exact>
+              <NotFound />
             </Route>
           </Switch>
         </Router>
