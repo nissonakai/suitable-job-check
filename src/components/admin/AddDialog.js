@@ -62,7 +62,10 @@ export const AddDialog = ({
                         fullWidth
                     >
                         {categories.filter(category => category.value !== 0).map(category => (
-                            <MenuItem key={category.value} value={category.value}>
+                            <MenuItem
+                                key={category.value}
+                                value={category.value}
+                            >
                                 {category.label}
                             </MenuItem>
                         ))}
@@ -72,10 +75,16 @@ export const AddDialog = ({
                     
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={() => clickAddSwitch()} color="primary">
+                    <Button
+                        onClick={() => clickAddSwitch()}
+                        color="primary"
+                    >
                         追加
                     </Button>
-                    <Button onClick={() => handleClose()} color="secondary">
+                    <Button
+                        onClick={() => handleClose()}
+                        color="secondary"
+                    >
                         キャンセル
                     </Button>
                 </DialogActions>

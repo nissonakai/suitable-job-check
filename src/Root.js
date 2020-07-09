@@ -76,7 +76,6 @@ export const Root = () => {
       return false;
     }
     const targetBase = answers.filter(answer => answer.category === num);
-
     const targetBaseValue = targetBase.length * 100;
 
     const targetValue =
@@ -89,7 +88,7 @@ export const Root = () => {
     obj.fullMark = 100;
     return obj;
   };
-
+  
   const calcResult = () => {
     const computedResult =
       categories

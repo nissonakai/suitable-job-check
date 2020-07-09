@@ -17,7 +17,7 @@ export const NotFound = () => {
             <Typography variant="h5" component="h2">
                 ページが存在しません。
             </Typography>
-            <Typography variant="caption">
+            <Typography variant="body1">
                 5秒後にトップページにリダイレクトします。
             </Typography>
         </>

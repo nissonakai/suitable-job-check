@@ -207,7 +207,8 @@ export const UserForm = ({ answers, calcResult, setRecommendJobs, setUserAreaNam
                             variant="outlined"
                             color="primary"
                             disabled={!canSubmit()}
-                            className={classes.mb} onClick={() => sendData(sendElements)}
+                            className={classes.mb}
+                            onClick={() => sendData(sendElements)}
                         >結果を見る！</Button>
                     </Grid>
                 </Container>

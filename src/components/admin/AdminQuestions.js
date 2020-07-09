@@ -35,7 +35,6 @@ export const AdminQuestions = ({
     categories,
     computedCategory
 }) => {
-
     const authenticated = auth.isAuthenticated();
     const classes = useStyles();
     const history = useHistory();
