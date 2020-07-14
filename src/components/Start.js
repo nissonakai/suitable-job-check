@@ -32,7 +32,7 @@ export const Start = ({ getQuestions }) => {
                 variant="h4"
                 component="h1"
                 className={classes.title}
-            >適職診断テスト（master）</Typography>
+            >適職診断テスト（version1）</Typography>
             <Button
                 variant="contained"
                 color="secondary"
