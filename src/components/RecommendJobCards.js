@@ -46,7 +46,11 @@ export const RecommendJobCards = ({ recommendJobs, userAreaName }) => {
 
     return (
         <>
-            <Typography gutterBottom variant="h5" component="h2">
+            <Typography
+                gutterBottom
+                variant="h5"
+                component="h2"
+            >
                 {`${userAreaName}のあなたにおすすめのお仕事！`}
             </Typography>
             <Slider {...settings}>
